@@ -58,61 +58,63 @@ try:
                 tempSplit = packet.split(",")
                 clientID = tempSplit[1].rstrip('\x00')
                 print("Client ID is:",clientID)
-			#Round_Start,%d (clientID)
-			if "Round_Start" in packet:
-				print("Packet Received:", packet)
-				print("Current balance", balance)
-				#Check for bet amount input
-				while True:
-					try:
-							betAmount = input("Please insert an amount to bet")
-							if betAmount > balance or betAmount < 1:
-								raise ErrorBet
+			
+		#Round_Start,%d (clientID)
+		if "Round_Start" in packet:
+			print("Packet Received:", packet)
+			print("Current balance", balance)
+			#Check for bet amount input
+			while True:
+				try:
+					betAmount = input("Please insert an amount to bet")
+					if betAmount > balance or betAmount < 1:
+						raise ErrorBet
+						break
+				except ErrorBet:
+					print("Invalid value, must be > 1 and < Current Balance")
+					print("Current Balance",balance)
+		
+		#Card_Start,%d,%d,%d(clientID,Card 1,Card 2)
+		if "Card_Start" in packet:
+			checkID = False
+			print("Packet received:" packet)
+			tempSplit = packet.split(",")
+			for part in tempSplit:
+				if "Card_Start" in part:
+					continue
+				else:
+					if checkID == False:
+						tempID = checkID.rstrip('\x00')
+						if tempID == clientID:
+							checkID = True
+							continue
+						else
+							print("Received a different client's packet")
+							checkID = True
 							break
-					except ErrorBet:
-						print("Invalid value, must be > 1 and < Current Balance")
-						print("Current Balance",balance)
-			#Card_Start,%d,%d,%d(clientID,Card 1,Card 2)
-			if "Card_Start" in packet:
-				checkID = False
-				print("Packet received:" packet)
-				tempSplit = packet.split(",")
-				for part in tempSplit:
-					if "Card_Start" in part:
-						continue
-					else:
-						if checkID == False:
-							tempID = checkID.rstrip('\x00')
-							if tempID == clientID:
-								checkID = True
-								continue
-							else
-								print("Received a different client's packet")
-								checkID = True
-								break
-						#Read the Card ID and take action accordingly
-						#TODO
+					#Read the Card ID and take action accordingly
+					#TODO
 
-			#Card_Dealt, %d,%d (ClientID, Card ID)
-			if "Card_Dealt" in packet:
-				checkID = False
-				print("Packet received:" packet)
-				tempSplit = packet.split(",")
-				for part in tempSplit:
-					if "Card_Dealt" in part:
-						continue
-					else:
-						if checkID == False:
-							tempID = checkID.rstrip('\x00')
-							if tempID == clientID:
-								checkID = True
-								continue
-							else
-								print("Received a different client's packet")
-								checkID = True
-								break
-						#Read the Card ID and take action accordingly
-						#TODO
+		#Card_Dealt, %d,%d (ClientID, Card ID)
+		if "Card_Dealt" in packet:
+			checkID = False
+			print("Packet received:" packet)
+			tempSplit = packet.split(",")
+			for part in tempSplit:
+				if "Card_Dealt" in part:
+					continue
+				else:
+					if checkID == False:
+						tempID = checkID.rstrip('\x00')
+						if tempID == clientID:
+							checkID = True
+							continue
+						else
+							print("Received a different client's packet")
+							checkID = True
+							break
+					#Read the Card ID and take action accordingly
+					#TODO
 						
         if exit:
             print("Exit is true\n")
