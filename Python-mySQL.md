@@ -5,7 +5,7 @@
 - [Python-mySQL](#python-mysql)
     - [How to use mysql in flask](#how-to-use-mysql-in-flask)
     - [Normal way to use sql in python](#normal-way-to-use-sql-in-python)
-    - [Some Common problems in mySQL](#some-common-in-mysql)
+    - [Some Common problems in mySQL](#some-common-problems-in-mysql)
         - [In window10, mySQL cannot be connected](#in-window10-mysql-cannot-be-connected)
         - [cryptography error](#cryptography-error)
         - [Visual C++ 14.0 is required](#visual-c-140-is-required)
