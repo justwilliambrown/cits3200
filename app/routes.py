@@ -12,12 +12,12 @@ from werkzeug.urls import url_parse
 def index():
     posts = [
         {
-            'author': {'username': 'John'},
+            'author': {'username': 'ZS'},
             'body': 'hello world!'
         },
         {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
+            'author': {'username': 'Josh'},
+            'body': 'blackjack！'
         }
     ]
     return render_template('index.html', title='Home Page' , posts=posts)
