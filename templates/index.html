@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Hi, {{ current_user.username }}!</h1>
+<!-- These placeholders represent the parts of the page that are variable and will only be known at runtime. -->
+{% for post in posts %}
+<div>
+    <p>{{ post.author.username }} says: <b>{{ post.body }}</b></p>
+</div>
+{% endfor %}
+{% endblock %}
+
+
