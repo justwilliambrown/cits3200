@@ -27,15 +27,6 @@ class User(UserMixin,db.Model):
         return 'https://bfgblog-a.akamaihd.net/uploads/2013/11/2-1-blackjack.png'
        
 
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __repr__(self):
-        return '<Post {}>'.format(self.body)
-
 class Game(db.Model):
     Game_ID = db.Column(db.Integer, primary_key=True)
     Round_ID = db.Column(db.Integer)
