@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from app import db,login
 from hashlib import md5
 
-
+#the tables of sql and related caculations are wirtten here 
 
 class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
