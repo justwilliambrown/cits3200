@@ -5,6 +5,12 @@ from app.models import User
 from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.urls import url_parse
 
+#this py_file is for view function
+#the endpoint of all pages
+#The running logic of the program is written here.
+#the page's varibls will be producted from here
+
+
 #test page
 @app.route('/')
 @app.route('/index')
