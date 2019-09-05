@@ -42,13 +42,13 @@ def recv_all(sock):
 
 class ConnMan:
 
-	def __init__():
-		clientDict = dict()
-		#msgQueue = queue.Queue()
+	def __init__(self):
+		self.clientDict = dict()
+		self.msgQueue = queue.Queue()
 
 	#starts the two threads for sending and receiving
 	def start(self):
-		threading.Thread(target=self.runRecv)
+		threading.Thread(target=self.run_recv)
 		#threading.Thread(target=self.runSend)
 
 	#thread for sending messages down to the client
@@ -72,8 +72,9 @@ class ConnMan:
 			listenSocket.listen(128)
 
 			addr, sock = listenSocket.accept()
+			print("connection accepted from " + addr)
 
-			clientDict[addr] = sock
+			self.clientDict[addr] = sock
 
 			threading.Thread(target=self.handle_client, args=(addr, sock))
 
@@ -84,10 +85,12 @@ class ConnMan:
 		while client_connected:
 			try:
 				message = recv_all(sock)
+				print("message \"" + message + "\" from client " + addr)
 				jdict = json.loads(message)
 				if jdict.get("type") == "CONTROL":
 					client_disconnected(client)
-				#pass message down to game manager
+				messageTuple = (addr, jdict)
+				self.msgQueue.put(messageTuple)
 
 			except SocketClosedException:
 				client_disconnected(addr)
@@ -101,17 +104,29 @@ class ConnMan:
 
 	#used for disconnecting a client from the game
 	def disconnect_client(self, addr):
-		clientDict[client].close()
-		clientDict.pop(client)
+		print("disconneting client " + client + " from server")
+		self.clientDict[client].close()
+		self.clientDict.pop(client)
 
 	#used by ConnMan to tell the game server a client disconnected from the server
 	#SHOULD NEVER BE CALLED BY THE GAME SERVER
 	def client_disconnected(self, addr):
+		print("client " + addr + " has disconnected from server")
 		disconnect_client(addr)
-		dcNotify = { "type" : "CONTROL", "subtype" : "DC", "client" : addr}
-		#pass the message down to the game server
+		dcNotify = (addr, { "type" : "CONTROL", "subtype" : "DC"})
+		self.msgQueue.put(dcNotify)
+		
 
 	#sends a message down to the client over the connection
 	def send_message(self, addr, message):
+		print("sending message \"" + message + "\" to client " + addr)
 		fm_msg = json.dumps(message)
-		clientDict[addr].sendall(fm_msg)
+		self.clientDict[addr].sendall(fm_msg)
+
+	#fetches the top message from the message queue, or returns None if empty
+	#returns a tuple with the form (address, dictionary) with the dictionary a formatted json response
+	def get_message(self):
+		if self.msgQueue.empty():
+			return None
+		else:
+			return self.msgQueue.get()
