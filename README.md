@@ -24,3 +24,21 @@ uploading agent source code, accessing activity logs of games played and
 accessing the scoreboard/ranking.
 
 **6** Queue System for starting games ie. once enough agents are ready then a game will start for those players
+
+## JSON Formatting Information
+{
+  "packet_type" : type=string, // Describes the type of packet ("GAME" or "CONTROL")
+
+  "game_id" : type=int, // ID of the game the packet is intended for
+
+  "round_id" : type=int, // ID of the round of the game
+
+  "turn_id" : type=int, // ID of the individual agent's turn in the game
+
+  "player_id" : type=int, // ID of the agent/player
+
+  "bet_amount" : type=int, // amount of money the agent chooses to bet
+
+  "card" : type=string // The card dealt, formatted as "KC", "10D", etc...
+
+}
