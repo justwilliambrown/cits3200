@@ -126,7 +126,7 @@ class ClientHandle(threading.Thread):
 
 #used for disconnecting a client from the game
 def disconnect_client(addr):
-	print("disconneting client " + client + " from server")
+	print("disconneting client {0} from server", addr)
 	notify = {"type" : "CONTROL", "subtype" : "DC"}
 	send_message(addr, notify) #kind of a hack, requires client to dc first
 	clientDict.pop(client)
@@ -134,7 +134,7 @@ def disconnect_client(addr):
 #used by ConnMan to tell the game server a client disconnected from the server
 #SHOULD NEVER BE CALLED BY THE GAME SERVER
 def client_disconnected(addr):
-	print("client " + addr + " has disconnected from server")
+	print("client {0} has disconnected from server", )
 	disconnect_client(addr)
 	dcNotify = (addr, { "type" : "CONTROL", "subtype" : "DC"})
 	msgQueue.put(dcNotify)
