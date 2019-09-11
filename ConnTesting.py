@@ -1,16 +1,15 @@
 import ConnMan
 import queue
 
-connMan = ConnMan.ConnMan()
 
 print("starting ConnMan...")
-connMan.start()
+ConnMan.start()
 print("ConnMan started")
 while True:
-	message = connMan.get_message()
+	message = ConnMan.get_message()
 	if message == None:
 		continue
 
-	print("in server received message " +  message[1] + " from client " + message[0])
+	print("in server received message {0} from client {1}", message[1], message[0])
 	print("echoing message back to client")
-	connMan.send_message(message[0], message[1])
+	ConnMan.send_message(message[0], message[1])
