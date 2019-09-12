@@ -41,8 +41,9 @@ def recv_all(sock):
 	return mess
 
 clientDict = dict()
-gameMsgQueue = queue.Queue()
+gameMsgQueues = dict()
 connectMsgQueue = queue.Queue()
+clientGameIdentifier = dict()
 
 #starts the two threads for sending and receiving
 def start():
@@ -77,8 +78,6 @@ class ListenServer(threading.Thread):
 			sock, addr = self.listenSocket.accept()
 			print("connection accepted from ", addr)
 
-			clientDict[addr] = sock
-
 			x = threading.Thread(target=ClientHandle, args=(addr, sock))
 			x.start()
 
@@ -91,6 +90,9 @@ class ClientHandle(threading.Thread):
 	def start(self):
 		connectionNotify = (self.addr, {"type" : "CONTROL", "subtype" : "C"})
 		connectMsgQueue.put(connectionNotify)
+		#PLACEHOLDER
+		self.client_id = (rand()) #to replace with the actual client id from the database
+		clientDict[self.client_id] = self.sock
 		self.run()
 
 	#simply listens to the client connection and pushes it down to the game server
@@ -109,7 +111,7 @@ class ClientHandle(threading.Thread):
 				if jdict.get("type") == "CONTROL":
 					client_disconnected(client)
 				messageTuple = (self.addr, jdict)
-				gameMsgQueue.put(messageTuple)
+				gameMsgQueues.get(jdict.get(game_id)).put(messageTuple)
 
 			except SocketClosedException:
 				print("socket connection was closed")
@@ -140,7 +142,7 @@ def client_disconnected(addr):
 	print("client {0} has disconnected from server", )
 	disconnect_client(addr)
 	dcNotify = (addr, { "type" : "CONTROL", "subtype" : "DC"})
-	gameMsgQueue.put(dcNotify)
+	gameMsgQueues.get(clientGameIdentifier.get(addr)).put(dcNotify)
 	connectMsgQueue.put(dcNotify)
 	
 
@@ -154,13 +156,21 @@ def send_message(addr, message):
 #returns a tuple with the form (address, dictionary) with the dictionary a formatted json response
 #TODO get specific messages from specific games
 def get_game_message(game_id):
-	if gameMsgQueue.empty():
+	if gameMsgQueues.get(game_id).empty():
 		return None
 	else:
-		return gameMsgQueue.get()
+		return gameMsgQueues.get(game_id).get()
 
 def get_match_messsage():
 	if connectMsgQueue.empty():
 		return None
 	else:
 		return msgQueue.get()
+
+def start_game(game_id, clientList):
+	for client in clientList:
+		clientGameIdentifier[client] = game_id
+
+def end_game(game_id, clientList):
+	for client in clientList:
+		clientGameIdentifier.pop(client)
