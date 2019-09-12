@@ -41,7 +41,8 @@ def recv_all(sock):
 	return mess
 
 clientDict = dict()
-msgQueue = queue.Queue()
+gameMsgQueue = queue.Queue()
+connectMsgQueue = queue.Queue()
 
 #starts the two threads for sending and receiving
 def start():
@@ -88,6 +89,8 @@ class ClientHandle(threading.Thread):
 		self.start()
 
 	def start(self):
+		connectionNotify = (self.addr, {"type" : "CONTROL", "subtype" : "C"})
+		connectMsgQueue.put(connectionNotify)
 		self.run()
 
 	#simply listens to the client connection and pushes it down to the game server
@@ -106,7 +109,7 @@ class ClientHandle(threading.Thread):
 				if jdict.get("type") == "CONTROL":
 					client_disconnected(client)
 				messageTuple = (self.addr, jdict)
-				msgQueue.put(messageTuple)
+				gameMsgQueue.put(messageTuple)
 
 			except SocketClosedException:
 				print("socket connection was closed")
@@ -137,7 +140,8 @@ def client_disconnected(addr):
 	print("client {0} has disconnected from server", )
 	disconnect_client(addr)
 	dcNotify = (addr, { "type" : "CONTROL", "subtype" : "DC"})
-	msgQueue.put(dcNotify)
+	gameMsgQueue.put(dcNotify)
+	connectMsgQueue.put(dcNotify)
 	
 
 #sends a message down to the client over the connection
@@ -148,8 +152,15 @@ def send_message(addr, message):
 
 #fetches the top message from the message queue, or returns None if empty
 #returns a tuple with the form (address, dictionary) with the dictionary a formatted json response
-def get_message():
-	if msgQueue.empty():
+#TODO get specific messages from specific games
+def get_game_message(game_id):
+	if gameMsgQueue.empty():
+		return None
+	else:
+		return gameMsgQueue.get()
+
+def get_match_messsage():
+	if connectMsgQueue.empty():
 		return None
 	else:
 		return msgQueue.get()
