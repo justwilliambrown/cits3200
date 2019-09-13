@@ -92,7 +92,7 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDlist,timeList)
     if boundary_2[0] < bounday_1[1] and boundary_2[0] > boundary_1[0]:
         return True
     #Boundary 2 upper limit within boundary 1 limit
-    if boundary_2[1] < bounday_1[1] && boundary_2[1] > boundary_1[0]:
+    if boundary_2[1] < bounday_1[1] and boundary_2[1] > boundary_1[0]:
         return True
     return False
 
@@ -166,7 +166,7 @@ def testQueueHandler
                 if mmrEvaluation(index_1,index_2,testQueue,testQueueTime):
                     tempList = []
                     tempList.append(gameCounter)
-                    gameCounter++
+                    gameCounter += 1
                     tempList.append(tempQueue[index_1])
                     tempList.append(tempQueue[index_2])
                     gamePlayerList.append(tempList)
