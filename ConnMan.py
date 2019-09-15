@@ -40,16 +40,19 @@ def recv_all(sock):
 
 	return mess
 
+#connman data structures
 clientDict = dict()
 gameMsgQueues = dict()
 connectMsgQueue = queue.Queue()
 clientGameIdentifier = dict()
+#------------------------------------------------
 
 #starts the two threads for sending and receiving
 def start():
 	x = threading.Thread(target=ListenServer)
 	x.start()
 
+#class that implements the socket for listening for conections
 class ListenServer(threading.Thread):
 
 	def __init__(self):
@@ -61,7 +64,6 @@ class ListenServer(threading.Thread):
 		super()
 		print("in ListenServer.start")
 		self.listenSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		#hostname = socket.getHostName()
 		hostname = ''
 		port = 50519
 
@@ -80,7 +82,9 @@ class ListenServer(threading.Thread):
 
 			x = threading.Thread(target=ClientHandle, args=(addr, sock))
 			x.start()
+#---------------------------------------------------------------------------------------------
 
+#class that implements listening for packets from the client and forwarding it to where it's needed
 class ClientHandle(threading.Thread):
 	def __init__(self, addr, sock):
 		self.addr = addr
@@ -88,7 +92,7 @@ class ClientHandle(threading.Thread):
 		self.start()
 
 	def start(self):
-		connectionNotify = (self.addr, {"type" : "CONTROL", "subtype" : "C"})
+		connectionNotify = (self.client_id, {"type" : "CONTROL", "subtype" : "C"})
 		connectMsgQueue.put(connectionNotify)
 		#PLACEHOLDER
 		self.client_id = (rand()) #to replace with the actual client id from the database
@@ -108,8 +112,15 @@ class ClientHandle(threading.Thread):
 
 				print("message \"" + message + "\" from client ", self.addr)
 				jdict = json.loads(message)
+
 				if jdict.get("type") == "CONTROL":
-					client_disconnected(client)
+					client_disconnected(self.client_id)
+					self.sock.close()
+
+				if jdict.get("client_id") != self.client_id and jdict.get("game_id") != clientGameIdentifier.get(self.client_id):
+					client_disconnected(self.client_id)
+					self.sock.close()
+
 				messageTuple = (self.addr, jdict)
 				gameMsgQueues.get(jdict.get(game_id)).put(messageTuple)
 
@@ -127,7 +138,7 @@ class ClientHandle(threading.Thread):
 				self.sock.close()
 				client_is_connected = False
 				break
-
+#----------------------------------------------------------------------------
 
 #used for disconnecting a client from the game
 def disconnect_client(addr):
@@ -150,22 +161,28 @@ def client_disconnected(addr):
 def send_message(addr, message):
 	print("sending message \"{0}\" to client {1}", message, addr)
 	fm_msg = json.dumps(message).encode()
-	clientDict[addr].sendall(fm_msg)
+	
+	if message.get("type") == "BROADCAST":
+		game = message.get("game_id")
+		for clients in clientGameIdentifier.items():
+			if client[1] == game:
+				clientDict[client[0]].sendall(fm_msg)
+	else:
+		clientDict[addr].sendall(fm_msg)
 
 #fetches the top message from the message queue, or returns None if empty
-#returns a tuple with the form (address, dictionary) with the dictionary a formatted json response
-#TODO get specific messages from specific games
-def get_game_message(game_id):
-	if gameMsgQueues.get(game_id).empty():
+#returns a tuple with the form (client id, dictionary) with the dictionary a formatted json response
+def get_game_message(game_id, blocking=False):
+	try:
+		return gameMsgQueues.get(game_id).get(block=blocking)
+	except Empty:
 		return None
-	else:
-		return gameMsgQueues.get(game_id).get()
 
-def get_match_messsage():
-	if connectMsgQueue.empty():
+def get_match_messsage(blocking=False):
+	try:
+		return msgQueue.get(block=blocking)
+	except Empty:
 		return None
-	else:
-		return msgQueue.get()
 
 def start_game(game_id, clientList):
 	for client in clientList:

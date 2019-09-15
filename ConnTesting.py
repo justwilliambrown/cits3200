@@ -5,8 +5,9 @@ import queue
 print("starting ConnMan...")
 ConnMan.start()
 print("ConnMan started")
+ConnMan.start_game(1)
 while True:
-	message = ConnMan.get_message()
+	message = ConnMan.get_message(1)
 	if message == None:
 		continue
 
