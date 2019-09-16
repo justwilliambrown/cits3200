@@ -120,9 +120,9 @@ class ClientHandle(threading.Thread):
 					client_disconnected(self.client_id)
 					self.sock.close()
 
-				if jdict.get("client_id") != self.client_id and jdict.get("game_id") != clientGameIdentifier.get(self.client_id):
-					client_disconnected(self.client_id)
-					self.sock.close()
+				#if jdict.get("client_id") != self.client_id and jdict.get("game_id") != clientGameIdentifier.get(self.client_id):
+					#client_disconnected(self.client_id)
+					#self.sock.close()
 
 				messageTuple = (self.addr, jdict)
 				gameMsgQueues.get(jdict.get(game_id)).put(messageTuple)
@@ -190,7 +190,9 @@ def get_match_messsage(blocking=False):
 def start_game(game_id, clientList):
 	for client in clientList:
 		clientGameIdentifier[client] = game_id
+	gameMsgQueues[game_id] = queue.Queue()
 
 def end_game(game_id, clientList):
 	for client in clientList:
 		clientGameIdentifier.pop(client)
+	gameMsgQueues.pop(game_id)
