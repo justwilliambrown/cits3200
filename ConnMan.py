@@ -96,7 +96,7 @@ class ClientHandle(threading.Thread):
 		self.start()
 
 	def start(self):
-		connectionNotify = (self.client_id, {"type" : "CONTROL", "subtype" : "C"})
+		connectionNotify = {"type" : "CONTROL", "subtype" : "C"}
 		connectMsgQueue.put(connectionNotify)
 		#PLACEHOLDER
 		clientDict[self.client_id] = self.sock
@@ -120,12 +120,11 @@ class ClientHandle(threading.Thread):
 					client_disconnected(self.client_id)
 					self.sock.close()
 
-				#if jdict.get("client_id") != self.client_id and jdict.get("game_id") != clientGameIdentifier.get(self.client_id):
+				#if jdict.get("player_id") != self.client_id and jdict.get("game_id") != clientGameIdentifier.get(self.client_id):
 					#client_disconnected(self.client_id)
 					#self.sock.close()
 
-				messageTuple = (self.addr, jdict)
-				gameMsgQueues.get(jdict.get(game_id)).put(messageTuple)
+				gameMsgQueues.get(jdict.get(game_id)).put(jdict)
 
 			except SocketClosedException:
 				print("socket connection was closed")
@@ -155,7 +154,7 @@ def disconnect_client(addr):
 def client_disconnected(addr):
 	print("client {0} has disconnected from server", )
 	disconnect_client(addr)
-	dcNotify = (addr, { "type" : "CONTROL", "subtype" : "DC"})
+	dcNotify = { "type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
 	gameMsgQueues.get(clientGameIdentifier.get(addr)).put(dcNotify)
 	connectMsgQueue.put(dcNotify)
 	
