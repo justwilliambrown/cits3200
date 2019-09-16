@@ -3,9 +3,10 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from app.models import User
-
-#Format of receiving information on Web pages
+from app import files
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -37,3 +38,9 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+
+class UploadForm(FlaskForm):
+    c_files = FileField(validators=[
+        FileAllowed(files, u' py, c, cpp, js, java files only!'),
+        FileRequired(u'Did not select any files!')])
+    submit = SubmitField(u'submit')
