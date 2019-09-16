@@ -91,14 +91,14 @@ class ClientHandle(threading.Thread):
 	def __init__(self, addr, sock):
 		self.addr = addr
 		self.sock = sock
+		self.client_id = idCounter #to replace with the actual client id from the database
+		idCounter += 1
 		self.start()
 
 	def start(self):
 		connectionNotify = (self.client_id, {"type" : "CONTROL", "subtype" : "C"})
 		connectMsgQueue.put(connectionNotify)
 		#PLACEHOLDER
-		self.client_id = idCounter #to replace with the actual client id from the database
-		idCounter += 1
 		clientDict[self.client_id] = self.sock
 		self.run()
 
