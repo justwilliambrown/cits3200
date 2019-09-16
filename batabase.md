@@ -4,7 +4,6 @@
 
 Attributes|Data_tpye|Others
 --|:--:|--:
-|
 id |Integer|primary_key
 username |String(64)|index, unique
 email |String(120)|index, unique
@@ -15,7 +14,6 @@ ranking |Integer
 
 Attributes|Data_tpye|Others
 --|:--:|--:
-|
 Game_ID |Integer|primary_key
 Round_ID |Integer
 Turn_ID |Integer
@@ -29,7 +27,6 @@ user_id |Integer|ForeignKey('user.id')
 
 Attributes|Data_tpye|Others
 --|:--:|--:
-|
 File_ID|Integer|primary_key
 filename|String(64)|index, unique
 timestamp |DateTime|index,default:datetime.utcnow
