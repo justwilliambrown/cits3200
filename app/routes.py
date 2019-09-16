@@ -1,14 +1,12 @@
-from app import db, app
-from app.forms import RegistrationForm, LoginForm, EditProfileForm
-from flask import render_template, flash, redirect, url_for,request
+import os
+from app import db, app, files
+from app.forms import RegistrationForm, LoginForm, EditProfileForm, UploadForm
+from flask_uploads import UploadSet, IMAGES, configure_uploads, EXECUTABLES,ALL
+from flask import render_template, flash, redirect, url_for, request, send_from_directory
 from app.models import User
 from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.urls import url_parse
-
-#this py_file is for view function
-#the endpoint of all pages
-#The running logic of the program is written here.
-#the page's varibls will be producted from here
+from werkzeug.utils import secure_filename
 
 
 #test page
@@ -18,12 +16,12 @@ from werkzeug.urls import url_parse
 def index():
     posts = [
         {
-            'author': {'username': 'ZS'},
+            'author': {'username': 'John'},
             'body': 'hello world!'
         },
         {
-            'author': {'username': 'Josh'},
-            'body': 'blackjack！'
+            'author': {'username': 'Susan'},
+            'body': 'The Avengers movie was so cool!'
         }
     ]
     return render_template('index.html', title='Home Page' , posts=posts)
@@ -97,4 +95,39 @@ def edit_profile():
         form.username.data = current_user.username
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in set(['py', 'c', 'java', 'cpp'])
+
+
+@app.route('/Upload', methods=['GET', 'POST'])
+@login_required
+def Upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('./', filename))
+            flash('Your upload have been saved.')
+            return redirect(url_for('Upload'))
+        else:
+            flash('file type error or no file!')
+            return redirect(url_for('Upload'))
+    return render_template('upload.html')
+
+
+
+@app.route('/Upload2', methods=['GET', 'POST'])
+@login_required
+def Upload2():
+    form = UploadForm()
+    if form.validate_on_submit():
+        filename = files.save(form.c_files.data)
+        file_url = files.url(filename)
+        flash('Your uploading have been saved.')
+    else:
+        file_url = None
+    return render_template('upload2.html', form=form, file_url=file_url)
+
 

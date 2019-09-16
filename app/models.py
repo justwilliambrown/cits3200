@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from app import db,login
 from hashlib import md5
 
-#the tables of sql and related caculations are wirtten here 
+#the tables of sql and related caculations are wirtten here
 
 class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,8 +12,9 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     ranking = db.Column(db.Integer)
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+   # posts = db.relationship('Post', backref='author', lazy='dynamic')
     games = db.relationship('Game', backref='author', lazy='dynamic')
+    files = db.relationship('File', backref='author', lazy='dynamic')
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -27,13 +28,21 @@ class User(UserMixin,db.Model):
         return 'https://bfgblog-a.akamaihd.net/uploads/2013/11/2-1-blackjack.png'
        
 
+# class Post(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     body = db.Column(db.String(140))
+#     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+#     def __repr__(self):
+#         return '<Post {}>'.format(self.body)
+
 class Game(db.Model):
     Game_ID = db.Column(db.Integer, primary_key=True)
     Round_ID = db.Column(db.Integer)
     Turn_ID = db.Column(db.Integer)
     Card_ID = db.Column(db.Integer)
     Card_Total = db.Column(db.Integer)
-    Number_of_Cards = db.Column(db.Integer)
     Money_Bet = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -42,7 +51,14 @@ class Game(db.Model):
         return '<Game {}>'.format(self.body)
 
 
+class File(db.Model):
+    File_ID = db.Column(db.Integer, primary_key=True)
+    File_name= db.Column(db.String(64),index=True,unique=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    def __repr__(self):
+        return '<File {}>'.format(self.body)
 
 @login.user_loader
 def load_user(id):
