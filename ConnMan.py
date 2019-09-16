@@ -47,6 +47,8 @@ connectMsgQueue = queue.Queue()
 clientGameIdentifier = dict()
 #------------------------------------------------
 
+idCounter = 0 #placeholder until we get the actual client id from the db
+
 #starts the two threads for sending and receiving
 def start():
 	x = threading.Thread(target=ListenServer)
@@ -95,7 +97,8 @@ class ClientHandle(threading.Thread):
 		connectionNotify = (self.client_id, {"type" : "CONTROL", "subtype" : "C"})
 		connectMsgQueue.put(connectionNotify)
 		#PLACEHOLDER
-		self.client_id = (rand()) #to replace with the actual client id from the database
+		self.client_id = idCounter #to replace with the actual client id from the database
+		idCounter += 1
 		clientDict[self.client_id] = self.sock
 		self.run()
 
