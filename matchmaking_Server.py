@@ -1,11 +1,12 @@
 #Python matchmaking Server
 import json
 import socket
+import threading
 import select
 import sys
 import time
-from thread import*
 import ConnMan
+import Blackjack_Server
 
 #TODO: Document functionality for each function up here for ease of use
 #Functions and their purpose
@@ -26,17 +27,17 @@ queueCheck = []             #Contains all players who are in some sort of queue(
 tournamentQueue = []        #Contains all the client ids in tournament queue
 tournamentQueueTime = []    #Contains the time a client joined the queue
 testQueue = []              #Contains all the client ids in test queue
-testQueuTime = []           #Contains the time a client joined the queue
-gamePlayerList = [][]       #gamePlayerList[Game ID][0 - numPlayers] = clientID -> Index 0 = unique gameID
-tournamentGameList = [][]   #tournamentGameList[TournamentID][0-Number of games] = gameID
-tournamentPGC = [][]        #tournamentPlayerGameCounter[TournamentID][2] -> 0 = clientID 1 = Number of games won
+testQueueTime = []           #Contains the time a client joined the queue
+gamePlayerList = []    		#gamePlayerList[Game ID][0 - numPlayers] = clientID -> Index 0 = unique gameID
+tournamentGameList = []   	#tournamentGameList[TournamentID][0-Number of games] = gameID
+tournamentPGC = []        	#tournamentPlayerGameCounter[TournamentID][2] -> 0 = clientID 1 = Number of games won
 gameCounter = 10000         #Counter for gameID starts at 10000 #NOTE: Check with Josh that we don't have overlapping IDS just incase
 tournamentCounter = 1000    #Counter for tournament ID starts at 1000
 #Funtions
 #joinTournamentQueue
 #Input: Client ID
 #Expected outcome : clientID joins the tournament Queue and time joined recorded
-def joinTournamentQueue(clientID)
+def joinTournamentQueue(clientID):
     tournamentQueue.append(clientID)
     tournamentQueueTIme.append(time.time())
 
@@ -44,9 +45,9 @@ def joinTournamentQueue(clientID)
 #joinTestQueue
 #Input: Client ID
 #Expected outcome : clientID joins the test Queu eand time joined recorded
-def joinTestQueue(clientID)
+def joinTestQueue(clientID):
     testQueue.append(clientID)
-    testQUeue.append(time.time())
+    testQueue.append(time.time())
 
 
 #--------------------------------------NOTE-------------------------------------------------------------
@@ -56,7 +57,7 @@ def joinTestQueue(clientID)
 #findClientMMR -NOTE:Move this function to the ConnMan
 #Input: Client ID
 #Output: Client's MMR
-def findClientMMR(clientID)
+def findClientMMR(clientID):
     for client in clientMMR:
         if client[0] == clientID:
             return clientMMR[index][1]
@@ -68,7 +69,7 @@ def findClientMMR(clientID)
 #Input: 2 Different index's of people in test queue
 #Output: Boolean(Whether or not the mmr is within the boundaries)
 #Calculation:Boundary Starts at 100 mmr Increases by 10 for every second in queue       
-def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDlist,timeList)
+def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDlist,timeList):
     elapsedTime_1 = time.time() - timeList[queueIndex_1]
     elapsedTime_2 = time.time() - timeList[queueIndex_2]
     clientMMR_1 = ConnMan.findClientMMR(clientIDlist[queueIndex_1])
@@ -92,26 +93,26 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDlist,timeList)
     if boundary_2[0] < bounday_1[1] and boundary_2[0] > boundary_1[0]:
         return True
     #Boundary 2 upper limit within boundary 1 limit
-    if boundary_2[1] < bounday_1[1] && boundary_2[1] > boundary_1[0]:
+    if boundary_2[1] < bounday_1[1] and boundary_2[1] > boundary_1[0]:
         return True
     return False
 
 #getPlayerList
 #Input: Game ID
 #Output: List containing all players in Game ID
-def getPlayerList(gameID)
+def getPlayerList(gameID):
     return gamePlayerList[gameID]
 
 #terminateGameList
 #Input: Game ID
 #Expected outcome: Remove the player list for game ID from gamePlayerList
-def terminateGameList(gameID)
+def terminateGameList(gameID):
     gamePlayerList.pop(gameID)
 
 #playerDisconnectQueue
 #Input: clientID
 #Exepected outcome: Removes clientID from the queue
-def playerDisconnectQueue(clientID)
+def playerDisconnectQueue(clientID):
     #Try removing from test queue first
     #If they're not in test queue try the tournament queue
     try:
@@ -127,7 +128,7 @@ def playerDisconnectQueue(clientID)
 #findPlayerGame
 #Input: clientID
 #Output: Game ID of player
-def findPlayerGame(clientID)
+def findPlayerGame(clientID):
     for game in gamePlayerList:
         try:
             game.index(clientID)
@@ -137,17 +138,9 @@ def findPlayerGame(clientID)
 #PlayerDisconnectGame
 #Input: Client ID
 #Expected outcome: Removes clientID from the gamelist that they're in
-def playerDisconnectGame(clientID)
-    gameID = findPlayerGame(clientID)
-    gamePlayerList[gameID].remove(clientID)
-
-#--------------------------------------NOTE-------------------------------------------------------------
-#NOTE: Move this function onto the ConnMan
-#gameCreate
-#Input: List of clientIDS
-#Expected outcome: Using the list of it creates a thread that hosts a game and handles all logic for all clientIDS in list
-def gameCreate #Function will be used for integration on monday
-#--------------------------------------NOTE-------------------------------------------------------------
+def playerDisconnectGame(clientID):
+	gameID = findPlayerGame(clientID)
+	gamePlayerList[gameID].remove(clientID)
 
 #testQueueHandler
 #Input: No input
@@ -155,59 +148,74 @@ def gameCreate #Function will be used for integration on monday
 #Is designed to be run continuosly(24/7) on it's own thread
 #Needs to notify the ConnManager Module when a lobby has been filled
 #PLACEHOLDER: For now I've set it up so that all the lobbies only contain 2 people
-def testQueueHandler
+def testQueueHandler():
     while True:
     #Clone the queues first to avoid memory problems 
         tempQueue = testQueue.copy()
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
-        if len(tempQueue) < 2
+        if len(tempQueue) < 2:
             continue
-        else
+        else:
             for index_1 in range(0,len(this.tempQueue)):
                 for index_2 in range(index_1 + 1,len(tempQueue)):
                     if mmrEvaluation(index_1,index_2,testQueue,testQueueTime):
                         tempList = []
                         tempList.append(gameCounter)
-                        gameCounter++
+                        gameCounter += 1
                         tempList.append(tempQueue[index_1])
                         tempList.append(tempQueue[index_2])
                         gamePlayerList.append(tempList)
-                        ConnMan.gameCreate(tempList)
+                        ConnMan.start_game(tempList)
                         testQueue.remove(tempQueue[index_1])
                         testQueue.remove(tempQueue[index_2])
                         resetQueue = True
-                    if resetQueue = True:
+                    if resetQueue == True:
                         break
-                    if resetQueue = True:
+                    if resetQueue == True:
                         break
 
 #testQueueHandler-No MMR Edition
 #Use this one on monday 
-def testQueueHandlerNoMMR
-    while True:
-    #Clone the queues first to avoid memory problems 
-        tempQueue = testQueue.copy()
-        tempQueueTime = testQueueTime.copy()
-        resetQueue = False
-        if len(tempQueue) > 1
-            tempList = []
-            tempList.append(gameCounter)
-            gameCounter++
-            tempList.append(0)
-            tempList.append(1)
-            gamePlayerList.append(tempList)
-            ConnMan.gameCreate(tempList)
-            testQueue.remove(0)
-            testQueue.remove(1)
+def testQueueHandlerNoMMR():
+	while True:
+		#Clone the queues first to avoid memory problems 
+		msg = ConnMan.get_match_messsage(False)
+		if msg != None:
+			clientID = msg["player_id"]
+			if clientID not in testQueue:
+				testQueue.append(clientID)
+		tempQueue = testQueue.copy()
+		tempQueueTime = testQueueTime.copy()
+		resetQueue = False
+		#for player in tempQueue:
+			#print("tempQueue: " , player)
+		if len(tempQueue) > 1:
+			tempList = []
+			global gameCounter
+			gameCounter += 1
+			tempList.append(tempQueue.pop())
+			tempList.append(tempQueue.pop())
+			gamePlayerList.append(tempList)
+			#for player in tempList:
+				#print(player)
+			ConnMan.start_game(gameCounter - 1,tempList)
+			x = threading.Thread(target=Blackjack_Server.gameStart,args=(gameCounter-1,tempList))
+			x.start()
+			#Blackjack_Server.gameStart(gameCounter-1,tempList)
+			testQueue.pop(0)
+			testQueue.pop(0)
 
+def start():
+	x = threading.Thread(target=testQueueHandlerNoMMR)
+	x.start()
 
 #tournamentQueueHandler
 #Input: No input
 #Function: Handles the test queue and matches people into games
 #Is designed to be run continuosly(24/7) on it's own thread
 #Placeholder : 16 player tournaments single elimination style
-
+def tournamentQueueHandler():
     while True:
     #Clone the queues first to avoid memory problems
         tempQueue = tournamentQueue.copy()
