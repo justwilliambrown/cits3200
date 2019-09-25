@@ -7,19 +7,34 @@ import ConnMan
 
 # Receives JSON formatted packet from connection manager
 # {"packet_type" : "GAME", "MOVE" : "HIT/STAND", "bet_amount": eg10, player_id : "fasd"}
-clientIDs = ["1", "2", "3"] # For testing only
+
+loglist = []
+
+def disconnectHandle(playerid):
+	global playersEliminated
+	playersEliminated.append(playerid)
+
 def receive(gameID, playerID):
 	message = ConnMan.get_game_message(gameID)
+	loglist.append(str(message))
+
+	try:
+		if message["type"] == "CONTROL" and message["subtype"] == "DC":
+			disconnectHandle(message["player_id"])
+	except:
+		pass
+
 	while message["player_id"] != playerID:
 		message = ConnMan.get_game_message(gameID)
+		loglist.append(str(message))
 	return message
 
 def send(data):
 	# TODO
 	ConnMan.send_message(data["player_id"], data)
+	loglist.append(str(data))
 	print(data)
 	return 0
-
 
 def populateDeck(): #returns a shuffled deck of cards
 	deck = []
@@ -82,9 +97,14 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 	for i in range(1, len(players)):
 		# query the player for a bet amount
-		send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "BETAMT", "player_id" : players[i]})
-		message = receive(game_id, player[i])
-		betAmount = message["BETAMT"]
+		while True:
+			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "BETAMT", "player_id" : players[i]})
+			message = receive(game_id, player[i])
+			try:
+				betAmount = message["BETAMT"]
+			except:
+				continue
+			break
 		bets.append(betAmount)
 
 	for i in range(1, len(players)): #Query each player for a move
@@ -92,9 +112,15 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		# query the player
 		#move = "" #TODO
 		print("Player", players[i])
-		send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
-		message = receive(game_id, player[i])
-		move = message["MOVE"]
+		while True:
+			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
+			message = receive(game_id, player[i])
+			try:
+				move = message["MOVE"]
+			except:
+				continue
+			break
+
 		move = input()
 
 		turnId += 1
@@ -159,6 +185,7 @@ def gameStart(game_id, clientIDs):
 		account[clientIDs[i]] = 20 # 100 Starting balance for now
 
 	while len(players) > 1:
+		global playersEliminated = []
 		resultOfRound = playRound(game_id, roundId, players, account, cards)
 		players = resultOfRound[0]
 		account = resultOfRound[1]
@@ -166,7 +193,6 @@ def gameStart(game_id, clientIDs):
 
 		roundId += 1
 
-		playersEliminated = []
 		print("\n", account, "\n")
 		for i in account:
 			if account[i] <= 0:
@@ -174,5 +200,14 @@ def gameStart(game_id, clientIDs):
 		for i in playersEliminated:
 			players.remove(i)
 			account.pop(i)
+
+		# END OF GAME STUFF
+
+		# Write to a file called (game_id).log
+		filename = str(game_id) + ".log"
+		logfile = open(filename, "w+")
+		for message in loglist:
+			logfile.write(message)
+		logfile.close()
 
 gameStart(1, [1,2,3])
