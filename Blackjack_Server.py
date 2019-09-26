@@ -2,13 +2,13 @@ import random
 import ConnMan
 import time
 
+
 # cards: list simulating a deck of cards
 # cardsHeld: 2D list containing the cards held by each player, [0] is the dealer.
 # account: Dictionary for bank account containing the clientID as the key and money remaining as the value
 
 # Receives JSON formatted packet from connection manager
 # {"packet_type" : "GAME", "MOVE" : "HIT/STAND", "bet_amount": eg10, player_id : "fasd"}
-clientIDs = ["1", "2", "3"] # For testing only
 
 loglist = []
 
@@ -18,11 +18,9 @@ def disconnectHandle(playerid):
 
 def receive(gameID, playerID):
 	message = ConnMan.get_game_message(gameID)
-
 	if message == None:
 		time.sleep(1)
 		message = ConnMan.get_game_message(gameID)
-
 	loglist.append(str(message))
 
 	try:
@@ -42,7 +40,6 @@ def send(data):
 	loglist.append(str(data))
 	print(data)
 	return 0
-
 
 def populateDeck(): #returns a shuffled deck of cards
 	deck = []
@@ -91,6 +88,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 	cards.append(dealCard1)
 	send({"packet_type": "GAME", "type" : "BROADCAST", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": 0, "card" : dealCard1})
 
+
 	for i in range(1, len(players)): # Deal 2nd card to each player
 		cardsHeld.append([])
 		curCard = cards.pop(0)
@@ -98,6 +96,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 		cardsHeld[i].append(curCard)
 		send({"packet_type": "GAME", "type" : "BROADCAST", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": players[i], "card" : curCard})
+
 
 	dealCard1 = cards.pop(0)
 	cards.append(dealCard1)
@@ -112,14 +111,17 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		while True:
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "BETAMT", "player_id" : players[i]})
 			message = receive(game_id, players[i])
+
 			try:
 				betAmount = message["BETAMT"]
 			except:
 				continue
 			break
-		bets.append(betAmount)
-		print(players[i]," bet ",betAmount)
 
+		if betAmount > account[i]:
+			betAmount = account[i]
+		bets.append(betAmount)
+    print(players[i]," bet ",betAmount)
 
 	for i in range(1, len(players)): #Query each player for a move
 		turnId = 0
@@ -129,6 +131,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		while True:
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
 			message = receive(game_id, players[i])
+
 			try:
 				move = message["MOVE"]
 			except:
@@ -138,6 +141,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		turnId += 1
 		while move != "STAND":
 			print("REPEAT")
+
 			print("Player", players[i], cardsHeld[i])
 			if move == "HIT":
 				#print(cards)
@@ -151,6 +155,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 					send({"packet_type": "CONTROL", "type" : "BROADCAST", "move":"ELIMINATED", "player_id": players[i], "bet_amount":bets[i]}) # TODO
 					account[players[i]] -= bets[i]
 					break
+
 				else :
 					while True:
 						send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
@@ -226,6 +231,7 @@ def gameStart(game_id, clientIDs):
 			account.pop(i)
 
 		# END OF GAME STUFF
+
 		# Write to a file called (game_id).log
 		filename = str(game_id) + ".log"
 		logfile = open(filename, "w+")

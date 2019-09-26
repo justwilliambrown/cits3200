@@ -8,6 +8,7 @@ import time
 import ConnMan
 import Blackjack_Server
 
+
 #TODO: Document functionality for each function up here for ease of use
 #Functions and their purpose
 #joinTournamentQueue
@@ -31,6 +32,7 @@ testQueueTime = []           #Contains the time a client joined the queue
 gamePlayerList = []    		#gamePlayerList[Game ID][0 - numPlayers] = clientID -> Index 0 = unique gameID
 tournamentGameList = []   	#tournamentGameList[TournamentID][0-Number of games] = gameID
 tournamentPGC = []        	#tournamentPlayerGameCounter[TournamentID][2] -> 0 = clientID 1 = Number of games won
+
 gameCounter = 10000         #Counter for gameID starts at 10000 #NOTE: Check with Josh that we don't have overlapping IDS just incase
 tournamentCounter = 1000    #Counter for tournament ID starts at 1000
 #Funtions
@@ -210,12 +212,14 @@ def start():
 	x = threading.Thread(target=testQueueHandlerNoMMR)
 	x.start()
 
+
 #tournamentQueueHandler
 #Input: No input
 #Function: Handles the test queue and matches people into games
 #Is designed to be run continuosly(24/7) on it's own thread
 #Placeholder : 16 player tournaments single elimination style
 def tournamentQueueHandler():
+
     while True:
     #Clone the queues first to avoid memory problems
         tempQueue = tournamentQueue.copy()

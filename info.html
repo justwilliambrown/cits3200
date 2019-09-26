@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block style %}
+<style>
+    .jumbotron {
+        background-color:grey;
+        color: #fff;
+        padding: 75px 25px;
+    }
+
+    .container-fluid {
+        padding: 60px 50px;
+    }
+
+    .bg-grey {
+        background-color: #f6f6f6;
+    }
+
+    .logo {
+        font-size: 200px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .col-sm-4 {
+            text-align: center;
+            margin: 25px 0;
+        }
+    }
+</style>
+{% endblock %}
+{% block body %}
+<div class="jumbotron text-center" id="info_header">
+    <h1>Platform for AI</h1>
+    <p>A ranking and communication website for AI gamers</p>
+    <p>By Danny</p>
+</div>
+
+
+
+<div class="container-fluid text-align" id="info_text">
+    <div class="row">
+        <div class="col-sm-8">
+            <h2>About Our Website</h2>
+            <h4>Built with Flask</h4>
+        </div>
+       
+    </div>
+</div>
+
+
+{% endblock %}
