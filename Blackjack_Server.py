@@ -12,6 +12,8 @@ import time
 
 loglist = []
 
+playersEliminated = [] # This is a hack, but it works.
+
 def disconnectHandle(playerid):
 	global playersEliminated
 	playersEliminated.append(playerid)
@@ -36,6 +38,9 @@ def receive(gameID, playerID):
 	return message
 
 def send(data):
+	global playersEliminated
+	if data["player_id"] in playersEliminated:
+		return -1
 	ConnMan.send_message(data["player_id"], data)
 	loglist.append(str(data))
 	print(data)
@@ -71,6 +76,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 	totals = [] # List of ints [0] is dealer
 	bets = [0]
 
+	global playersEliminated
+
 	cardsHeld.append([])
 	totals.append(0)
 
@@ -105,6 +112,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 	for i in range(1, len(players)):
 		# query the player for a bet amount
+		if players[i] in playersEliminated:
+			continue
 		#send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id,"player_id":players[i]})
 		print("Request bet from player_",players[i])
 
@@ -118,12 +127,13 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 				continue
 			break
 
-		if betAmount > account[i]:
-			betAmount = account[i]
+		if betAmount > account[players[i]]:
+			betAmount = account[players[i]]
 		bets.append(betAmount)
-    print(players[i]," bet ",betAmount)
-
+	print(players[i]," bet ",betAmount)
 	for i in range(1, len(players)): #Query each player for a move
+		if players[i] in playersEliminated:
+			continue
 		turnId = 0
 		# query the player
 		#move = "" #TODO
