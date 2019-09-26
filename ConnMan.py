@@ -3,6 +3,7 @@ import socket
 import threading
 import queue
 import json
+import time
 
 #TODO add socket timeouts and unspecified socket family (ipv4 or ipv6)
 #TODO add support to accept REST connections
@@ -45,9 +46,10 @@ clientDict = dict()
 gameMsgQueues = dict()
 connectMsgQueue = queue.Queue()
 clientGameIdentifier = dict()
+idCounter = 1
 #------------------------------------------------
 
-idCounter = 0 #placeholder until we get the actual client id from the db
+#placeholder until we get the actual client id from the db
 
 #starts the two threads for sending and receiving
 def start():
@@ -67,7 +69,8 @@ class ListenServer(threading.Thread):
 		print("in ListenServer.start")
 		self.listenSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		hostname = ''
-		port = 50519
+		port = 3001
+
 
 		self.listenSocket.bind((hostname, port))
 		self.listenSocket.listen(128)
@@ -91,15 +94,17 @@ class ClientHandle(threading.Thread):
 	def __init__(self, addr, sock):
 		self.addr = addr
 		self.sock = sock
+		global idCounter
 		self.client_id = idCounter #to replace with the actual client id from the database
 		idCounter += 1
+		clientDict[self.client_id] = self.sock
 		self.start()
 
 	def start(self):
-		connectionNotify = {"type" : "CONTROL", "subtype" : "C"}
+		connectionNotify = {"packet_type" : "CONTROL", "subtype" : "C","player_id" : self.client_id}
+		send_message(self.client_id, connectionNotify)
 		connectMsgQueue.put(connectionNotify)
-		#PLACEHOLDER
-		clientDict[self.client_id] = self.sock
+
 		self.run()
 
 	#simply listens to the client connection and pushes it down to the game server
@@ -108,27 +113,29 @@ class ClientHandle(threading.Thread):
 		while client_is_connected:
 			try:
 				message = recv_all(self.sock)
-				if clientDict.get(self.addr) == None:
+				if clientDict.get(self.client_id) == None:
 					self.sock.close() #making sure no bad acters ignore disconnect and cause havoc
 					client_is_connected = False
 					break
 
 				print("message \"" + message + "\" from client ", self.addr)
 				jdict = json.loads(message)
-
-				if jdict.get("type") == "CONTROL":
-					client_disconnected(self.client_id)
-					self.sock.close()
+				#if jdict.get("packet_type") == "CONTROL":
+				#	client_disconnected(self.client_id)
+				#	self.sock.close()
 
 				#if jdict.get("player_id") != self.client_id and jdict.get("game_id") != clientGameIdentifier.get(self.client_id):
 					#client_disconnected(self.client_id)
 					#self.sock.close()
-
-				gameMsgQueues.get(jdict.get(game_id)).put(jdict)
+				if jdict.get("Queue") != None:
+					connectMsgQueue.put(jdict)
+				else:
+					print("ADDING TO QUEUE")
+					gameMsgQueues[jdict.get("game_id")].put(jdict)
 
 			except SocketClosedException:
 				print("socket connection was closed")
-				client_disconnected(self.addr)
+				client_disconnected(self.client_id)
 				self.sock.close()
 				client_is_connected = False
 				break
@@ -136,7 +143,8 @@ class ClientHandle(threading.Thread):
 			except IncorrectPacketFormatException:
 				print("packet was formatted incorrectly")
 				#in future, ask for resend
-				client_disconnected(self.addr)
+				client_disconnected(self.client_id)
+
 				self.sock.close()
 				client_is_connected = False
 				break
@@ -144,46 +152,59 @@ class ClientHandle(threading.Thread):
 
 #used for disconnecting a client from the game
 def disconnect_client(addr):
-	print("disconneting client {0} from server", addr)
-	notify = {"type" : "CONTROL", "subtype" : "DC"}
+	print("disconneting client {0} from server".format(addr))
+	notify = {"packet_type" : "CONTROL", "subtype" : "DC"}
 	send_message(addr, notify) #kind of a hack, requires client to dc first
-	clientDict.pop(client)
+	clientDict.pop(addr)
+
 
 #used by ConnMan to tell the game server a client disconnected from the server
 #SHOULD NEVER BE CALLED BY THE GAME SERVER
 def client_disconnected(addr):
-	print("client {0} has disconnected from server", )
-	disconnect_client(addr)
-	dcNotify = { "type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
+	print("client {0} has disconnected from server".format(addr))
+	clientDict.pop(addr)
+	dcNotify = { "packet_type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
+
 	gameMsgQueues.get(clientGameIdentifier.get(addr)).put(dcNotify)
 	connectMsgQueue.put(dcNotify)
 	
 
 #sends a message down to the client over the connection
 def send_message(addr, message):
-	print("sending message \"{0}\" to client {1}", message, addr)
+	print("CONNMAN SERVER")
+	print("sending message \"{0}\" to client {1}".format(message, addr))
+	#Fix client to remove time.sleep()
+	time.sleep(1)
 	fm_msg = json.dumps(message).encode()
-	
+
 	if message.get("type") == "BROADCAST":
 		game = message.get("game_id")
 		for clients in clientGameIdentifier.items():
-			if client[1] == game:
-				clientDict[client[0]].sendall(fm_msg)
+			if clients[1] == game:
+				clientDict[clients[0]].sendall(fm_msg)
 	else:
+		print("sending")
+
 		clientDict[addr].sendall(fm_msg)
 
 #fetches the top message from the message queue, or returns None if empty
 #returns a tuple with the form (client id, dictionary) with the dictionary a formatted json response
 def get_game_message(game_id, blocking=False):
 	try:
-		return gameMsgQueues.get(game_id).get(block=blocking)
-	except Empty:
+		print("GAMEMSGQUEUES")
+		temp = gameMsgQueues[game_id].get(block=blocking)
+		print("TEMP : ",temp)
+		return temp
+		#return gameMsgQueues[game_id].get(block=blocking)
+	except queue.Empty:
+
 		return None
 
 def get_match_messsage(blocking=False):
 	try:
-		return msgQueue.get(block=blocking)
-	except Empty:
+		return connectMsgQueue.get(block=blocking)
+	except queue.Empty:
+
 		return None
 
 def start_game(game_id, clientList):

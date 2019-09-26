@@ -1,5 +1,7 @@
 import random
 import ConnMan
+import time
+
 
 # cards: list simulating a deck of cards
 # cardsHeld: 2D list containing the cards held by each player, [0] is the dealer.
@@ -16,6 +18,9 @@ def disconnectHandle(playerid):
 
 def receive(gameID, playerID):
 	message = ConnMan.get_game_message(gameID)
+	if message == None:
+		time.sleep(1)
+		message = ConnMan.get_game_message(gameID)
 	loglist.append(str(message))
 
 	try:
@@ -25,12 +30,12 @@ def receive(gameID, playerID):
 		pass
 
 	while message["player_id"] != playerID:
+		time.sleep(1)
 		message = ConnMan.get_game_message(gameID)
 		loglist.append(str(message))
 	return message
 
 def send(data):
-	# TODO
 	ConnMan.send_message(data["player_id"], data)
 	loglist.append(str(data))
 	print(data)
@@ -71,16 +76,18 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 	cards.append(cards.pop(0)) # Burn the top card, and put it back on the bottom
 	for i in range(1, len(players)): # Deal 1st card to each player
+		send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id, "player_id":players[i]})
 		cardsHeld.append([])
 		curCard = cards.pop(0)
 		cards.append(curCard) # Put the card back on bottom of the deck
 		cardsHeld[i].append(curCard)
-		send({"packet_type": "GAME", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": players[i], "card" : curCard})
+		send({"packet_type": "GAME", "type" : "BROADCAST", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": players[i], "card" : curCard})
 
 	dealCard1 = cards.pop(0)
 	cardsHeld[0].append(dealCard1)
 	cards.append(dealCard1)
-	send({"packet_type": "GAME", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": 0, "card" : dealCard1})
+	send({"packet_type": "GAME", "type" : "BROADCAST", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": 0, "card" : dealCard1})
+
 
 	for i in range(1, len(players)): # Deal 2nd card to each player
 		cardsHeld.append([])
@@ -88,7 +95,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		cards.append(curCard) # Put the card back on bottom of the deck
 
 		cardsHeld[i].append(curCard)
-		send({"packet_type": "GAME", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": players[i], "card" : curCard})
+		send({"packet_type": "GAME", "type" : "BROADCAST", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": players[i], "card" : curCard})
+
 
 	dealCard1 = cards.pop(0)
 	cards.append(dealCard1)
@@ -97,17 +105,23 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 	for i in range(1, len(players)):
 		# query the player for a bet amount
+		#send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id,"player_id":players[i]})
+		print("Request bet from player_",players[i])
+
 		while True:
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "BETAMT", "player_id" : players[i]})
-			message = receive(game_id, player[i])
+			message = receive(game_id, players[i])
+
 			try:
 				betAmount = message["BETAMT"]
 			except:
 				continue
 			break
+
 		if betAmount > account[i]:
 			betAmount = account[i]
 		bets.append(betAmount)
+    print(players[i]," bet ",betAmount)
 
 	for i in range(1, len(players)): #Query each player for a move
 		turnId = 0
@@ -116,17 +130,18 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		print("Player", players[i])
 		while True:
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
-			message = receive(game_id, player[i])
+			message = receive(game_id, players[i])
+
 			try:
 				move = message["MOVE"]
 			except:
 				continue
 			break
 
-		move = input()
-
 		turnId += 1
 		while move != "STAND":
+			print("REPEAT")
+
 			print("Player", players[i], cardsHeld[i])
 			if move == "HIT":
 				#print(cards)
@@ -140,9 +155,20 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 					send({"packet_type": "CONTROL", "type" : "BROADCAST", "move":"ELIMINATED", "player_id": players[i], "bet_amount":bets[i]}) # TODO
 					account[players[i]] -= bets[i]
 					break
+
+				else :
+					while True:
+						send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
+						message = receive(game_id, players[i])
+						try:
+							move = message["MOVE"]
+						except:
+							continue
+						break
 				# Query player for input
-				move = input()
+				#move = input()
 				turnId += 1
+
 	# Send the dealer's second card
 	send({"packet_type": "GAME", "type" : "BROADCAST", "game_id": game_id, "round_id":roundId, "turn_id":turnId, "player_id": 0, "card" : cardsHeld[0][1]})
 	totals = calculateTotals(cardsHeld)
@@ -184,10 +210,11 @@ def gameStart(game_id, clientIDs):
 	cards = populateDeck()
 
 	for i in range(len(clientIDs)):
-		account[clientIDs[i]] = 20 # 100 Starting balance for now
+		account[clientIDs[i]] = 30 # 100 Starting balance for now
 
 	while len(players) > 1:
-		global playersEliminated = []
+		playersEliminated = []
+
 		resultOfRound = playRound(game_id, roundId, players, account, cards)
 		players = resultOfRound[0]
 		account = resultOfRound[1]
@@ -212,4 +239,4 @@ def gameStart(game_id, clientIDs):
 			logfile.write(message)
 		logfile.close()
 
-gameStart(1, [1,2,3])
+#gameStart(1, [1,2,3])
