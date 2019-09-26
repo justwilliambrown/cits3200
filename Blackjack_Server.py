@@ -105,6 +105,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 			except:
 				continue
 			break
+		if betAmount > account[i]:
+			betAmount = account[i]
 		bets.append(betAmount)
 
 	for i in range(1, len(players)): #Query each player for a move
