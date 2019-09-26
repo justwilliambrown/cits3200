@@ -13,6 +13,7 @@ def receive(gameID, playerID):
 	message = ConnMan.get_game_message(gameID)
 	print("RECEIVE MSG: ",message)
 	if message == None:
+		#Fix Client to remove time.sleep(1)
 		time.sleep(1)
 		message = receive(gameID, playerID)
 	while message["player_id"] != playerID:
@@ -64,6 +65,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 	cards.append(cards.pop(0)) # Burn the top card, and put it back on the bottom
 	for i in range(1, len(players)): # Deal 1st card to each player
+		send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id, "player_id":players[i]})
 		cardsHeld.append([])
 		curCard = cards.pop(0)
 		cards.append(curCard) # Put the card back on bottom of the deck
