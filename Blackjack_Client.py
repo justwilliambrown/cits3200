@@ -2,6 +2,7 @@ import random
 import socket
 import json
 from time import sleep
+import math
 
 #Global Variables
 clientID = '-1'
@@ -61,7 +62,7 @@ def clientLogic(cardID):
 	#return dictionary with HIT:True/False,player_id,game_id
 	value = cardID[0]
 	if value == 'J' or value == 'Q' or value == 'K':
-		cardTotal += 10 
+		cardTotal += 10
 	if value == '9':
 		cardTotal += 9
 	if value == '8':
@@ -83,7 +84,8 @@ def clientLogic(cardID):
 			cardTotal += 10
 		else:
 			cardTotal += 1
-	if cardTotal < 17:
+	randomElement = random.random()
+	if cardTotal < 17 or randomElement > 0.6:
 		temp = {
 			"packet_type" : "GAME",
 			"game_id" : gameID,
@@ -103,7 +105,7 @@ def clientLogic(cardID):
 			#"BETAMT" : 10
 		}
 	return temp
-		
+
 #gamePacketHandler
 #Expected outcome:Reads game JSON and updates values accordingly and sends corresponding packets
 def gameJsonHandler(jsonDict,sock):
@@ -125,7 +127,7 @@ def gameJsonHandler(jsonDict,sock):
 			print("HIT")
 			#if  not cardTotal > 21:
 				#sendJson(sock,hitJson)
-				
+
 	else:
 		#1.Print out other player's moves
 		#This is optional can do it later
@@ -135,7 +137,7 @@ def gameJsonHandler(jsonDict,sock):
 			#Error received packet from someone elses game
 			print("ERROR: Received packet from wrong game - " + jsonDict["game_id"])
 
-	
+
 
 #Discuss Integration with ConnMan at a later date
 #controlJsonHandler
@@ -188,7 +190,7 @@ def controlJsonHandler(jsonDict,sock):
 						sendJson(sock,tempDump)
 						print("CARD TOTAL: ",cardTotal)
 						print("STAND")
-			
+
 
 #readJson
 #Expected outcome:Determines what type of json packet is and runs the appropriate function
@@ -214,7 +216,7 @@ sock.connect(server_address)
 
 #Socket Loop
 try:
-	while True:    
+	while True:
 		exit = False
 		# Loop for packet reading
 		message = sock.recv(1024)
@@ -238,10 +240,10 @@ try:
 			else:
 				packetJson = json.loads(packet)
 				print("POST JSON LOADS(PACKET): ", packetJson)
-				readJson(packetJson,sock)				
+				readJson(packetJson,sock)
 		if exit:
 			print("Exit is true\n")
 			break
-finally:    
+finally:
 	print ('closing socket')
 	sock.close()
