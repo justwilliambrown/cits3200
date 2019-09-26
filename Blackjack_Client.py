@@ -120,7 +120,7 @@ def gameJsonHandler(jsonDict,sock):
 			print("Has correct playerID information,ERROR:Probably server side")
 		else:
 			cardID = jsonDict["card"]
-			hitJson = json.dumps(clientLogic(cardID)).encode()
+			clientLogic(cardID)
 			print("CARD TOTAL: ",cardTotal)
 			print("HIT")
 			#if  not cardTotal > 21:
@@ -144,7 +144,7 @@ def controlJsonHandler(jsonDict,sock):
 	global cardTotal
 	#print(jsonDict["subtype"])
 	if clientID == '-1':
-		#print("SETUP ID")
+		print("SETUP ID")
 		if jsonDict["subtype"] == "C":
 			clientID = jsonDict["player_id"]
 			print("CLIENTID: " , clientID)
