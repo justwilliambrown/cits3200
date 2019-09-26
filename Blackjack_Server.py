@@ -9,24 +9,38 @@ import time
 # Receives JSON formatted packet from connection manager
 # {"packet_type" : "GAME", "MOVE" : "HIT/STAND", "bet_amount": eg10, player_id : "fasd"}
 clientIDs = ["1", "2", "3"] # For testing only
+
+loglist = []
+
+def disconnectHandle(playerid):
+	global playersEliminated
+	playersEliminated.append(playerid)
+
 def receive(gameID, playerID):
 	message = ConnMan.get_game_message(gameID)
-	print("RECEIVE MSG: ",message)
+
 	if message == None:
-		#Fix Client to remove time.sleep(1)
 		time.sleep(1)
-		message = receive(gameID, playerID)
+		message = ConnMan.get_game_message(gameID)
+
+	loglist.append(str(message))
+
+	try:
+		if message["type"] == "CONTROL" and message["subtype"] == "DC":
+			disconnectHandle(message["player_id"])
+	except:
+		pass
+
 	while message["player_id"] != playerID:
 		time.sleep(1)
-		message = ConnMan.get_game_message(gameID)		
+		message = ConnMan.get_game_message(gameID)
+		loglist.append(str(message))
 	return message
 
 def send(data):
-	# TODO
 	ConnMan.send_message(data["player_id"], data)
-	#print("BLACKJACK SERVER")
-	#print(data["player_id"])
-	#print(data)
+	loglist.append(str(data))
+	print(data)
 	return 0
 
 
@@ -92,22 +106,34 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 	for i in range(1, len(players)):
 		# query the player for a bet amount
-		send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id,"player_id":players[i]})
+		#send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id,"player_id":players[i]})
 		print("Request bet from player_",players[i])
-		send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "BETAMT", "player_id" : players[i]})
-		message = receive(game_id, players[i])
-		betAmount = message["BETAMT"]
+
+		while True:
+			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "BETAMT", "player_id" : players[i]})
+			message = receive(game_id, players[i])
+			try:
+				betAmount = message["BETAMT"]
+			except:
+				continue
+			break
 		bets.append(betAmount)
 		print(players[i]," bet ",betAmount)
-	
+
+
 	for i in range(1, len(players)): #Query each player for a move
 		turnId = 0
 		# query the player
 		#move = "" #TODO
 		print("Player", players[i])
-		send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
-		message = receive(game_id, players[i])
-		move = message["MOVE"]
+		while True:
+			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
+			message = receive(game_id, players[i])
+			try:
+				move = message["MOVE"]
+			except:
+				continue
+			break
 
 		turnId += 1
 		while move != "STAND":
@@ -126,9 +152,14 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 					account[players[i]] -= bets[i]
 					break
 				else :
-					send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
-					message = receive(game_id, players[i])
-					move = message["MOVE"]
+					while True:
+						send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
+						message = receive(game_id, players[i])
+						try:
+							move = message["MOVE"]
+						except:
+							continue
+						break
 				# Query player for input
 				#move = input()
 				turnId += 1
@@ -177,6 +208,8 @@ def gameStart(game_id, clientIDs):
 		account[clientIDs[i]] = 30 # 100 Starting balance for now
 
 	while len(players) > 1:
+		playersEliminated = []
+
 		resultOfRound = playRound(game_id, roundId, players, account, cards)
 		players = resultOfRound[0]
 		account = resultOfRound[1]
@@ -184,7 +217,6 @@ def gameStart(game_id, clientIDs):
 
 		roundId += 1
 
-		playersEliminated = []
 		print("\n", account, "\n")
 		for i in account:
 			if account[i] <= 0:
@@ -193,5 +225,12 @@ def gameStart(game_id, clientIDs):
 			players.remove(i)
 			account.pop(i)
 
-#gameStart(1, [1,2,3])
+		# END OF GAME STUFF
+		# Write to a file called (game_id).log
+		filename = str(game_id) + ".log"
+		logfile = open(filename, "w+")
+		for message in loglist:
+			logfile.write(message)
+		logfile.close()
 
+#gameStart(1, [1,2,3])
