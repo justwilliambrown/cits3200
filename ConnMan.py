@@ -71,7 +71,6 @@ class ListenServer(threading.Thread):
 		hostname = ''
 		port = 3001
 
-
 		self.listenSocket.bind((hostname, port))
 		self.listenSocket.listen(128)
 		self.run()
@@ -104,7 +103,6 @@ class ClientHandle(threading.Thread):
 		connectionNotify = {"packet_type" : "CONTROL", "subtype" : "C","player_id" : self.client_id}
 		send_message(self.client_id, connectionNotify)
 		connectMsgQueue.put(connectionNotify)
-
 		self.run()
 
 	#simply listens to the client connection and pushes it down to the game server
@@ -177,15 +175,16 @@ def send_message(addr, message):
 	time.sleep(1)
 	fm_msg = json.dumps(message).encode()
 
-	if message.get("type") == "BROADCAST":
-		game = message.get("game_id")
-		for clients in clientGameIdentifier.items():
-			if clients[1] == game:
-				clientDict[clients[0]].sendall(fm_msg)
-	else:
-		print("sending")
-
-		clientDict[addr].sendall(fm_msg)
+	try:
+		if message.get("type") == "BROADCAST":
+			game = message.get("game_id")
+			for clients in clientGameIdentifier.items():
+				if clients[1] == game:
+					clientDict[clients[0]].sendall(fm_msg)
+				else:
+					clientDict[addr].sendall(fm_msg)
+	except KeyError:
+		return #client has been disconnected/has disconnected. Simply ignore this send to avoid a crash
 
 #fetches the top message from the message queue, or returns None if empty
 #returns a tuple with the form (client id, dictionary) with the dictionary a formatted json response
