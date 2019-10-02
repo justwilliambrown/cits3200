@@ -1,5 +1,6 @@
 import random
 import socket
+import threading
 import json
 from time import sleep
 import math
@@ -214,12 +215,24 @@ sock.connect(server_address)
 #loginRequest(sock)
 #joinQueue(sock)
 
+#function for handling the packets in the queue
+packetQueue = []
+def packetQueueHandler():
+	while True:
+		#print("LENGTH :" ,len(packetQueue))
+		if len(packetQueue) != 0:
+			tempPacket = packetQueue.pop(0)
+			readJson(tempPacket,sock)
+		if exit:
+			print("Exit is true\n")
+			break
+first = True
 #Socket Loop
 try:
 	while True:
 		exit = False
 		# Loop for packet reading
-		message = sock.recv(1024)
+		message = sock.recv(2048)
 		amount_received = 0
 		amount_expected = len(message)
 
@@ -232,15 +245,23 @@ try:
 			if(packetCount > 1):
 				packetSplit = packet.split("}",packetCount - 1)
 				for temp in packetSplit:
-					load = temp + '}'
-					#print("LOAD: ",load)
+					if(temp[len(temp) - 1] != '}'):
+						load = temp + '}'
+					else:
+						load = temp
+					print("LOAD: ",load)
 					packetJson = json.loads(load)
 					print("POST JSON LOADS(PACKET): ", load)
-					readJson(packetJson,sock)
+					packetQueue.append(packetJson)
 			else:
 				packetJson = json.loads(packet)
 				print("POST JSON LOADS(PACKET): ", packetJson)
-				readJson(packetJson,sock)
+				packetQueue.append(packetJson)
+		if first == True:
+			first = False
+			pQHandler = threading.Thread(target = packetQueueHandler)
+			pQHandler.start()
+			
 		if exit:
 			print("Exit is true\n")
 			break
