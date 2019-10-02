@@ -181,8 +181,8 @@ def send_message(addr, message):
 			for clients in clientGameIdentifier.items():
 				if clients[1] == game:
 					clientDict[clients[0]].sendall(fm_msg)
-				else:
-					clientDict[addr].sendall(fm_msg)
+		else:
+			clientDict[addr].sendall(fm_msg)
 	except KeyError:
 		return #client has been disconnected/has disconnected. Simply ignore this send to avoid a crash
 
