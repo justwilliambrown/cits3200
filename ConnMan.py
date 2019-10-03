@@ -4,6 +4,7 @@ import threading
 import queue
 import json
 import time
+import werkzeug.utils
 
 #TODO add socket timeouts and unspecified socket family (ipv4 or ipv6)
 #TODO add support to accept REST connections
@@ -46,10 +47,7 @@ clientDict = dict()
 gameMsgQueues = dict()
 connectMsgQueue = queue.Queue()
 clientGameIdentifier = dict()
-idCounter = 1
 #------------------------------------------------
-
-#placeholder until we get the actual client id from the db
 
 #starts the two threads for sending and receiving
 def start():
@@ -93,14 +91,16 @@ class ClientHandle(threading.Thread):
 	def __init__(self, addr, sock):
 		self.addr = addr
 		self.sock = sock
-		global idCounter
-		self.client_id = idCounter #to replace with the actual client id from the database
-		idCounter += 1
-		clientDict[self.client_id] = self.sock
 		self.start()
 
 	def start(self):
-		connectionNotify = {"packet_type" : "CONTROL", "subtype" : "C","player_id" : self.client_id}
+		if not authenticate():
+			self.sock.close()
+			return
+
+		clientDict[self.client_id] = self.sock
+
+		connectionNotify = {"packet_type" : "CONTROL", "subtype" : "C","player_id" : self.client_id, "rank" : self.rank}
 		send_message(self.client_id, connectionNotify)
 		connectMsgQueue.put(connectionNotify)
 		self.run()
@@ -146,6 +146,22 @@ class ClientHandle(threading.Thread):
 				self.sock.close()
 				client_is_connected = False
 				break
+
+	#authenticates the user, making sure they are allowed to join
+	def authenticate(self):
+	db = mysql.connector.connect(host='localhost', user='test', password='test')
+	dbCursor = db.cursor(prepared=True)
+	stmt = "SELECT id, username, password_hash, ranking FROM User WHERE username = %s"
+	message = recv_all(self.sock)
+	jdict = json.loads(message)
+	dbCursor.execute(stmt, (jdict["user"],))
+
+	for (ID, username, pHash, rank) in dbCursor:
+		if werkzeug.security.check_password_hash(pHash, jdict["pass"]):
+			self.client_id = ID;
+			self.rank = rank
+			return True
+	return False
 #----------------------------------------------------------------------------
 
 #used for disconnecting a client from the game
