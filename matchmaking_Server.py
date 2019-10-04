@@ -235,8 +235,7 @@ def tournamentHandler(tPlayerList):
             gamePlayerList.append(tempList)
             currentLobbyList.remove(player1)
             currentLobbyList.remove(player2)
-        #Wait to receive notification that all 8 games have been terminated 
-        #TODO: Discuss with William on how they'll notify a game has ended
+        #Wait to receive notification that all  x games have been terminated 
         while(len(currentLobbyList) != currentPlayerCounter/2): 
             #CODE TO CHECK IF A GAME HAS ENDED AND TO ADD WINNER BACK TO CURRENTLOBBYLIST
             tempDelete = (None,None)
