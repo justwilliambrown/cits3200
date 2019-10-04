@@ -20,7 +20,9 @@ def disconnectHandle(playerid):
 
 def receive(gameID, playerID):
 	message = ConnMan.get_game_message(gameID)
-	if message == None:
+	for i in range(5):
+		if message != None:
+			break
 		time.sleep(1)
 		message = ConnMan.get_game_message(gameID)
 	loglist.append(str(message))
@@ -129,6 +131,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 		if betAmount > account[players[i]]:
 			betAmount = account[players[i]]
+		if betAmount <= 0:
+			betAmount = account[players[i]] / 2
 		bets.append(betAmount)
 	print(players[i]," bet ",betAmount)
 	for i in range(1, len(players)): #Query each player for a move
