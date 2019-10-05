@@ -107,11 +107,11 @@ def mmrUpdate(winner,playerList):
             loserMMR = ConnMan.findClientMMR(loser)
             averageLoserMMR += loserMMR
             numberOfLosers += 1
-            expectedResultLoser = 1 / (1 + 10 ^ ((winnerMMR - loserMMR) / 400))
-            loserNewMMR = loserMMR - ((1 - expectedResultLoser) * 24)
+            expectedResultLoser = float(1 / (1 + 10 ^ ((winnerMMR - loserMMR) / 400)))
+            loserNewMMR = int(loserMMR - ((1 - expectedResultLoser) * 24))
     averageLoserMMR = averageLoserMMR / numberOfLosers
-    expectedResultWinner = 1 / (1 + 10 ^ ((averageLoserMMR - winnerMMR) / 400))
-    winnerNewMMR = winnerMMR + ((1 - expectedResultWinner) * 24)
+    expectedResultWinner = float(1 / (1 + 10 ^ ((averageLoserMMR - winnerMMR) / 400)))
+    winnerNewMMR = int(winnerMMR + ((1 - expectedResultWinner) * 24))
     #TODO:CODE FOR COMMUNICATING WITH DATABASE TO UPDATE THE VALUES GOES HERE
 
 
