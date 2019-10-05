@@ -61,10 +61,10 @@ def getPlayerList(gameID):
             return game
     return None
 
-#mmrEvaluation 
+#mmrEvaluation
 #Input: 2 Different index's of people in test queue
 #Output: Boolean(Whether or not the mmr is within the boundaries)
-#Calculation:Boundary Starts at 100 mmr Increases by 10 for every second in queue       
+#Calculation:Boundary Starts at 100 mmr Increases by 10 for every second in queue
 def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDlist,timeList):
     elapsedTime_1 = time.time() - timeList[queueIndex_1]
     elapsedTime_2 = time.time() - timeList[queueIndex_2]
@@ -78,7 +78,7 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDlist,timeList):
         return False
     boundary_1 = (clientMMR_1 - 100 - (elapsedTime_1 * 10) ,clientMMR_1 + 100 + (elapsedTime_1 * 10))
     boundary_2 = (clientMMR_2 - 100 - (elapsedTime_2 * 10) ,clientMMR_2 + 100 + (elapsedTime_2 * 10))
-    #4 Scenarios 
+    #4 Scenarios
     #Boundary 1 lower limit within boundary 2 limit
     if boundary_1[0] < bounday_2[1] and boundary_1[0] > boundary_2[0]:
         return True
@@ -146,7 +146,7 @@ def playerDisconnect(clientID):
 #notifyFinish
 #Input:Game ID, Winner
 #Expected outcome :Remove all the data that contains that game's information and update the mmr values
-#If the game is a tournament game add it to tournamentFinished  
+#If the game is a tournament game add it to tournamentFinished
 def notifyFinish(gameID,winner):
     playerList = getPlayerList(gameID)
     mmrUpdate(winner,playerList)
@@ -170,7 +170,7 @@ def testQueueHandler():
             clientID = msg["player_id"]
             if clientID not in testQueue:
                 jointestQueue(clientID)
-        #Clone the queues first to avoid memory problems 
+        #Clone the queues first to avoid memory problems
         tempQueue = testQueue.copy()
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
@@ -214,7 +214,7 @@ def tournamentHandler(tPlayerList):
     initialPlayerCount = len(tPlayerList)
     currentPlayerCount = len(tPlayerList)
     currentGameID = [] #Holds the ID for games that are currently running
-    for i in range currentPlayerCount:
+    for i in range(currentPlayerCount):
         playerWinCounter[i] = 0
     while(currentPlayerCounter <= 1):
         for i in range (currentPlayerCount//2):
@@ -235,8 +235,8 @@ def tournamentHandler(tPlayerList):
             gamePlayerList.append(tempList)
             currentLobbyList.remove(player1)
             currentLobbyList.remove(player2)
-        #Wait to receive notification that all  x games have been terminated 
-        while(len(currentLobbyList) != currentPlayerCounter/2): 
+        #Wait to receive notification that all  x games have been terminated
+        while(len(currentLobbyList) != currentPlayerCounter/2):
             #CODE TO CHECK IF A GAME HAS ENDED AND TO ADD WINNER BACK TO CURRENTLOBBYLIST
             tempDelete = (None,None)
             for currentGame in currentGameID:
@@ -287,14 +287,13 @@ def tournamentQueueHandler():
         #No mmr matching as soon as there are 16 people in queue create a tournament
         if len(tournamentQueue) >= 16:
 	    tourneyTemp = []
-            for i in range 16
+            for i in range(16):
                 player = tournamentQueue.pop(0)
                 tourneyTemp.append(player)
                 tournamentPlayers.append(player)
             tournamentThread = threading.Thread(target = tournamentHandler(tourneyTemp))
             tournamentThread.start()
 
-            
 
 def start():
 	testQHandler = threading.Thread(target=testQueueHandler)
