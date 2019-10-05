@@ -107,11 +107,11 @@ def mmrUpdate(winner,playerList):
             loserMMR = ConnMan.findClientMMR(loser)
             averageLoserMMR += loserMMR
             numberOfLosers += 1
-            float expectedResultLoser = 1 / (1 + 10 ^ ((winnerMMR - loserMMR) / 400))
-            int loserNewMMR = loserMMR - ((1 - expectedResultLoser) * 24)
+            expectedResultLoser = 1 / (1 + 10 ^ ((winnerMMR - loserMMR) / 400))
+            loserNewMMR = loserMMR - ((1 - expectedResultLoser) * 24)
     averageLoserMMR = averageLoserMMR / numberOfLosers
-    float expectedResultWinner = 1 / (1 + 10 ^ ((averageLoserMMR - winnerMMR) / 400))
-    int winnerNewMMR = winnerMMR + ((1 - expectedResultWinner) * 24)
+    expectedResultWinner = 1 / (1 + 10 ^ ((averageLoserMMR - winnerMMR) / 400))
+    winnerNewMMR = winnerMMR + ((1 - expectedResultWinner) * 24)
     #TODO:CODE FOR COMMUNICATING WITH DATABASE TO UPDATE THE VALUES GOES HERE
 
 
@@ -242,7 +242,7 @@ def tournamentHandler(tPlayerList):
             for currentGame in currentGameID:
                 resetList = False
                 for finishedGame in tournamentFinished:
-                    if finishedGame[0] = currentGame:
+                    if finishedGame[0] == currentGame:
                         tempDelete = finishedGame
                         currentLobbyList.append(finishedGame[1])
                         playerList = getPlayerList(currentGame)
@@ -286,7 +286,7 @@ def tournamentQueueHandler():
     while True:
         #No mmr matching as soon as there are 16 people in queue create a tournament
         if len(tournamentQueue) >= 16:
-	    tourneyTemp = []
+            tourneyTemp = []
             for i in range(16):
                 player = tournamentQueue.pop(0)
                 tourneyTemp.append(player)
@@ -296,7 +296,7 @@ def tournamentQueueHandler():
 
 
 def start():
-	testQHandler = threading.Thread(target=testQueueHandler)
-	testQHandler.start()
-        tournamentQHandler = threading.Thread(target = tournamentQueueHandler)
-        tournamentQHandler.start()
+    testQHandler = threading.Thread(target=testQueueHandler)
+    testQHandler.start()
+    tournamentQHandler = threading.Thread(target = tournamentQueueHandler)
+    tournamentQHandler.start()
