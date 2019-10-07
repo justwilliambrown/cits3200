@@ -257,10 +257,14 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	if len(players) == 2: # One player wins
 		matchmaking_Server.notifyFinish(game_id , players[1])
 		if tournamentMode == True:
-			matchmaking_Server.joinTournamentQueue(players[1])
-		# for i in range(len(clientsIDs)):
-		# 	if clientIDs[i] != players[1]:
-		# 		send({"packet_type" : "CONTROL", })
+			send({"packet_type": "CONTROL", "type" : "LOBBY", "player_id" : players[1])
+			for i in range(len(clientsIDs)):
+				if clientIDs[i] != players[1]:
+					send({"packet_type" : "CONTROL", "type" : "DC", "player_id" : players[i]})
+		else:
+			for i in range(len(clientsIDs)):
+				send({"packet_type" : "CONTROL", "type" : "DC", "player_id" : players[i]})
+
 
 
 #gameStart(1, [1,2,3])
