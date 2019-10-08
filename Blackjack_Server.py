@@ -226,7 +226,8 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	cards = populateDeck()
 
 	for i in range(len(clientIDs)):
-		account[clientIDs[i]] = 30 # 100 Starting balance for now
+		account[clientIDs[i]] = 30 # 30 Starting balance for now
+		send({"packet_type": "CONTROL", "type" : "OPENING_BALANCE", "player_id" : clientIDs[i], "BALANCE" : account[clientIDs[i]]})
 
 	while len(players) > 1:
 		playersEliminated = []
@@ -257,13 +258,17 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	if len(players) == 2: # One player wins
 		matchmaking_Server.notifyFinish(game_id , players[1])
 		if tournamentMode == True:
-			send({"packet_type": "CONTROL", "type" : "LOBBY", "player_id" : players[1])
+			send({"packet_type": "CONTROL", "type" : "LOBBY", "player_id" : players[1]})
 			for i in range(len(clientsIDs)):
 				if clientIDs[i] != players[1]:
-					send({"packet_type" : "CONTROL", "type" : "DC", "player_id" : players[i]})
+					send({"packet_type" : "CONTROL", "type" : "DC", "player_id" : clientIDs[i]})
+					ConnMan.disconnect_client(clientIDs[i])
 		else:
 			for i in range(len(clientsIDs)):
-				send({"packet_type" : "CONTROL", "type" : "DC", "player_id" : players[i]})
+				if clientsIDs[i] == players[1]:
+					send({"packet_type": "CONTROL", "type" : "VICTORY", "player_id" : clientIDs[i]})
+				send({"packet_type" : "CONTROL", "type" : "DC", "player_id" : clientIDs[i]})
+				ConnMan.disconnect_client(clientIDs[i])
 
 
 
