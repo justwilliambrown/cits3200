@@ -12,4 +12,4 @@ python3 -m venv venv
 
 #installing all the dependencies for the web front end
 python3 -m pip install (flask, python-dotenv,flask-wtf,flask-sqlalchemy,cryptography,pymsql,flask-migrate,flask-login,flask_uploads)
-python3 -m pip install mysql-connector #install the mysql connector connman uses 
+python3 -m pip install mysql-connector-python #install the mysql connector connman uses 
