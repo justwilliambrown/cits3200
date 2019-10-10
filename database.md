@@ -38,3 +38,12 @@ python3 -m venv venv
 virtualenv venv
 venv/bin/activate
 pip install (flask, python-dotenv,flask-wtf,flask-sqlalchemy,cryptography,pymsql,flask-migrate,flask-login,flask_uploads)
+
+1. pip install (flask, python-dotenv,flask-wtf,flask-sqlalchemy,cryptography,pymysql,flask-migrate,flask-login,flask_uploads)
+2. flask db init (app.db in you mysql)
+3. flask db migrate -m "users table"
+4. flask db upgrade
+5. create upload_files
+6. flask run
+
+<a href="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database">flask-db tutorial</a>
