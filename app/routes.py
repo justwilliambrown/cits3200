@@ -1,9 +1,9 @@
-import os
+import os,time
 from app import db, app, files
 from app.forms import RegistrationForm, LoginForm, EditProfileForm, UploadForm
 from flask_uploads import UploadSet, IMAGES, configure_uploads, EXECUTABLES,ALL
 from flask import render_template, flash, redirect, url_for, request, send_from_directory
-from app.models import User
+from app.models import User,File
 from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
@@ -14,17 +14,12 @@ from werkzeug.utils import secure_filename
 @app.route('/index')
 @login_required
 def index():
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'hello world!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
+    rank={'rank':1}
+    games = [
+        {'author': user, 'Game_ID': 'Test game #1'},
+        {'author': user, 'Game_ID': 'Test game #2'}
     ]
-    return render_template('index.html', title='Home Page' , posts=posts)
+    return render_template('index.html', title='Home Page' ,rank=rank,games=games)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -65,6 +60,10 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
+        path = app.config['UPLOADED_FILES_DEST']+'/'+form.username.data
+        folder = os.path.exists(path)
+        if not folder:
+            os.makedirs(path)
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -76,8 +75,8 @@ def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     
     games = [
-        {'author': user, 'Game_ID': 'Test game #1'},
-        {'author': user, 'Game_ID': 'Test game #2'}
+        {'rank':1,'author': user, 'Game_ID': 'Test game #1'},
+        {'rank':2,'author': user, 'Game_ID': 'Test game #2'}
     ]
     return render_template('user.html', user=user,games=games)
 
@@ -122,12 +121,38 @@ def Upload():
 @login_required
 def Upload2():
     form = UploadForm()
+    #_username = '_'.join(current_user.username.split())
     if form.validate_on_submit():
-        filename = files.save(form.c_files.data)
+        newname = current_user.username+str(time.time())+'.'
+        filename = files.save(
+            form.c_files.data, folder=current_user.username, name=newname)
         file_url = files.url(filename)
+        file = File(File_name=filename, author=current_user)
+        db.session.add(file)
+        db.session.commit()
         flash('Your uploading have been saved.')
     else:
         file_url = None
     return render_template('upload2.html', form=form, file_url=file_url)
+
+
+@app.route('/manage')
+def manage_file():
+    files_list = os.listdir(app.config['UPLOADED_FILES_DEST']+'/'+current_user.username)
+    return render_template('manage.html', files_list=files_list)
+
+
+@app.route('/delete/<filename>')
+def delete_file(filename):
+    file_path = files.path(current_user.username+'/'+filename)
+    os.remove(file_path)
+    return redirect(url_for('manage_file'))
+
+
+@app.route("/download/<filename>")
+def downloading(filename):
+    dirpath = os.path.join(
+        app.root_path, app.config['UPLOADED_FILES_DEST']+'/'+current_user.username)
+    return send_from_directory(directory=dirpath, filename=filename, as_attachment=True)
 
 

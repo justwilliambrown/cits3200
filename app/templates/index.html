@@ -4,9 +4,10 @@
 {% block content %}
 <h1>Hi, {{ current_user.username }}!</h1>
 <!-- These placeholders represent the parts of the page that are variable and will only be known at runtime. -->
-{% for post in posts %}
+<div>you rank is {{rank.rank}}</div>
+{% for game in games %}
 <div>
-    <p>{{ post.author.username }} says: <b>{{ post.body }}</b></p>
+    <p>{{ game.author.username}} : <b>{{ game.Game_ID }}</b> ####(informations)</p>
 </div>
 {% endfor %}
 {% endblock %}

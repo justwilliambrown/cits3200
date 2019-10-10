@@ -23,6 +23,9 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+    def get_id(self):
+        return self.id
     
     def figure(self): 
         return 'https://bfgblog-a.akamaihd.net/uploads/2013/11/2-1-blackjack.png'
