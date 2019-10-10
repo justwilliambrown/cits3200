@@ -149,19 +149,19 @@ class ClientHandle(threading.Thread):
 
 	#authenticates the user, making sure they are allowed to join
 	def authenticate(self):
-	db = mysql.connector.connect(host='localhost', user='test', password='test')
-	dbCursor = db.cursor(prepared=True)
-	stmt = "SELECT id, username, password_hash, ranking FROM User WHERE username = %s"
-	message = recv_all(self.sock)
-	jdict = json.loads(message)
-	dbCursor.execute(stmt, (jdict["user"],))
+		db = mysql.connector.connect(host='localhost', user='test', password='test')
+		dbCursor = db.cursor(prepared=True)
+		stmt = "SELECT id, username, password_hash, ranking FROM User WHERE username = %s"
+		message = recv_all(self.sock)
+		jdict = json.loads(message)
+		dbCursor.execute(stmt, (jdict["user"],))
 
-	for (ID, username, pHash, rank) in dbCursor:
-		if werkzeug.security.check_password_hash(pHash, jdict["pass"]):
-			self.client_id = ID;
-			self.rank = rank
-			return True
-	return False
+		for (ID, username, pHash, rank) in dbCursor:
+			if werkzeug.security.check_password_hash(pHash, jdict["pass"]):
+				self.client_id = ID;
+				self.rank = rank
+				return True
+		return False
 #----------------------------------------------------------------------------
 
 #used for disconnecting a client from the game
