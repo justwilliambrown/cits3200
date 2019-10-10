@@ -169,7 +169,7 @@ def testQueueHandler():
         if msg != None:
             clientID = msg["player_id"]
             if clientID not in testQueue:
-                jointestQueue(clientID)
+                joinTestQueue(clientID)
         #Clone the queues first to avoid memory problems
         tempQueue = testQueue.copy()
         tempQueueTime = testQueueTime.copy()
