@@ -1,9 +1,6 @@
 #!/bin/bash
 #download and install the mysql server
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.13-1_all.deb 
-sudo dpkg -i mysql-apt-config_0.8.13-1_all.deb 
-sudo apt-get update 
-sudo apt-get install mysql-server 
 #install python3 and utilities
 sudo apt-get install python3 
 sudo apt-get install python3-venv 
