@@ -8,3 +8,4 @@ def setup_db():
 	userinfo = file.read()
 	userdict = json.loads(userinfo)
 	db = db = mysql.connector.connect(host='localhost', user=userdict['user'], password=userdict['password'])
+	file.close()
