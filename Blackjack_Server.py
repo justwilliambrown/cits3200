@@ -121,7 +121,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		#send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id,"player_id":players[i]})
 		print("Request bet from player_",players[i])
 
-		while True:
+		for i in range(5):
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "BETAMT", "player_id" : players[i]})
 			message = receive(game_id, players[i])
 
@@ -144,12 +144,14 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		# query the player
 		#move = "" #TODO
 		print("Player", players[i])
-		while True:
+		for i in range(5):
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
 			message = receive(game_id, players[i])
 
 			try:
 				move = message["MOVE"]
+				if move != "STAND" or move != "HIT":
+					continue
 			except:
 				continue
 			break
@@ -173,11 +175,13 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 					break
 
 				else :
-					while True:
+					for i in range(5):
 						send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
 						message = receive(game_id, players[i])
 						try:
 							move = message["MOVE"]
+							if move != "STAND" or move != "HIT":
+								continue
 						except:
 							continue
 						break
