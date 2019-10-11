@@ -139,7 +139,7 @@ def controlJsonHandler(jsonDict,sock):
             else if jsonDict["type"] == "LOBBY":
                 print("CONGRATULATIONS YOU'VE WON")
                 print("You'll now be placed into the lobby for your next match")
-            if gameID = jsonDict["game_id"]
+            if gameID == jsonDict["game_id"]
                 #-------------------------------------------------------------------
                 #AGENT LOGIC HERE
                 if jsonDict["type"] == "REQUEST":
