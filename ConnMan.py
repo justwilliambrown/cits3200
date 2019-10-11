@@ -7,15 +7,13 @@ import time
 import matchmaking_Server
 import werkeug.security
 
-#TODO add socket timeouts and unspecified socket family (ipv4 or ipv6)
-#TODO add support to accept REST connections
-
 class SocketClosedException(Exception):
 	pass
 
 class IncorrectPacketFormatException(Exception):
 	pass
 
+#simply a helper function that receives an entire json object over the supplied socket
 def recv_all(sock):
 	mess = ''
 	packet = sock.recv(1024).decode()
@@ -96,9 +94,11 @@ class ClientHandle(threading.Thread):
 
 	def start(self):
 		if not authenticate():
+			self.sock.sendall("{'packet_type' : 'CONTROL', 'subtype', 'loginDeny'}")
 			self.sock.close()
 			return
 
+		self.sock.sendall("{'packet_type' : 'CONTROL', 'subtype', 'loginAccept'}")
 		clientDict[self.client_id] = self.sock
 
 		connectionNotify = {"packet_type" : "CONTROL", "subtype" : "C","player_id" : self.client_id, "rank" : self.rank}
@@ -153,6 +153,9 @@ class ClientHandle(threading.Thread):
 		db = mysql.connector.connect(host='localhost', user='test', password='test')
 		dbCursor = db.cursor(prepared=True)
 		stmt = "SELECT id, username, password_hash, ranking FROM User WHERE username = %s"
+		
+		loginReq = "{'packet_type' : 'CONTROL', 'subtype' : 'loginRequest'}"
+		self.sock.sendall(loginReq)
 		message = recv_all(self.sock)
 		jdict = json.loads(message)
 		dbCursor.execute(stmt, (jdict["user"],))
@@ -161,7 +164,11 @@ class ClientHandle(threading.Thread):
 			if werkzeug.security.check_password_hash(pHash, jdict["pass"]):
 				self.client_id = ID;
 				self.rank = rank
+				dbCursor.close()
+				db.close()
 				return True
+		dbCursor.close()
+		db.close()
 		return False
 #----------------------------------------------------------------------------
 
@@ -170,6 +177,7 @@ def disconnect_client(addr):
 	print("disconneting client {0} from server".format(addr))
 	notify = {"packet_type" : "CONTROL", "subtype" : "DC"}
 	send_message(addr, notify) #kind of a hack, requires client to dc first
+	matchmaking_Server.playerDisconnect(addr)
 	clientDict.pop(addr)
 
 
@@ -179,7 +187,7 @@ def client_disconnected(addr):
 	print("client {0} has disconnected from server".format(addr))
 	clientDict.pop(addr)
 	dcNotify = { "packet_type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
-
+	
 	gameMsgQueues.get(clientGameIdentifier.get(addr)).put(dcNotify)
 	#connectMsgQueue.put(dcNotify)
 	matchmaking_Server.playerDisconnect(addr)
