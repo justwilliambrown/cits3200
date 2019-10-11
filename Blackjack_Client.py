@@ -127,21 +127,21 @@ def controlJsonHandler(jsonDict,sock):
                 break
 
         if "type" in jsonDict:
-            if jsonDict["type"] = "OPENING_BALANCE":
+            if jsonDict["type"] == "OPENING_BALANCE":
                 gameID = jsonDict["game_id"]
                 balance = jsonDict["BALANCE"]
                 cardTotal = 0
                 cardTotal.clear()
                 cardSeen.clear()
                 cardHold.clear()
-            else if jsonDict["type"] = "LOBBY":
+            else if jsonDict["type"] == "LOBBY":
                 print("CONGRATULATIONS YOU'VE WON")
                 print("You'll now be placed into the lobby for your next match")
             if gameID = jsonDict["game_id"]
                 #-------------------------------------------------------------------
                 #AGENT LOGIC HERE
-                if jsonDict["type"] = "REQUEST":
-                    if jsonDict["item"] = "BETAMT":
+                if jsonDict["type"] == "REQUEST":
+                    if jsonDict["item"] == "BETAMT":
                         currentBet = 10
                         temp = {
                                 "packet_type" : "CONTROL",
@@ -176,9 +176,9 @@ def controlJsonHandler(jsonDict,sock):
                             print("CARD TOTAL: ",cardTotal)
                             print("STAND")
                 #----------------------------------------------------------------------
-                elif jsonDict["type"] = "BROADCAST":
+                elif jsonDict["type"] == "BROADCAST":
                     if move in jsonDict:
-                        if jsonDict["move"] == "ELIMINATED" || jsonDict["move"] == "LOSS":
+                        if jsonDict["move"] == "ELIMINATED" OR jsonDict["move"] == "LOSS":
                             balance -= currentBet
                             currentBet = 0
                             if balance = 0:
