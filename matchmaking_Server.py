@@ -7,6 +7,7 @@ import sys
 import time
 import ConnMan
 import Blackjack_Server
+import database
 
 #Global Variables
 tournamentQueue = [] #Contains all the clientids in tournament queue
@@ -32,8 +33,7 @@ def joinTestQueue(clientID):
 #findClientMMR
 #Queries the database for the client's mmr
 def findClientMMR(clientID):
-    #TODO:Run a query to find the client ID
-    return -1
+    return database.getMMR(clientID)
 
 #getPlayerList
 #Gets the playerList for the given gameID
@@ -89,11 +89,11 @@ def mmrUpdate(winner,playerList):
             numberOfLosers += 1
             expectedResultLoser = float(1/(1 + 10 ^ ((winnerMMR - loserMMR) / 400)))
             loserNewMMR = int(loserMMR - ((1 - expectedResultLoser) * 24))
-            #TODO:Code to update loserNewMMR in database
+            database.updateMMR(loser,loserNewMMR)
     averageLoserMMR = averageLoserMMR / numberOfLosers
     expectedResultWinner = float(1/ (1 + 10 ^ ((averageLoserMMR - winnerMMR) /400)))
     winnerNewMMR = int(winnerMMR + ((1 - expectedResultWinner) * 24))
-    #TODO:Code to update winnerNewMMR in database
+    database.updateMMR(winner,winnerNewMMR)
 
 #terminateGameList
 #Removes the playerList from the gamePlayerList
