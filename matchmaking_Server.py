@@ -178,7 +178,7 @@ def tournamentHandler(tPlayerList):
     initialPlayerCount = len(tPlayerList)
     currentPlayerCount = len(tPlayerList)
     currentGameID = []  #Holds the Game IDS for all the games in the tournament 
-    while(currentPlayerCount <= 1):
+    while(currentPlayerCount > 1):
         for i in range (currentPlayerCount//2):
             tempGPL = []
             player1 = currentLobbyList.pop()
@@ -213,8 +213,8 @@ def tournamentHandler(tPlayerList):
                                     tournamentPlayers.remove(player)
                                 else:
                                     tournamentDisconnect.remove(player)
-                                currentPlayerList.remove(player)
-                                currentPlayerCount -= 1
+                                if player in currentPlayerList:
+                                    currentPlayerList.remove(player)
                         terminateGameList(currentGame)
                         resetList = True
                         break
@@ -231,7 +231,12 @@ def tournamentHandler(tPlayerList):
                     currentLobbyList.remove(disconnectedPlayer)
                     currentPlayerCounter -= 2
                     tournamentDisconnect.remove(disconnectedPlayer)
-            currentPlayerCounter = len(currentLobbyList)
+                if disconnectedPlayer in currentPlayerList:
+                    currentPlayerList.remove(player)
+        currentPlayerCounter = len(currentLobbyList)
+    for winner in currentPlayerList:
+        ConnMan.send_message(winner,{"packet_type": "CONTROL", "type" : "TOURNAMENT_WIN","player_id" : winner})
+        disconnect_client(winner)
 
 #tournamentQueueHandler
 #Handles the tournament queue and creates tournaments when 8 players are found

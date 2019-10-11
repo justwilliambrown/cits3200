@@ -111,9 +111,11 @@ def controlJsonHandler(jsonDict,sock):
     global clientID
     global cardTotal
     if clientID == '-1':
-        #Initialising login 
+        #Initialising login
+        #TODO:Check if this is the correct packet for login Requests
         if jsonDict["subtype"] == "loginRequest":
             loginRequest(sock)
+        #TODO:Confirmation for login request type packet
         #Now assigning the clientID
         elif jsonDict["subtype"] == "C":
             clientID = jsonDict["player_id"]
@@ -187,11 +189,14 @@ def controlJsonHandler(jsonDict,sock):
                         elif jsonDict["move"] == "WIN":
                             balance += currentBet
                             currentBet = 0
-                else if jsonDict["type"] == "GAME_LOSS":
+                elif jsonDict["type"] == "GAME_LOSS":
                     print("You've lost")
                     exit = True
-                else if jsonDict["type"] == "VICTORY":
+                elif jsonDict["type"] == "VICTORY":
                     print("Congratulations you've won")
+                    exit = True
+                elif jsonDict["type"] == "TOURNAMENT_WIN":
+                    print("Congratulations you've won the entire tournament")
                     exit = True
 
 #Read Json
