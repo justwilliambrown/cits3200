@@ -139,7 +139,7 @@ def controlJsonHandler(jsonDict,sock):
             else if jsonDict["type"] == "LOBBY":
                 print("CONGRATULATIONS YOU'VE WON")
                 print("You'll now be placed into the lobby for your next match")
-            if gameID == jsonDict["game_id"]
+            elif gameID == jsonDict["game_id"]
                 #-------------------------------------------------------------------
                 #AGENT LOGIC HERE
                 if jsonDict["type"] == "REQUEST":
@@ -153,7 +153,7 @@ def controlJsonHandler(jsonDict,sock):
                                 }
                         tempDump.json.dumps(temp).encode()
                         sendJson(sock,tempDump)
-                    if jsonDict["item"] == "move":
+                    elif jsonDict["item"] == "move":
                         if cardTotal < 17:
                             temp = {
                                     "packet_type" : "GAME",
