@@ -6,6 +6,7 @@ import json
 import time
 import matchmaking_Server
 import werkeug.security
+import database
 
 class SocketClosedException(Exception):
 	pass
