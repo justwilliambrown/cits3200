@@ -200,7 +200,7 @@ def controlJsonHandler(jsonDict,sock):
                     exit = True
 
 #Read Json
-#Function:Determins what type of json packet it is and checks if it's a valid gameid/playerid
+#Function:Determins what type of json packet it calls the appropriate function
 def readJson(jsonDict,sock):
     print("NEW JSON: ",jsonDict)
     if jsonDict["packet_type"] == "CONTROL":
