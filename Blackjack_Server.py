@@ -1,6 +1,8 @@
 import random
 import ConnMan
 import time
+import matchmaking_Server
+
 
 
 # cards: list simulating a deck of cards
@@ -20,7 +22,9 @@ def disconnectHandle(playerid):
 
 def receive(gameID, playerID):
 	message = ConnMan.get_game_message(gameID)
-	if message == None:
+	for i in range(5):
+		if message != None:
+			break
 		time.sleep(1)
 		message = ConnMan.get_game_message(gameID)
 	loglist.append(str(message))
@@ -129,6 +133,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 		if betAmount > account[players[i]]:
 			betAmount = account[players[i]]
+		if betAmount <= 0:
+			betAmount = account[players[i]] / 2
 		bets.append(betAmount)
 	print(players[i]," bet ",betAmount)
 	for i in range(1, len(players)): #Query each player for a move
@@ -210,7 +216,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 	return(players, account, cards)
 
-def gameStart(game_id, clientIDs):
+def gameStart(game_id, clientIDs, tournamentMode):
 	roundId = 0
 	account = {} # Money in the client's account
 	cards = []
@@ -220,7 +226,8 @@ def gameStart(game_id, clientIDs):
 	cards = populateDeck()
 
 	for i in range(len(clientIDs)):
-		account[clientIDs[i]] = 30 # 100 Starting balance for now
+		account[clientIDs[i]] = 30 # 30 Starting balance for now
+		send({"packet_type": "CONTROL", "game_id" : game_id, "type" : "OPENING_BALANCE", "player_id" : clientIDs[i], "BALANCE" : account[clientIDs[i]]})
 
 	while len(players) > 1:
 		playersEliminated = []
@@ -240,13 +247,24 @@ def gameStart(game_id, clientIDs):
 			players.remove(i)
 			account.pop(i)
 
-		# END OF GAME STUFF
+	# END OF GAME STUFF
 
-		# Write to a file called (game_id).log
-		filename = str(game_id) + ".log"
-		logfile = open(filename, "w+")
-		for message in loglist:
-			logfile.write(message)
-		logfile.close()
-
-#gameStart(1, [1,2,3])
+	# Write to a file called (game_id).log
+	filename = str(game_id) + ".log"
+	logfile = open(filename, "w+")
+	for message in loglist:
+		logfile.write(message)
+	logfile.close()
+	if len(players) == 2: # One player wins
+		matchmaking_Server.notifyFinish(game_id , players[1])
+		if tournamentMode == True:
+			send({"packet_type": "CONTROL", "type" : "LOBBY", "player_id" : players[1]})
+			for i in range(len(clientsIDs)):
+				if clientIDs[i] != players[1]:
+					send({"packet_type" : "CONTROL", "game_id" : game_id, "type" : "GAME_LOSS", "player_id" : clientIDs[i]})
+					ConnMan.disconnect_client(clientIDs[i])
+		else:
+			for i in range(len(clientsIDs)):
+				if clientsIDs[i] == players[1]:
+					send({"packet_type": "CONTROL", "game_id" : game_id, "type" : "VICTORY", "player_id" : clientIDs[i]})
+				ConnMan.disconnect_client(clientIDs[i])

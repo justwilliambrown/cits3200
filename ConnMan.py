@@ -4,7 +4,8 @@ import threading
 import queue
 import json
 import time
-import werkzeug.utils
+import matchmaking_Server
+import werkeug.security
 
 #TODO add socket timeouts and unspecified socket family (ipv4 or ipv6)
 #TODO add support to accept REST connections
@@ -180,8 +181,9 @@ def client_disconnected(addr):
 	dcNotify = { "packet_type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
 
 	gameMsgQueues.get(clientGameIdentifier.get(addr)).put(dcNotify)
-	connectMsgQueue.put(dcNotify)
-	
+	#connectMsgQueue.put(dcNotify)
+	matchmaking_Server.playerDisconnect(addr)
+
 
 #sends a message down to the client over the connection
 def send_message(addr, message):
@@ -215,7 +217,7 @@ def get_game_message(game_id, blocking=False):
 
 		return None
 
-def get_match_messsage(blocking=False):
+def get_match_message(blocking=False):
 	try:
 		return connectMsgQueue.get(block=blocking)
 	except queue.Empty:
