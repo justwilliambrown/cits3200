@@ -150,7 +150,7 @@ class ClientHandle(threading.Thread):
 
 	#authenticates the user, making sure they are allowed to join
 	def authenticate(self):
-		db = mysql.connector.connect(host='localhost', user='test', password='test')
+		global db
 		dbCursor = db.cursor(prepared=True)
 		stmt = "SELECT id, username, password_hash, ranking FROM User WHERE username = %s"
 		
@@ -165,10 +165,8 @@ class ClientHandle(threading.Thread):
 				self.client_id = ID;
 				self.rank = rank
 				dbCursor.close()
-				db.close()
 				return True
 		dbCursor.close()
-		db.close()
 		return False
 #----------------------------------------------------------------------------
 
