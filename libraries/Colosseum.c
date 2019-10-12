@@ -6,7 +6,7 @@
 #include <cjson/cJSON.h>
 #include "Colosseum.h"
 
-void (*broadcastFunc)(const cJSON&, cJSON*);
+void (*broadcastFunc)(const cJSON&);
 void (*requestFunc)(const cJSON&, cJSON*);
 void (*resetFunc)();
 
@@ -58,7 +58,7 @@ int sendall(int fd, char* buffer, int len)
 	}
 }
 
-int registerBroadcast(cJSON* (*callback)(cJSON*))
+int registerBroadcast(cJSON* (*callback)(const cJSON&))
 {
 	if(callback == NULL)
 		return 0;
@@ -66,7 +66,7 @@ int registerBroadcast(cJSON* (*callback)(cJSON*))
 	return 1;
 }
 
-int registerRequest(cJSON* (*callback)(cJSON*))
+int registerRequest(cJSON* (*callback)(const cJSON&, cJSON*))
 {
 	if(callback == NULL)
 		return 0;
@@ -202,7 +202,8 @@ void beginPlay()
 
 		if(strncmp(type->valuestring, "BROADCAST", strlen(BROADCAST)) == 0)
 		{
-			broadcastFunc(svmsg, move);
+			broadcastFunc(svmsg);
+			continue; //if a broadcast is received, it hasn't been asked for a response. Mush like current years "see"
 		}
 		else if(strncmp(type->valuestring, "RESET", strlen("RESET")) == 0)
 		{
