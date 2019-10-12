@@ -203,6 +203,8 @@ void beginPlay()
 		if(strncmp(type->valuestring, "BROADCAST", strlen(BROADCAST)) == 0)
 		{
 			broadcastFunc(svmsg);
+			cJSON_Delete(svmsg);
+			cJSON_Delete(move);
 			continue; //if a broadcast is received, it hasn't been asked for a response. Mush like current years "see"
 		}
 		else if(strncmp(type->valuestring, "RESET", strlen("RESET")) == 0)
