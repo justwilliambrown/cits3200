@@ -24,8 +24,6 @@ def sendJson(sock,jsonDict):
 
 #loginRequest
 #Outcome: Sends login request to server
-#TODO:Define the packet type for login requests and make sure the server sends a login request
-#In authenticate function of conmann send the packet {"type":"control","subtype":"loginRequest"}
 def loginRequest(sock):
     username = input("Username:")
     password = input("Password:")
@@ -112,14 +110,14 @@ def controlJsonHandler(jsonDict,sock):
     global cardTotal
     if clientID == '-1':
         #Initialising login
-        #TODO:Check if this is the correct packet for login Requests
         if jsonDict["subtype"] == "loginRequest":
             loginRequest(sock)
-        #TODO:Confirmation for login request type packet
-        #Now assigning the clientID
-        elif jsonDict["subtype"] == "C":
-            clientID = jsonDict["player_id"]
-            print("CLIENTID : ",clientID)
+        elif jsonDict["subtype"] == "loginDeny":
+            print("ERROR: Login details were incorrect no terminating program")
+            exit = True
+        elif jsonDict["subtype"] == "loginAccept":
+            clientID = jsonDict["id"]
+            print("Succesfully logged in as ID :",clientID)
             #Now pick a queue type to join
             joinQueue(sock)
     elif jsonDict["player_id"] == clientID:
