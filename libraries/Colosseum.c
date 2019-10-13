@@ -167,8 +167,15 @@ int connect(char* host, char* port, char* user, char* pass)
 
 	if(strncmp(subtype->valuestring, "loginAccept", strlen("loginAccept")) == 0)
 	{
+		subtype = cJSON_GetObjectItem(resp, "id");
+		if(subtype == NULL || cJSON_IsNumber(subtype))
+		{
+			frpintf(stderr, "cJSON error\n");
+			return -1;
+		}
+		int client_id = subtype->valueint;
 		cJSON_Delete(resp);
-		return 1;
+		return client_id;
 	}
 	else
 	{
@@ -205,7 +212,7 @@ void beginPlay()
 			broadcastFunc(svmsg);
 			cJSON_Delete(svmsg);
 			cJSON_Delete(move);
-			continue; //if a broadcast is received, it hasn't been asked for a response. Mush like current years "see"
+			continue; //if a broadcast is received, it hasn't been asked for a response. Much like current years "see"
 		}
 		else if(strncmp(type->valuestring, "RESET", strlen("RESET")) == 0)
 		{
