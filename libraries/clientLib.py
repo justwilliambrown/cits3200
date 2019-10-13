@@ -10,7 +10,11 @@
 # Hopefully this will allow you to focus on the python side of this, without needing
 # to deal with any JSON. Enjoy :)
 
+# connect -> receive -> reformat
+# format -> send
+
 import json
+import socket
 
 def reformat(jstring): #Not to be confused with a gstring
     temp = jstring.decode()
@@ -20,3 +24,16 @@ def reformat(jstring): #Not to be confused with a gstring
 def format(jdict): # IN: Dictionary. OUT: String
     jstring = json.dumps(jdict).encode()
     return jstring
+
+def connect(addr, port): # In addres/port. OUT: socket object
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    address = (addr, port)
+    sock.connect(address)
+    return(sock)
+
+def receive(sock): #IN: Socket object. OUT: One (or more) messages received
+    packet = sock.recv(4096)
+    return packet
+
+def send(sock, message):
+    sock.send(message)
