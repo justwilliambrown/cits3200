@@ -128,15 +128,24 @@ def notifyFinish(gameID,winner):
     else:
         terminateGameList(gameID)
 
-#testQueueHandler
-#Thread to handle the test queue
-def testQueueHandler():
+#packetQueueHandler
+#Thread to handle the packet queue
+def packetQueueHandler():
     while True:
         msg = ConnMan.get_match_message(False)
         if msg!= None:
-            clientID = msg["player_id"]
-            if clientID not in testQueue:
-                joinTestQueue(clientID)
+            if Queue in msg:
+                queueType = msg["Queue"]
+                if queueType == "Test":
+                    if clientID not in testQueue:
+                        joinTestQueue(clientID)
+                elif queueType == "Tournament":
+                    if clientID not in tournamentQueue:
+                        joinTournamentQueue(clientID)
+
+#testQueueHandler
+#Thread to handle the test queue
+def testQueueHandler():
         tempQueue = testQueue.copy()
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
@@ -162,6 +171,7 @@ def testQueueHandler():
                     gameThread = threading.Thread(target=Blackjack_Server.gameStart,args = (gameCounter,tempPlayerList,False))
                     gameThread.start()
                     for player in tempPlayerList:
+                        testQueueTime.pop(testQueue.index(player))
                         testQueue.remove(player)
                     tempPlayerList.append(gameCounter)
                     gamePlayerList.append(tempList)
@@ -253,6 +263,8 @@ def tournamentQueueHandler():
 
 #Start function to start matchmaking server
 def start():
+    packetQHandler = threading.Thread(target=packetQueueHandler)
+    packetQHandler.start()
     testQhandler = threading.Thread(target=testQueueHandler)
     testQHandler.start()
     tournamentQHandler = threading.Thread(target = tournamentQueueHandler)
