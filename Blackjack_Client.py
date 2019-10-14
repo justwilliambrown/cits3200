@@ -29,7 +29,7 @@ def loginRequest(sock):
     password = input("Password:")
     loginDetails = {
             "user" : username,
-            "pass" : password,
+            "pass" : password
     }
     jsonLogin = json.dumps(loginDetails).encode()
     sendJson(sock,jsonDict)
@@ -38,11 +38,11 @@ def loginRequest(sock):
 #Expected outcome:Sends queue request to server
 def joinQueue(sock):
     qType = input("Queue type: Test , Tournament")
-    while not (qType == "Test" or q Type == "Tournament"):
+    while not (qType == "Test" or qType == "Tournament"):
         print("Error: Invalid Response")
         qtype = input("Select 'Test' or 'Tournament'")
     qDict = {
-            "Queue" : qType
+            "Queue" : qType,
             "player_id": clientID
     }
     jsonQueue = json.dumps(qDict).encode()
@@ -60,7 +60,7 @@ def updateState(cardID,playerID):
     if playerID == clientID:
         cardHold.append(cardID)
     value = cardID[0]
-    if value == 'J' or value == 'Q' or value = 'K':
+    if value == 'J' or value == 'Q' or value == 'K':
         cardTotal[playerID] += 10
     if value == '9':
         cardTotal[playerID] += 9
