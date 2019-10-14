@@ -1,4 +1,4 @@
-import os,time
+import os,time,json
 from app import db, app, files
 from app.forms import RegistrationForm, LoginForm, EditProfileForm, UploadForm
 from flask_uploads import UploadSet, IMAGES, configure_uploads, EXECUTABLES,ALL
@@ -73,12 +73,9 @@ def register():
 def user(username):
     # first() when there are results, but in the case that there are no results automatically sends a 404 error back to the client.
     user = User.query.filter_by(username=username).first_or_404()
-    
-    games = [
-        {'rank':1,'author': user, 'Game_ID': 'Test game #1'},
-        {'rank':2,'author': user, 'Game_ID': 'Test game #2'}
-    ]
-    return render_template('user.html', user=user,games=games)
+    games1 =list( User.query.order_by(User.ranking).all())
+    #games = map(lambda x: json.loads(str(x)),games)
+    return render_template('user.html', user=user,games=games1)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])

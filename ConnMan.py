@@ -5,7 +5,7 @@ import queue
 import json
 import time
 import matchmaking_Server
-import werkeug.security
+import werkzeug.security
 import database
 
 class SocketClosedException(Exception):
@@ -94,7 +94,7 @@ class ClientHandle(threading.Thread):
 		self.start()
 
 	def start(self):
-		if not authenticate():
+		if not self.authenticate():
 			self.sock.sendall("{'packet_type' : 'CONTROL', 'subtype', 'loginDeny'}")
 			self.sock.close()
 			return
