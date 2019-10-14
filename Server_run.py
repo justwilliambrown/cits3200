@@ -3,6 +3,10 @@ import Blackjack_Server
 import matchmaking_Server
 import database
 
-database.setup_db()
-ConnMan.start()
-matchmaking_Server.start()
+if __name__ == "__main__":
+    database.setup_db()
+    print("Database Initialised")
+    ConnMan.start()
+    print("Conn Man initialised")
+    matchmaking_Server.start()
+    print("Matchmaking Initialised")

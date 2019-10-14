@@ -150,7 +150,8 @@ def testQueueHandler():
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
         if len(tempQueue) < 2:
-            continue
+            time.sleep(1)
+            #Do nothing
         else:
             maxLength = len(testQueue)
             for index_1 in range (0,maxLength-1):
@@ -265,10 +266,10 @@ def tournamentQueueHandler():
 def start():
     packetQHandler = threading.Thread(target=packetQueueHandler)
     packetQHandler.start()
-    testQhandler = threading.Thread(target=testQueueHandler)
+    testQHandler = threading.Thread(target=testQueueHandler)
     testQHandler.start()
     tournamentQHandler = threading.Thread(target = tournamentQueueHandler)
-    tournamentQhandler.start()
+    tournamentQHandler.start()
                     
 
 

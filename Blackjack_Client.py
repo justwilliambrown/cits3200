@@ -29,7 +29,7 @@ def loginRequest(sock):
     password = input("Password:")
     loginDetails = {
             "user" : username,
-            "pass" : password
+            "pass" : password,
     }
     jsonLogin = json.dumps(loginDetails).encode()
     sendJson(sock,jsonDict)
@@ -124,8 +124,6 @@ def controlJsonHandler(jsonDict,sock):
         if "subtype" in jsonDict:
             if["subtype"] == "DC":
                 exit = True
-                break
-
         if "type" in jsonDict:
             if jsonDict["type"] == "OPENING_BALANCE":
                 gameID = jsonDict["game_id"]
@@ -134,10 +132,10 @@ def controlJsonHandler(jsonDict,sock):
                 cardTotal.clear()
                 cardSeen.clear()
                 cardHold.clear()
-            else if jsonDict["type"] == "LOBBY":
+            elif jsonDict["type"] == "LOBBY":
                 print("CONGRATULATIONS YOU'VE WON")
                 print("You'll now be placed into the lobby for your next match")
-            elif gameID == jsonDict["game_id"]
+            elif gameID == jsonDict["game_id"]:
                 #-------------------------------------------------------------------
                 #AGENT LOGIC HERE
                 if jsonDict["type"] == "REQUEST":
@@ -155,10 +153,10 @@ def controlJsonHandler(jsonDict,sock):
                         if cardTotal < 17:
                             temp = {
                                     "packet_type" : "GAME",
-                                    "MOVE": "HIT"
+                                    "MOVE": "HIT",
                                     "player_id" : clientID,
                                     "game_id" : gameID,
-                                    "CONTORL": True
+                                    "CONTROL": True
                                     }
                             tempDump = json.dumps(temp).encode()
                             sendJson(sock,tempDump)
@@ -178,10 +176,10 @@ def controlJsonHandler(jsonDict,sock):
                 #----------------------------------------------------------------------
                 elif jsonDict["type"] == "BROADCAST":
                     if move in jsonDict:
-                        if jsonDict["move"] == "ELIMINATED" OR jsonDict["move"] == "LOSS":
+                        if (jsonDict["move"] == "ELIMINATED" or jsonDict["move"] == "LOSS"):
                             balance -= currentBet
                             currentBet = 0
-                            if balance = 0:
+                            if balance == 0:
                                 print("Balance is 0 you've lost")
                                 exit = True
                         elif jsonDict["move"] == "WIN":
@@ -229,12 +227,12 @@ try:
         if first == True:
             first = False
             pQHandler = threading.Thread(target=packetQueueHandler)
-            pqHandler.start()
+            pQHandler.start()
         message = sock.recv(4096)
         amount_received = 0
         amount_expected = len(message)
 
-        while amount_received < amount expected:
+        while amount_received < amount_expected:
             amount_received += len(message)
             packet = message.decode()
             #print("PRE JSON LOADS(PACKET): ",packet)
