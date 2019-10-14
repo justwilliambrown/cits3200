@@ -1,0 +1,11 @@
+flask
+python-dotenv
+flask-wtf
+flask-sqlalchemy
+cryptography
+pymysql
+flask-migrate
+flask-login
+flask_uploads
+flask_restful
+mysql-connector-python

@@ -8,5 +8,4 @@ sudo apt-get -y install python3 python3-venv python3-pip
 #create a virtual environment for all our dependencies
 python3 -m venv venv 
 #installing all the dependencies for the web front end
-python3 -m pip install flask, python-dotenv,flask-wtf,flask-sqlalchemy,cryptography,pymsql,flask-migrate,flask-login,flask_uploads, flask_restful
-python3 -m pip install mysql-connector-python #install the mysql connector connman uses 
+python3 -m pip install -r dependencies.txt
