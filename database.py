@@ -25,3 +25,6 @@ def updateMMR(clientID,newMMR):
     statement = "UPDATE user SET ranking = %s Where id = %s"
     data = (newMMR,clientID)
     dbCursor.execute(statement,data)
+
+def getDB():
+	return db
