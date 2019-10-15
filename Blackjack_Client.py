@@ -175,7 +175,7 @@ def controlJsonHandler(jsonDict,sock):
                             print("STAND")
                 #----------------------------------------------------------------------
                 elif jsonDict["type"] == "BROADCAST":
-                    if move in jsonDict:
+                    if "move" in jsonDict:
                         if (jsonDict["move"] == "ELIMINATED" or jsonDict["move"] == "LOSS"):
                             balance -= currentBet
                             currentBet = 0
