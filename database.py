@@ -16,7 +16,7 @@ def getMMR(clientID):
 	dbCursor = db.cursor(prepared=True)
 	#TODO: Check that these are the column names in the database
 	statement = "SELECT ranking FROM user Where id = %s"
-	dbCursor.execute(statement,clientID)
+	dbCursor.execute(statement,(clientID,))
 	if ranking in dbCursor:
 		return ranking
 	else:
@@ -27,7 +27,7 @@ def updateMMR(clientID,newMMR):
 	dbCursor = db.cursor(prepared = True)
 	statement = "UPDATE user SET ranking = %s Where id = %s"
 	data = (newMMR,clientID)
-	dbCursor.execute(statement,data)
+	dbCursor.execute(statement,(data,))
 
 def getDB():
 	global db
