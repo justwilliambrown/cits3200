@@ -46,7 +46,7 @@ def joinQueue(sock):
             "player_id": clientID
     }
     jsonQueue = json.dumps(qDict).encode()
-    sendJson(sock,JsonQueue)
+    sendJson(sock,jsonQueue)
 
 #updateState
 #Expected outcome: Updates the state of the game
