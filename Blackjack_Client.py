@@ -40,7 +40,7 @@ def joinQueue(sock):
     qType = input("Queue type: Test , Tournament")
     while qType != "Test" and qType != "Tournament":
         print("Error: Invalid Response")
-        qtype = input("Select 'Test' or 'Tournament'")
+        qType = input("Select 'Test' or 'Tournament'")
     qDict = {
             "Queue" : qType,
             "player_id": clientID
