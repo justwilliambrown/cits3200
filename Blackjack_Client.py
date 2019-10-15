@@ -38,7 +38,7 @@ def loginRequest(sock):
 #Expected outcome:Sends queue request to server
 def joinQueue(sock):
     qType = input("Queue type: Test , Tournament")
-    while not (qType == "Test" or qType == "Tournament"):
+    while qType != "Test" or qType != "Tournament":
         print("Error: Invalid Response")
         qtype = input("Select 'Test' or 'Tournament'")
     qDict = {
