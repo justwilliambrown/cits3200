@@ -32,7 +32,7 @@ def loginRequest(sock):
             "pass" : password,
     }
     jsonLogin = json.dumps(loginDetails).encode()
-    sendJson(sock,jsonDict)
+    sendJson(sock,jsonLogin)
 
 #joinQueue
 #Expected outcome:Sends queue request to server
