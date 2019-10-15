@@ -134,7 +134,7 @@ def packetQueueHandler():
     while True:
         msg = ConnMan.get_match_message(False)
         if msg!= None:
-            if Queue in msg:
+            if "Queue" in msg:
                 queueType = msg["Queue"]
                 if queueType == "Test":
                     if clientID not in testQueue:
