@@ -235,7 +235,7 @@ try:
         while amount_received < amount_expected:
             amount_received += len(message)
             packet = message.decode()
-            #print("PRE JSON LOADS(PACKET): ",packet)
+            print("PRE JSON LOADS(PACKET): ",packet)
             packetCount = packet.count("{")
             if(packetCount > 1):
                 packetSplit = packet.split("}",packetCount -1)
@@ -250,7 +250,7 @@ try:
                     packetQueue.append(packetJson)
             else:
                 packetJson = json.loads(packet)
-                #print("POST JSON LOADS(PACKET): ",packetJson)
+                print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
         if exit:
             print("EXITING PROGRAM\n")
