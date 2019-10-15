@@ -146,6 +146,7 @@ def packetQueueHandler():
 #testQueueHandler
 #Thread to handle the test queue
 def testQueueHandler():
+    while True:
         tempQueue = testQueue.copy()
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
