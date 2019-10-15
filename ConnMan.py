@@ -153,7 +153,7 @@ class ClientHandle(threading.Thread):
 		dbCursor = database.getDB().cursor(prepared=True)
 		stmt = "SELECT id, username, password_hash, ranking FROM User WHERE username = %s"
 		
-		loginReq = "{'packet_type' : 'CONTROL', 'subtype' : 'loginRequest'}"
+		loginReq = '{"packet_type" : "CONTROL", "subtype" : "loginRequest"}'
 		self.sock.sendall(loginReq.encode())
 		message = recv_all(self.sock)
 		jdict = json.loads(message)
