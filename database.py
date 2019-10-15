@@ -8,7 +8,7 @@ def setup_db():
 	file = open("sqluser.txt", 'r')
 	userinfo = file.read()
 	userdict = json.loads(userinfo)
-	db = mysql.connector.connect(host='localhost', user=userdict['user'], password=userdict['password'])
+	db = mysql.connector.connect(host='localhost', user=userdict['user'], password=userdict['password'],database='app')
 	file.close()
 
 def getMMR(clientID):
