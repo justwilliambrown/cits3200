@@ -151,7 +151,7 @@ class ClientHandle(threading.Thread):
 	#authenticates the user, making sure they are allowed to join
 	def authenticate(self):
 		dbCursor = database.getDB().cursor(prepared=True)
-		stmt = "SELECT id, username, password_hash, ranking FROM User WHERE username = %s"
+		stmt = "SELECT id, username, password_hash, ranking FROM user WHERE username = %s"
 		
 		loginReq = '{"packet_type" : "CONTROL", "subtype" : "loginRequest"}'
 		self.sock.sendall(loginReq.encode())
