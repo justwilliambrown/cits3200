@@ -137,10 +137,10 @@ def packetQueueHandler():
             if "Queue" in msg:
                 queueType = msg["Queue"]
                 if queueType == "Test":
-                    if clientID not in testQueue:
+                    if msg["clientID"] not in testQueue:
                         joinTestQueue(clientID)
                 elif queueType == "Tournament":
-                    if clientID not in tournamentQueue:
+                    if msg["clientID"] not in tournamentQueue:
                         joinTournamentQueue(clientID)
 
 #testQueueHandler
