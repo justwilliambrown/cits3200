@@ -142,6 +142,14 @@ def packetQueueHandler():
                 elif queueType == "Tournament":
                     if msg["player_id"] not in tournamentQueue:
                         joinTournamentQueue(msg["player_id"])
+                else:
+                    requestQueueType = {
+                                        "packet_type" : "CONTROL",
+                                        "player_id" : msg["player_id"],
+                                        "type" : "REQUEST",
+                                        "item" : "queueType"
+                                        }
+                    ConnMan.send_message(msg["player_id"],requestQueueType)
 
 #testQueueHandler
 #Thread to handle the test queue
