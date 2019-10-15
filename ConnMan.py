@@ -130,7 +130,6 @@ class ClientHandle(threading.Thread):
 				if jdict.get("Queue") != None:
 					connectMsgQueue.put(jdict)
 				else:
-					print("ADDING TO QUEUE")
 					gameMsgQueues[jdict.get("game_id")].put(jdict)
 
 			except SocketClosedException:
@@ -156,7 +155,13 @@ class ClientHandle(threading.Thread):
 		
 		loginReq = '{"packet_type" : "CONTROL", "subtype" : "loginRequest"}'
 		self.sock.sendall(loginReq.encode())
-		message = recv_all(self.sock)
+		message = ''
+		try:
+			message = recv_all(self.sock)
+		except SocketClosedException:
+			dbCursor.close()
+			return False
+
 		jdict = json.loads(message)
 		dbCursor.execute(stmt, (jdict["user"],))
 
@@ -165,7 +170,7 @@ class ClientHandle(threading.Thread):
 				self.client_id = ID;
 				self.rank = rank
 				dbCursor.close()
-				return True
+				return clientDict.get(self.client_id, default=None) != None #check if user has already logged in
 		dbCursor.close()
 		return False
 #----------------------------------------------------------------------------
