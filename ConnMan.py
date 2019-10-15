@@ -95,11 +95,11 @@ class ClientHandle(threading.Thread):
 
 	def start(self):
 		if not self.authenticate():
-			self.sock.sendall("{'packet_type' : 'CONTROL', 'subtype', 'loginDeny'}")
+			self.sock.sendall("{'packet_type' : 'CONTROL', 'subtype', 'loginDeny'}".encode())
 			self.sock.close()
 			return
 
-		self.sock.sendall("{'packet_type' : 'CONTROL', 'subtype' : 'loginAccept', 'id' : '{0}'}".format(self.client_id))
+		self.sock.sendall("{'packet_type' : 'CONTROL', 'subtype' : 'loginAccept', 'id' : '{0}'}".format(self.client_id).encode())
 		clientDict[self.client_id] = self.sock
 
 		connectionNotify = {"packet_type" : "CONTROL", "subtype" : "C","player_id" : self.client_id, "rank" : self.rank}
@@ -154,7 +154,7 @@ class ClientHandle(threading.Thread):
 		stmt = "SELECT id, username, password_hash, ranking FROM User WHERE username = %s"
 		
 		loginReq = "{'packet_type' : 'CONTROL', 'subtype' : 'loginRequest'}"
-		self.sock.sendall(loginReq)
+		self.sock.sendall(loginReq.encode())
 		message = recv_all(self.sock)
 		jdict = json.loads(message)
 		dbCursor.execute(stmt, (jdict["user"],))
