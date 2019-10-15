@@ -17,8 +17,8 @@ def getMMR(clientID):
 	#TODO: Check that these are the column names in the database
 	statement = "SELECT ranking FROM user Where id = %s"
 	dbCursor.execute(statement,(clientID,))
-	if ranking in dbCursor:
-		return ranking
+	if "ranking" in dbCursor:
+		return dbCursor["ranking"]
 	else:
 		return -1
 
