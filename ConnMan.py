@@ -99,7 +99,8 @@ class ClientHandle(threading.Thread):
 			self.sock.close()
 			return
 
-		self.sock.sendall('{"packet_type" : "CONTROL", "subtype" : "loginAccept", "id" : "{0}"}'.format(self.client_id).encode())
+		loginAcceptPacket = '{"packet_type" : "CONTROL", "subtype" : "loginAccept", "id" : "{0}"}'.format(self.client_id)
+		self.sock.sendall(loginAcceptPacket.encode())
 		clientDict[self.client_id] = self.sock
 
 		connectionNotify = {"packet_type" : "CONTROL", "subtype" : "C","player_id" : self.client_id, "rank" : self.rank}
