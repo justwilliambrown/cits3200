@@ -182,7 +182,7 @@ def testQueueHandler():
                     #Maximum amount of players is 8 (7 + Dealer)
                     if len(tempPlayerList) == 7:
                         break
-                if(tempPlayerList) > 1:
+                if(len(tempPlayerList)) > 1:
                     break
             if len(tempPlayerList) > 1:
                 gameCounter = time.time()
