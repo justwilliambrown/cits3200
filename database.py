@@ -22,8 +22,10 @@ def getMMR(clientID):
 	for (ranking,ID) in dbCursor:
 		rank = ranking
 	else:
+		print("Failed to find dbCursor values")
 		rank = -1
 	dbCursor.close()
+	print("The value from server was -1")
 	return rank
 
 def updateMMR(clientID,newMMR):
