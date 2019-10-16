@@ -91,7 +91,6 @@ def gameJsonHandler(jsonDict,sock):
     if jsonDict["game_id"] == gameID:
         if jsonDict["type"] == "RESET":
             cardTotal = 0
-            cardTotal.clear()
             cardSeen.clear()
             cardHold.clear()
         else:
