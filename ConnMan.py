@@ -163,6 +163,10 @@ class ClientHandle(threading.Thread):
 			return False
 
 		jdict = json.loads(message)
+		
+		if jdict["user"] in clientDict:
+			return False
+		
 		dbCursor.execute(stmt, (jdict["user"],))
 
 		for (ID, username, pHash, rank) in dbCursor:
@@ -170,7 +174,7 @@ class ClientHandle(threading.Thread):
 				self.client_id = ID;
 				self.rank = rank
 				dbCursor.close()
-				return clientDict.get(self.client_id) != None #check if user has already logged in
+				return True
 		dbCursor.close()
 		return False
 #----------------------------------------------------------------------------
