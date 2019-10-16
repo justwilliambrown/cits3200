@@ -179,7 +179,7 @@ def testQueueHandler():
                 if len(tempPlayerList) > 1:
                     gameCounter = time.time()
                     time.sleep(1)
-                    Connman.start_game(gameCounter,tempPlayerList)
+                    ConnMan.start_game(gameCounter,tempPlayerList)
                     gameThread = threading.Thread(target=Blackjack_Server.gameStart,args = (gameCounter,tempPlayerList,False))
                     gameThread.start()
                     for player in tempPlayerList:
