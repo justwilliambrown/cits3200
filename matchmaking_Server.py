@@ -22,11 +22,13 @@ tournamentDisconnect = []
 #joinTournamentQueue
 #Adds client ID to the tournament queue
 def joinTournamentQueue(clientID):
+    print("TOURNAMENT QUEUE ADDED PLAYER: ",clientID)
     tournamentQueue.append(clientID)
 
 #joinTestQueue
 #Client ID is added to the test queue and the time they joined is recorded
 def joinTestQueue(clientID):
+    print("TEST QUEUE ADDED PLAYER: ",clientID)
     testQueue.append(clientID)
     testQueueTime.append(time.time())
 
