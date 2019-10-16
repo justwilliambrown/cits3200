@@ -15,11 +15,11 @@ def getMMR(clientID):
 	global db
 	dbCursor = db.cursor(prepared=True)
 	#TODO: Check that these are the column names in the database
-	statement = "SELECT ranking FROM user Where id = %s"
+	statement = "SELECT ranking,id FROM user Where id = %s"
 	dbCursor.execute(statement,(clientID,))
 	#TODO: Check values in dbCursor
 	rank = -1
-	for ranking in dbCursor:
+	for (ranking,ID) in dbCursor:
 		rank = ranking
 	else:
 		rank = -1
