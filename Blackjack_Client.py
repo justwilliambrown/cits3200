@@ -88,6 +88,7 @@ def updateState(cardID,playerID):
 #Function:Handles the game packets
 def gameJsonHandler(jsonDict,sock):
     global gameID
+    print("gameJsonGAMEID: ",gameID)
     if jsonDict["game_id"] == gameID:
         if jsonDict["type"] == "RESET":
             cardTotal.clear()
@@ -126,7 +127,8 @@ def controlJsonHandler(jsonDict,sock):
         if "type" in jsonDict:
             if jsonDict["type"] == "OPENING_BALANCE":
                 gameID = jsonDict["game_id"]
-                print("Opening Balance gameID: ",jsonDict["game_id"])
+                #print("Opening Balance gameID: ",jsonDict["game_id"])
+                print("Set game ID:" , gameID)
                 balance = jsonDict["BALANCE"]
                 cardTotal.clear()
                 cardSeen.clear()
