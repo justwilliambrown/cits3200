@@ -19,11 +19,10 @@ def getMMR(clientID):
 	dbCursor.execute(statement,(clientID,))
 	#TODO: Check values in dbCursor
 	rank = -1
+	print("DBCURSOR" : dbCursor)
 	for (ranking,ID) in dbCursor:
+		print("RANKING": ranking)
 		rank = ranking
-	else:
-		print("Failed to find dbCursor values")
-		rank = -1
 	dbCursor.close()
 	print("The value from server was -1")
 	return rank
