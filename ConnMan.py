@@ -164,14 +164,13 @@ class ClientHandle(threading.Thread):
 
 		jdict = json.loads(message)
 		
-		if jdict["user"] in clientDict:
-			return False
-		
 		dbCursor.execute(stmt, (jdict["user"],))
 
 		for (ID, username, pHash, rank) in dbCursor:
 			if werkzeug.security.check_password_hash(pHash, jdict["pass"]):
 				self.client_id = ID;
+				if ID in clientDict.keys():
+					return False
 				self.rank = rank
 				dbCursor.close()
 				return True
