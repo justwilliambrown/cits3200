@@ -160,6 +160,8 @@ def packetQueueHandler():
 def testQueueHandler():
     while True:
         tempQueue = testQueue.copy()
+        for x in tempQueue:
+            print("Tempqueue: ",x)
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
         if len(tempQueue) < 2:
@@ -167,36 +169,33 @@ def testQueueHandler():
             #Do nothing
         else:
             maxLength = len(testQueue)
+            tempPlayerList = []
             for index_1 in range (0,maxLength-1):
-                tempPlayerList = []
                 player1 = tempQueue[index_1]
+                print("Player 1: ",player1)
                 tempPlayerList.append(player1)
                 for index_2 in range(index_1 + 1,maxLength):
                     if mmrEvaluation(index_1,index_2,testQueue,testQueueTime):
                         player2 = tempQueue[index_2]
-                        tempPlayerList.append(player2)
+                        tempPlayerList.append("Player 2 :",player2)
                     #Maximum amount of players is 8 (7 + Dealer)
                     if len(tempPlayerList) == 7:
                         break
-                if len(tempPlayerList) > 1:
-                    gameCounter = time.time()
-                    time.sleep(1)
-                    ConnMan.start_game(gameCounter,tempPlayerList)
-                    gameThread = threading.Thread(target=Blackjack_Server.gameStart,args = (gameCounter,tempPlayerList,False))
-                    gameThread.start()
-                    for player in tempPlayerList:
-                        print("tempPlayerList: ",player)
-                        for x in testQueue:
-                            print("testQueueList: ",x)
-                        playerIndex = testQueue.index(player)
-                        testQueueTime.pop(playerIndex)
-                        testQueue.remove(player)
-                    tempPlayerList.append(gameCounter)
-                    gamePlayerList.append(tempList)
-                    resetQueue = True
+                if(tempPlayerList) > 1:
                     break
-                if resetQueue == True:
-                    break
+            if len(tempPlayerList) > 1:
+                gameCounter = time.time()
+                time.sleep(1)
+                ConnMan.start_game(gameCounter,tempPlayerList)
+                gameThread = threading.Thread(target=Blackjack_Server.gameStart,args = (gameCounter,tempPlayerList,False))
+                gameThread.start()
+                for player in tempPlayerList:
+                    print("tempPlayerList: ",player)
+                    playerIndex = testQueue.index(player)
+                    testQueueTime.pop(playerIndex)
+                    testQueue.remove(player)
+                tempPlayerList.append(gameCounter)
+                gamePlayerList.append(tempList)
 
 #tournamentHandler
 #Thread that handles each individual tournament
