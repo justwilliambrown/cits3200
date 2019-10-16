@@ -28,6 +28,9 @@ Called by other modules(mainly ConnMan and Blackjack Server) to notify the match
 **notifyFinish(gameID,winner)**
 Used by the Blackjack Server to notify the matchmaking server that a game is completed. This function updates the mmr and terminates the player list by calling mmrUpdate and terminateGameList.
 
+**packetQueueHandler()**
+Function that runs on a thread to handle all the packets in the ConnMan.connectMsgQueue by calling ConnMan.get_match_message().Reads the packet and determins whether it is a "Test" or "Tournament" queue request packet. If it's neither request the queue type from the user again.
+
 **testQueueHandler()**
 Function that runs on a thread to handle all the clients in the test Queue. Whenever there are 2 or more players in the testQueue it creates a game for those players if the mmrEvaluation function determines them to be within each other's skill level.Creates games up to 7 players + 1 dealer.
 
