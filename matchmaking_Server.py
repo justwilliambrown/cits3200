@@ -51,10 +51,10 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDList,timeList):
     clientMMR_1 = findClientMMR(clientIDList[queueIndex_1])
     clientMMR_2 = findClientMMR(clientIDList[queueIndex_2])
     if clientMMR_1 == -1:
-        #print("ERROR: Couldn't find mmr of client",clientIDList[queueIndex_1])
+        print("ERROR: Couldn't find mmr of client",clientIDList[queueIndex_1])
         return False
     if clientMMR_2 == -1:
-        #print("ERROR: Couldn't find mmr of client",clientIDList[queueIndex_2])
+        print("ERROR: Couldn't find mmr of client",clientIDList[queueIndex_2])
         return False
     boundary_1 = (clientMMR_1 - 100 - (elapsedTime_1 * 10) ,clientMMR_1 + 100 + (elapsedTime_1 * 10))
     boundary_2 = (clientMMR_2 - 100 - (elapsedTime_2 * 10) ,clientMMR_2 + 100 + (elapsedTime_2 * 10))
