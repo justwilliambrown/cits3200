@@ -90,7 +90,7 @@ def gameJsonHandler(jsonDict,sock):
     global gameID
     if jsonDict["game_id"] == gameID:
         if jsonDict["type"] == "RESET":
-            cardTotal = 0
+            cardTotal.clear()
             cardSeen.clear()
             cardHold.clear()
         else:
@@ -127,7 +127,6 @@ def controlJsonHandler(jsonDict,sock):
             if jsonDict["type"] == "OPENING_BALANCE":
                 gameID = jsonDict["game_id"]
                 balance = jsonDict["BALANCE"]
-                cardTotal = 0
                 cardTotal.clear()
                 cardSeen.clear()
                 cardHold.clear()
@@ -151,7 +150,7 @@ def controlJsonHandler(jsonDict,sock):
                     elif jsonDict["item"] == "queueType":
                         joinQueue(sock)
                     elif jsonDict["item"] == "move":
-                        if cardTotal < 17:
+                        if cardTotal[clientID] < 17:
                             temp = {
                                     "packet_type" : "GAME",
                                     "MOVE": "HIT",
@@ -172,7 +171,7 @@ def controlJsonHandler(jsonDict,sock):
                                     }
                             tempDump = json.dumps(temp).encode()
                             sendJson(sock,tempDump)
-                            print("CARD TOTAL: ",cardTotal)
+                            print("CARD TOTAL: ",cardTotal[clientID])
                             print("STAND")
                 #----------------------------------------------------------------------
                 elif jsonDict["type"] == "BROADCAST":
