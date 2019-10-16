@@ -187,7 +187,7 @@ def testQueueHandler():
                     for player in tempPlayerList:
                         print("tempPlayerList: ",player)
                         for x in testQueue:
-                            print(testQueueList: ",x)
+                            print("testQueueList: ",x)
                         playerIndex = testQueue.index(player)
                         testQueueTime.pop(playerIndex)
                         testQueue.remove(player)
