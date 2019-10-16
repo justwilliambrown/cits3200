@@ -38,6 +38,7 @@ class leaderboardAPI(Resource):
 	def get(self):
             db = getDB()
             cursor = db.cursor()
+            cursor.execute("select username, ranking from user order by ranking desc")
             leaderboard = dict()
             for (username, ranking) in cursor:
                 print(username, ranking)
@@ -55,7 +56,6 @@ def getDB():
         userinfo = file.read()
         userdict = json.loads(userinfo)
         db = mysql.connector.connect(host='localhost', user=userdict['user'], password=userdict['password'], database='app')
-        print(db)
         return db
 
 if __name__ == "__main__":
