@@ -18,10 +18,13 @@ def getMMR(clientID):
 	statement = "SELECT ranking FROM user Where id = %s"
 	dbCursor.execute(statement,(clientID,))
 	#TODO: Check values in dbCursor
-	if dbCursor != None:
-		return dbCursor[0]
+	rank = -1
+	for ranking in dbCursor:
+		rank = ranking
 	else:
-		return -1
+		rank = -1
+	dbCursor.close()
+	return rank
 
 def updateMMR(clientID,newMMR):
 	global db
