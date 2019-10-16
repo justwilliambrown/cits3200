@@ -50,6 +50,8 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDList,timeList):
     elapsedTime_2 = time.time() - timeList[queueIndex_2]
     clientMMR_1 = findClientMMR(clientIDList[queueIndex_1])
     clientMMR_2 = findClientMMR(clientIDList[queueIndex_2])
+    print("CLIENTID_1:",clientIDList[queueIndex_1])
+    print("CLIENTID_2:",clientIDList[queueIndex_2])
     if clientMMR_1 == -1:
         print("ERROR: Couldn't find mmr of client",clientIDList[queueIndex_1])
         return False
