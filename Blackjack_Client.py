@@ -149,6 +149,8 @@ def controlJsonHandler(jsonDict,sock):
                                 }
                         tempDump.json.dumps(temp).encode()
                         sendJson(sock,tempDump)
+                    elif jsonDict["item"] == "queueType":
+                        joinQueue(sock)
                     elif jsonDict["item"] == "move":
                         if cardTotal < 17:
                             temp = {
