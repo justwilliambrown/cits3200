@@ -126,6 +126,7 @@ def controlJsonHandler(jsonDict,sock):
         if "type" in jsonDict:
             if jsonDict["type"] == "OPENING_BALANCE":
                 gameID = jsonDict["game_id"]
+                print("Opening Balance gameID: ",jsonDict["game_id"])
                 balance = jsonDict["BALANCE"]
                 cardTotal.clear()
                 cardSeen.clear()
