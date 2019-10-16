@@ -170,7 +170,7 @@ class ClientHandle(threading.Thread):
 				self.client_id = ID;
 				self.rank = rank
 				dbCursor.close()
-				return clientDict.get(self.client_id, default=None) != None #check if user has already logged in
+				return clientDict.get(self.client_id) != None #check if user has already logged in
 		dbCursor.close()
 		return False
 #----------------------------------------------------------------------------
