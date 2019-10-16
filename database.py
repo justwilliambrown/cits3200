@@ -21,7 +21,7 @@ def getMMR(clientID):
 	rank = -1
 	print("DBCURSOR" : dbCursor)
 	for (ranking,ID) in dbCursor:
-		print("RANKING": ranking)
+		print("RANKING:",ranking)
 		rank = ranking
 	dbCursor.close()
 	print("The value from server was -1")
