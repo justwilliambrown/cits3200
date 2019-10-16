@@ -18,6 +18,8 @@ def getMMR(clientID):
 	statement = "SELECT ranking FROM user Where id = %s"
 	dbCursor.execute(statement,(clientID,))
 	#TODO: Check values in dbCursor
+	for x in dbCursor:
+		print("DBCURSOR:",x," - ",dbCursor)
 	if "ranking" in dbCursor:
 		return dbCursor["ranking"]
 	else:
