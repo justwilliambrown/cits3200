@@ -60,13 +60,13 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDList,timeList):
         return False
     boundary_1 = (clientMMR_1 - 100 - (elapsedTime_1 * 10) ,clientMMR_1 + 100 + (elapsedTime_1 * 10))
     boundary_2 = (clientMMR_2 - 100 - (elapsedTime_2 * 10) ,clientMMR_2 + 100 + (elapsedTime_2 * 10))
-    if boundary_1[0] < bounday_2[1] and boundary_1[0] > boundary_2[0]:
+    if boundary_1[0] < boundary_2[1] and boundary_1[0] > boundary_2[0]:
         return True
-    elif boundary_1[1] < bounday_2[1] and boundary_1[1] > boundary_2[0]:
+    elif boundary_1[1] < boundary_2[1] and boundary_1[1] > boundary_2[0]:
         return True
-    elif boundary_2[0] < bounday_1[1] and boundary_2[0] > boundary_1[0]:
+    elif boundary_2[0] < boundary_1[1] and boundary_2[0] > boundary_1[0]:
         return True
-    elif boundary_2[1] < bounday_1[1] and boundary_2[1] > boundary_1[0]:
+    elif boundary_2[1] < boundary_1[1] and boundary_2[1] > boundary_1[0]:
         return True
     return False
 
