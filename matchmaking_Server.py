@@ -183,7 +183,8 @@ def testQueueHandler():
                     gameThread = threading.Thread(target=Blackjack_Server.gameStart,args = (gameCounter,tempPlayerList,False))
                     gameThread.start()
                     for player in tempPlayerList:
-                        testQueueTime.pop(testQueue.index(player))
+                        playerIndex = testQueue.index(player)
+                        testQueueTime.pop(playerIndex)
                         testQueue.remove(player)
                     tempPlayerList.append(gameCounter)
                     gamePlayerList.append(tempList)
