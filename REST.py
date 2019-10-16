@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, loads, abort
+from flask import Flask, jsonify, abort
 from flask_restful import Api, Resource, fields, marshal
 from os import listdir
+import json
 import mysql.connector
 
 app = Flask(__name__)
@@ -30,31 +31,32 @@ class GameAPI(Resource):
 		with open(game[0]) as file:
 			jstring = file.read()
 
-		return flask.loads(jstring)
+		return json.loads(jstring)
 
 
 class leaderboardAPI(Resource):
 	def get(self):
-		db = getDB()
-		cursor = db.cursor()
-		cursor.exectute("SELECT username, ranking FROM app.users ORDER BY ranking DESC;")
-		leaderboard = dict()
-		cursor.close()
-		db.close()
-		for (username, ranking) in cursor:
-			leaderboard[username] = ranking
-		return leaderboard
+            db = getDB()
+            cursor = db.cursor()
+            leaderboard = dict()
+            for (username, ranking) in cursor:
+                print(username, ranking)
+                leaderboard[username] = ranking
+            cursor.close()
+            db.close()
+            return leaderboard
 
 api.add_resource(GameListAPI, '/api/1.0/games', endpoint='gamelist')
 api.add_resource(GameAPI, '/api/1.0/games/<int:Game_id>', endpoint='game')
 api.add_resource(leaderboardAPI, '/api/1.0/leaderboard', endpoint='leaderboard')
 
 def getDB():
-	file = open("sqluser", 'r')
-	userinfo = file.read()
-	userdict = json.loads(userinfo)
-	db = mysql.connector.connect(host='localhost', user=userdict['user'], password=userdict['password'], database='app')
-	return db
+        file = open("sqluser.txt", 'r')
+        userinfo = file.read()
+        userdict = json.loads(userinfo)
+        db = mysql.connector.connect(host='localhost', user=userdict['user'], password=userdict['password'], database='app')
+        print(db)
+        return db
 
 if __name__ == "__main__":
 	app.run(debug=True)
