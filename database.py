@@ -19,7 +19,7 @@ def getMMR(clientID):
 	dbCursor.execute(statement,(clientID,))
 	#TODO: Check values in dbCursor
 	rank = -1
-	print("DBCURSOR" : dbCursor)
+	print("DBCURSOR: ",dbCursor)
 	for (ranking,ID) in dbCursor:
 		print("RANKING: ",ranking)
 		rank = ranking
