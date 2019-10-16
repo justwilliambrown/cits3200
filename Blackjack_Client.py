@@ -88,7 +88,7 @@ def updateState(cardID,playerID):
 #Function:Handles the game packets
 def gameJsonHandler(jsonDict,sock):
     global gameID
-    print("gameJsonGAMEID: ",gameID)
+    print("gameJsonGAMEID: ",gameID) #This resets to -1 for some fucking reason
     if jsonDict["game_id"] == gameID:
         if jsonDict["type"] == "RESET":
             cardTotal.clear()
