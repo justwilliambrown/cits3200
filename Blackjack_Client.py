@@ -88,7 +88,7 @@ def updateState(cardID,playerID):
 #Function:Handles the game packets
 def gameJsonHandler(jsonDict,sock):
     global gameID
-    print("gameJsonGAMEID: ",gameID) #This resets to -1 for some fucking reason
+    print("gameJsonGAMEID: ",gameID) 
     if jsonDict["game_id"] == gameID:
         if jsonDict["type"] == "RESET":
             cardTotal.clear()
@@ -220,6 +220,7 @@ def packetQueueHandler(sock):
             tempPacket = packetQueue.pop(0)
             print("PACKET RECEIVED: ",tempPacket)
             readJson(tempPacket,sock)
+            print("POST readJSON")
         if exitBoolean == True:
             print("Exiting packet Queue Thread\n")
             break
@@ -232,23 +233,18 @@ sock.connect(server_address)
 first = True
 try:
     while True:
-        print("New Loop")
         if first == True:
             first = False
-            print("Pre PQH Thread")
             pQHandler = threading.Thread(target=packetQueueHandler,args=(sock,))
-            print("Mid PQH THREAD")
             pQHandler.start()
-            print("Post PQH Thread")
-        print("Pre sock recv")
         message = sock.recv(4096)
         amount_received = 0
         amount_expected = len(message)
-        print("MESSAGE RECEIVED")
+        #print("MESSAGE RECEIVED")
         while amount_received < amount_expected:
             amount_received += len(message)
             packet = message.decode()
-            print("PRE JSON LOADS(PACKET): ",packet)
+            #print("PRE JSON LOADS(PACKET): ",packet)
             packetCount = packet.count("{")
             if(packetCount > 1):
                 packetSplit = packet.split("}",packetCount -1)
@@ -263,7 +259,7 @@ try:
                     packetQueue.append(packetJson)
             else:
                 packetJson = json.loads(packet)
-                print("POST JSON LOADS(PACKET): ",packetJson)
+                #print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
         if exitBoolean == True:
             print("EXITING PROGRAM\n")
