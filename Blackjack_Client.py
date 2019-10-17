@@ -51,6 +51,7 @@ def joinQueue(sock):
 #updateState
 #Expected outcome: Updates the state of the game
 def updateState(cardID,playerID):
+    global cardTotal
     #If the player hasn't been added to cardTotal add player to cardTotal
     if playerID not in cardTotal:
         cardTotal[playerID] = 0
@@ -110,6 +111,8 @@ def controlJsonHandler(jsonDict,sock):
     global exitBoolean
     global clientID
     global cardTotal
+    global currentBet
+    global gameID
     if clientID == '-1':
         #Initialising login
         if jsonDict["subtype"] == "loginRequest":
