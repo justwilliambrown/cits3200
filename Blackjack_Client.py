@@ -106,6 +106,7 @@ def gameJsonHandler(jsonDict,sock):
 #Function:Handles the control packets
 #AGENT CODE HERE
 def controlJsonHandler(jsonDict,sock):
+    global balance
     global exitBoolean
     global clientID
     global cardTotal
