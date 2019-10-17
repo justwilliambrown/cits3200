@@ -8,7 +8,7 @@ import math
 clientID = '-1'
 balance = 0
 cardTotal = {}
-gameID = '-1'
+gameID = -1
 exit = False
 cardSeen = []
 cardHold = []
