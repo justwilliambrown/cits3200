@@ -126,6 +126,7 @@ def controlJsonHandler(jsonDict,sock):
                 exit = True
         if "type" in jsonDict:
             if jsonDict["type"] == "OPENING_BALANCE":
+                global gameID
                 gameID = jsonDict["game_id"]
                 #print("Opening Balance gameID: ",jsonDict["game_id"])
                 print("Set game ID:" , gameID)
