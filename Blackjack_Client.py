@@ -9,7 +9,7 @@ clientID = '-1'
 balance = 0
 cardTotal = {}
 gameID = -1
-exit = False
+exitBoolean = False
 cardSeen = []
 cardHold = []
 packetQueue = []
@@ -106,7 +106,7 @@ def gameJsonHandler(jsonDict,sock):
 #Function:Handles the control packets
 #AGENT CODE HERE
 def controlJsonHandler(jsonDict,sock):
-    global exit
+    global exitBoolean
     global clientID
     global cardTotal
     if clientID == '-1':
@@ -115,7 +115,7 @@ def controlJsonHandler(jsonDict,sock):
             loginRequest(sock)
         elif jsonDict["subtype"] == "loginDeny":
             print("ERROR: Login details were incorrect no terminating program")
-            exit = True
+            exitBoolean = True
         elif jsonDict["subtype"] == "loginAccept":
             clientID = jsonDict["id"]
             print("Succesfully logged in as ID :",clientID)
@@ -124,7 +124,7 @@ def controlJsonHandler(jsonDict,sock):
     elif jsonDict["player_id"] == clientID:
         if "subtype" in jsonDict:
             if["subtype"] == "DC":
-                exit = True
+                exitBoolean = True
         if "type" in jsonDict:
             if jsonDict["type"] == "OPENING_BALANCE":
                 global gameID
@@ -186,19 +186,19 @@ def controlJsonHandler(jsonDict,sock):
                             currentBet = 0
                             if balance == 0:
                                 print("Balance is 0 you've lost")
-                                exit = True
+                                exitBoolean = True
                         elif jsonDict["move"] == "WIN":
                             balance += currentBet
                             currentBet = 0
                 elif jsonDict["type"] == "GAME_LOSS":
                     print("You've lost")
-                    exit = True
+                    exitBoolean = True
                 elif jsonDict["type"] == "VICTORY":
                     print("Congratulations you've won")
-                    exit = True
+                    exitBoolean = True
                 elif jsonDict["type"] == "TOURNAMENT_WIN":
                     print("Congratulations you've won the entire tournament")
-                    exit = True
+                    exitBoolean = True
 
 #Read Json
 #Function:Determins what type of json packet it calls the appropriate function
@@ -212,14 +212,14 @@ def readJson(jsonDict,sock):
 #Packet Queue Handler
 #Function: Thread to process the packets in the queue
 def packetQueueHandler():
-    global exit
+    global exitBoolean
     global packetQueue
     while True:
         if len(packetQueue) != 0:
             tempPacket = packetQueue.pop(0)
             print("PACKET RECEIVED: ",tempPacket)
             readJson(tempPacket,sock)
-        if exit == True:
+        if exitBoolean == True:
             print("Exiting packet Queue Thread\n")
             break
 
@@ -261,7 +261,7 @@ try:
                 packetJson = json.loads(packet)
                 print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
-        if exit == True:
+        if exitBoolean == True:
             print("EXITING PROGRAM\n")
             exit()
 finally:
