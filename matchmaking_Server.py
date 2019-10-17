@@ -75,7 +75,7 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDList,timeList):
 #mmrUpdate
 #Updates their mmr using Arpad's Elo System
 def mmrUpdate(winner,playerList):
-    winnerMMR = ConnMan.findClientMMR(winner)
+    winnerMMR = findClientMMR(winner)
     if winnerMMR == -1:
         print("ERROR: Couldn't find winner's MMR")
         #winnerMMR = 1000
@@ -85,7 +85,7 @@ def mmrUpdate(winner,playerList):
         if loser == winner:
             continue
         else:
-            loserMMR = ConnMan.findClientMMR(loser)
+            loserMMR = findClientMMR(loser)
             if loserMMR == -1:
                 print("ERROR: Couldn't find loser's MMR")
                 continue
