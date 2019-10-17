@@ -59,12 +59,10 @@ class ListenServer(threading.Thread):
 
 	def __init__(self):
 		super()
-		print("listen server initialised")
 		self.start()
 
 	def start(self):
 		super()
-		print("in ListenServer.start")
 		self.listenSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		hostname = ''
 		port = 3001
@@ -77,7 +75,7 @@ class ListenServer(threading.Thread):
 	#SHOULD NOT BE CALLED BY ANYTHING OTHER THAN CONNMAN
 	def run(self):
 		super()
-		print("in ListenServer.run")
+		print("ListenServer initialised")
 		while True:
 			sock, addr = self.listenSocket.accept()
 			print("connection accepted from ", addr)
@@ -118,7 +116,7 @@ class ClientHandle(threading.Thread):
 					client_is_connected = False
 					break
 
-				print("message \"" + message + "\" from client ", self.addr)
+				print("message \"" + message + "\" from client ", self.client_id)
 				jdict = json.loads(message)
 				#if jdict.get("packet_type") == "CONTROL":
 				#	client_disconnected(self.client_id)
@@ -155,7 +153,6 @@ class ClientHandle(threading.Thread):
 		
 		loginReq = '{"packet_type" : "CONTROL", "subtype" : "loginRequest"}'
 		self.sock.sendall(loginReq.encode())
-		print(loginReq)
 		message = ''
 		try:
 			message = recv_all(self.sock)
@@ -202,7 +199,6 @@ def client_disconnected(addr):
 
 #sends a message down to the client over the connection
 def send_message(addr, message):
-	print("CONNMAN SERVER")
 	print("sending message \"{0}\" to client {1}".format(message, addr))
 	fm_msg = json.dumps(message).encode()
 
@@ -224,9 +220,7 @@ def send_message(addr, message):
 #returns a tuple with the form (client id, dictionary) with the dictionary a formatted json response
 def get_game_message(game_id, blocking=False):
 	try:
-		print("GAMEMSGQUEUES")
 		temp = gameMsgQueues[game_id].get(block=blocking)
-		print("TEMP : ",temp)
 		return temp
 		#return gameMsgQueues[game_id].get(block=blocking)
 	except queue.Empty:

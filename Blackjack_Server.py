@@ -89,8 +89,9 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 	totals.append(0)
 
 	cards.append(cards.pop(0)) # Burn the top card, and put it back on the bottom
-	for i in range(1, len(players)): # Deal 1st card to each player
+	for i in range(1, len(players)):
 		send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id, "player_id":players[i]})
+	for i in range(1, len(players)): # Deal 1st card to each player
 		cardsHeld.append([])
 		curCard = cards.pop(0)
 		cards.append(curCard) # Put the card back on bottom of the deck
@@ -178,6 +179,9 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 					# Player is out
 					send({"packet_type": "CONTROL", "type" : "BROADCAST", "move":"ELIMINATED", "game_id": game_id, "player_id": players[i], "bet_amount":bets[i]}) # TODO
 					account[players[i]] -= bets[i]
+					print(players[i], "BUSTED!")
+					print(account)
+
 					break
 
 				else :
@@ -225,6 +229,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 			else:
 				send ({"packet_type": "CONTROL", "game_id": game_id, "move":"LOSS", "player_id":players[i]})
 				account[players[i]] -= bets[i]
+				print(players[i], "LOST AT SHOWDOWN")
+				print(account)
 
 	return(players, account, cards)
 
