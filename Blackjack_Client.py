@@ -235,7 +235,7 @@ try:
         if first == True:
             first = False
             print("Pre PQH Thread")
-            pQHandler = threading.Thread(target=packetQueueHandler(sock))
+            pQHandler = threading.Thread(target=packetQueueHandler,args=(sock,))
             print("Mid PQH THREAD")
             pQHandler.start()
             print("Post PQH Thread")
