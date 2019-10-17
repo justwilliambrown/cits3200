@@ -122,7 +122,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		print("Request bet from player_",players[i])
 
 		for j in range(5):
-			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "BETAMT", "player_id" : players[i]})
+			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "BETAMT", "player_id" : players[i]})
 			message = receive(game_id, players[i])
 
 			try:
@@ -145,7 +145,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		#move = "" #TODO
 		print("Player", players[i])
 		for j in range(5):
-			send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
+			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "move", "player_id" : players[i]})
 			message = receive(game_id, players[i])
 
 			try:
@@ -170,13 +170,13 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 				totals = calculateTotals(cardsHeld)
 				if totals[i] > 21:
 					# Player is out
-					send({"packet_type": "CONTROL", "type" : "BROADCAST", "move":"ELIMINATED", "player_id": players[i], "bet_amount":bets[i]}) # TODO
+					send({"packet_type": "CONTROL", "type" : "BROADCAST", "move":"ELIMINATED", "game_id": game_id, "player_id": players[i], "bet_amount":bets[i]}) # TODO
 					account[players[i]] -= bets[i]
 					break
 
 				else :
 					for j in range(5):
-						send({"packet_type" : "CONTROL", "type" : "REQUEST", "item" : "move", "player_id" : players[i]})
+						send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "move", "player_id" : players[i]})
 						message = receive(game_id, players[i])
 						try:
 							move = message["MOVE"]
@@ -208,14 +208,14 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		if totals[i] > 21:
 			continue
 		elif totals[0] > 21: # Dealer busts, pay out
-			send ({"packet_type": "CONTROL", "move":"WIN", "player_id":players[i]})
+			send ({"packet_type": "CONTROL", "game_id": game_id, "move":"WIN", "player_id":players[i]})
 			account[players[i]] += bets[i]
 		else:
 			if totals[i] > totals[0]: # player wins
-				send ({"packet_type": "CONTROL", "move":"WIN", "player_id":players[i]})
+				send ({"packet_type": "CONTROL", "game_id": game_id, "move":"WIN", "player_id":players[i]})
 				account[players[i]] += bets[i]
 			else:
-				send ({"packet_type": "CONTROL", "move":"LOSS", "player_id":players[i]})
+				send ({"packet_type": "CONTROL", "game_id": game_id, "move":"LOSS", "player_id":players[i]})
 				account[players[i]] -= bets[i]
 
 	return(players, account, cards)
@@ -254,7 +254,7 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	# END OF GAME STUFF
 
 	# Write to a file called (game_id).log
-	filename = str(game_id) + ".log"
+	filename = "gamelog/" + str(game_id) + ".log"
 	logfile = open(filename, "w+")
 	for message in loglist:
 		logfile.write(message)
