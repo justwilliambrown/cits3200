@@ -260,8 +260,6 @@ try:
                 packetQueue.append(packetJson)
         if exit == True:
             print("EXITING PROGRAM\n")
-            print("Closing socket")
-            sock.close()
             exit()
 finally:
     print("Closing socket")
