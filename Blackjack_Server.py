@@ -224,7 +224,7 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	roundId = 0
 	account = {} # Money in the client's account
 	cards = []
-	players = clientIDs
+	players = clientIDs.copy()
 	players.insert(0, 0) # First item in players will be the dealer
 
 	cards = populateDeck()
