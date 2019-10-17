@@ -230,14 +230,16 @@ sock.connect(server_address)
 first = True
 try:
     while True:
+        print("New Loop")
         if first == True:
             first = False
             pQHandler = threading.Thread(target=packetQueueHandler())
             pQHandler.start()
+        print("Pre sock recv")
         message = sock.recv(4096)
         amount_received = 0
         amount_expected = len(message)
-
+        print("MESSAGE RECEIVED")
         while amount_received < amount_expected:
             amount_received += len(message)
             packet = message.decode()
