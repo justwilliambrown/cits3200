@@ -215,6 +215,7 @@ def packetQueueHandler(sock):
     global exitBoolean
     global packetQueue
     while True:
+        print("PQH Handler")
         if len(packetQueue) != 0:
             tempPacket = packetQueue.pop(0)
             print("PACKET RECEIVED: ",tempPacket)
