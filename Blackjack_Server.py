@@ -32,6 +32,7 @@ def receive(gameID, playerID):
 	try:
 		if message["type"] == "CONTROL" and message["subtype"] == "DC":
 			disconnectHandle(message["player_id"])
+			return -1
 	except:
 		pass
 
@@ -120,11 +121,12 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 			continue
 		#send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id,"player_id":players[i]})
 		print("Request bet from player_",players[i])
-
+		betAmount = 0
 		for j in range(5):
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "BETAMT", "player_id" : players[i]})
 			message = receive(game_id, players[i])
-
+			if message == -1:
+				betAmount = 0
 			try:
 				betAmount = message["BETAMT"]
 			except:
@@ -133,7 +135,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 
 		if betAmount > account[players[i]]:
 			betAmount = account[players[i]]
-		if betAmount <= 0:
+		if betAmount < 0:
 			betAmount = account[players[i]] / 2
 		bets.append(betAmount)
 	print(players[i]," bet ",betAmount)
@@ -144,10 +146,11 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		# query the player
 		#move = "" #TODO
 		print("Player", players[i])
+		move = ""
 		for j in range(5):
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "move", "player_id" : players[i]})
 			message = receive(game_id, players[i])
-
+			
 			try:
 				move = message["MOVE"]
 				if move != "STAND" or move != "HIT":
@@ -155,7 +158,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 			except:
 				continue
 			break
-
+		if message == -1:
+			move = "STAND"
 		turnId += 1
 		while move != "STAND":
 			print("REPEAT")
@@ -185,6 +189,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 						except:
 							continue
 						break
+					if message = -1:
+						move = "STAND"
 				# Query player for input
 				#move = input()
 				turnId += 1
