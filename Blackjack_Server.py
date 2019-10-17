@@ -238,10 +238,10 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	cards = populateDeck()
 
 	for i in range(len(clientIDs)):
-		account[clientIDs[i]] = 30 # 30 Starting balance for now
+		account[clientIDs[i]] = 20 # 30 Starting balance for now
 		send({"packet_type": "CONTROL", "game_id" : game_id, "type" : "OPENING_BALANCE", "player_id" : clientIDs[i], "BALANCE" : account[clientIDs[i]]})
 
-	while len(players) > 1:
+	while len(players) > 2:
 		playersEliminated = []
 
 		resultOfRound = playRound(game_id, roundId, players, account, cards)
@@ -258,6 +258,7 @@ def gameStart(game_id, clientIDs, tournamentMode):
 		for i in playersEliminated:
 			players.remove(i)
 			account.pop(i)
+			ConnMan.disconnect_client(i)
 
 	# END OF GAME STUFF
 

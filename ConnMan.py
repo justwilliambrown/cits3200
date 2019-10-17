@@ -211,7 +211,10 @@ def send_message(addr, message):
 			game = message.get("game_id")
 			for clients in clientGameIdentifier.items():
 				if clients[1] == game:
-					clientDict[clients[0]].sendall(fm_msg)
+					try:
+						clientDict[clients[0]].sendall(fm_msg)
+					except Exception:
+						continue; #just make sure it continues even if there's a socket error
 		else:
 			clientDict[addr].sendall(fm_msg)
 	except KeyError:
