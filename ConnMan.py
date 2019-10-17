@@ -195,8 +195,6 @@ def client_disconnected(addr):
 def send_message(addr, message):
 	print("CONNMAN SERVER")
 	print("sending message \"{0}\" to client {1}".format(message, addr))
-	#Fix client to remove time.sleep()
-	time.sleep(1)
 	fm_msg = json.dumps(message).encode()
 
 	try:
