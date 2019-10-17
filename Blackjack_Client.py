@@ -230,7 +230,6 @@ sock.connect(server_address)
 first = True
 try:
     while True:
-        global exit
         if first == True:
             first = False
             pQHandler = threading.Thread(target=packetQueueHandler(sock))
