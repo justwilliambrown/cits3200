@@ -269,12 +269,14 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	# END OF GAME STUFF
 
 	# Write to a file called (game_id).log
-	filename = "gamelog/" + str(game_id) + ".log"
+	filename = str(game_id) + ".log"
 	logfile = open(filename, "w+")
 	for message in loglist:
 		logfile.write(message)
 	logfile.close()
+	print("Number of players inc dealer: ", len(players))
 	if len(players) == 2: # One player wins
+		print("ONE PLAYER WON")
 		matchmaking_Server.notifyFinish(game_id , players[1])
 		if tournamentMode == True:
 			send({"packet_type": "CONTROL", "type" : "LOBBY", "player_id" : players[1]})

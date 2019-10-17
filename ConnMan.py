@@ -179,7 +179,7 @@ class ClientHandle(threading.Thread):
 #used for disconnecting a client from the game
 def disconnect_client(addr):
 	print("disconneting client {0} from server".format(addr))
-	notify = {"packet_type" : "CONTROL", "subtype" : "DC"}
+	notify = {"packet_type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
 	send_message(addr, notify) #kind of a hack, requires client to dc first
 	matchmaking_Server.playerDisconnect(addr)
 	clientDict.pop(addr)
