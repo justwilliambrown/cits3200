@@ -211,7 +211,7 @@ def readJson(jsonDict,sock):
 
 #Packet Queue Handler
 #Function: Thread to process the packets in the queue
-def packetQueueHandler(sock):
+def packetQueueHandler():
     global exit
     while True:
         if len(packetQueue) != 0:
@@ -232,7 +232,7 @@ try:
     while True:
         if first == True:
             first = False
-            pQHandler = threading.Thread(target=packetQueueHandler(sock))
+            pQHandler = threading.Thread(target=packetQueueHandler())
             pQHandler.start()
         message = sock.recv(4096)
         amount_received = 0
