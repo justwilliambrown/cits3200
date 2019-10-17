@@ -214,9 +214,7 @@ def readJson(jsonDict,sock):
 def packetQueueHandler(sock):
     global exitBoolean
     global packetQueue
-    print("Initialised PQH")
     while True:
-        print("PQH NEW LOOP")
         if len(packetQueue) != 0:
             tempPacket = packetQueue.pop(0)
             print("PACKET RECEIVED: ",tempPacket)
