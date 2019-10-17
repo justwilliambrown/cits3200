@@ -25,8 +25,8 @@ def sendJson(sock,jsonDict):
 #loginRequest
 #Outcome: Sends login request to server
 def loginRequest(sock):
-    username = input("Username:")
-    password = input("Password:")
+    username = input("Username: ")
+    password = input("Password: ")
     loginDetails = {
             "user" : username,
             "pass" : password,
@@ -37,7 +37,7 @@ def loginRequest(sock):
 #joinQueue
 #Expected outcome:Sends queue request to server
 def joinQueue(sock):
-    qType = input("Queue type: Test , Tournament")
+    qType = input("Queue type: Test , Tournament: ")
     while qType != "Test" and qType != "Tournament":
         print("Error: Invalid Response")
         qType = input("Select 'Test' or 'Tournament'")
