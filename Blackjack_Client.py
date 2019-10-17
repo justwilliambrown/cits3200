@@ -213,6 +213,7 @@ def readJson(jsonDict,sock):
 #Function: Thread to process the packets in the queue
 def packetQueueHandler():
     global exit
+    global packetQueue
     while True:
         if len(packetQueue) != 0:
             tempPacket = packetQueue.pop(0)
