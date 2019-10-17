@@ -211,10 +211,12 @@ def readJson(jsonDict,sock):
 
 #Packet Queue Handler
 #Function: Thread to process the packets in the queue
-def packetQueueHandler():
+def packetQueueHandler(sock):
     global exitBoolean
     global packetQueue
+    print("Initialised PQH")
     while True:
+        print("PQH NEW LOOP")
         if len(packetQueue) != 0:
             tempPacket = packetQueue.pop(0)
             print("PACKET RECEIVED: ",tempPacket)
@@ -234,8 +236,10 @@ try:
         print("New Loop")
         if first == True:
             first = False
-            pQHandler = threading.Thread(target=packetQueueHandler())
+            print("Pre PQH Thread")
+            pQHandler = threading.Thread(target=packetQueueHandler(sock))
             pQHandler.start()
+            print("Post PQH Thread")
         print("Pre sock recv")
         message = sock.recv(4096)
         amount_received = 0
