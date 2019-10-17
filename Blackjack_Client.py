@@ -219,12 +219,12 @@ def packetQueueHandler(sock):
     global exitBoolean
     global packetQueue
     while True:
-        print("PQH Handler")
+        #print("PQH Handler")
         if len(packetQueue) != 0:
             tempPacket = packetQueue.pop(0)
             print("PACKET RECEIVED: ",tempPacket)
             readJson(tempPacket,sock)
-            print("POST readJSON")
+            #print("POST readJSON")
         if exitBoolean == True:
             print("Exiting packet Queue Thread\n")
             break
@@ -248,7 +248,7 @@ try:
         while amount_received < amount_expected:
             amount_received += len(message)
             packet = message.decode()
-            #print("PRE JSON LOADS(PACKET): ",packet)
+            print("PRE JSON LOADS(PACKET): ",packet)
             packetCount = packet.count("{")
             if(packetCount > 1):
                 packetSplit = packet.split("}",packetCount -1)
@@ -259,11 +259,11 @@ try:
                         load = temp
                     #print("LOAD: ",load)
                     packetJson = json.loads(load)
-                    #print("POST JSON LOADS(PACKET): ",load)
+                    print("POST JSON LOADS(PACKET): ",load)
                     packetQueue.append(packetJson)
             else:
                 packetJson = json.loads(packet)
-                #print("POST JSON LOADS(PACKET): ",packetJson)
+                print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
         if exitBoolean == True:
             print("EXITING PROGRAM\n")
