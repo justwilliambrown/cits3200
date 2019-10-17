@@ -190,7 +190,7 @@ def controlJsonHandler(jsonDict,sock):
                             currentBet = 0
                             if balance == 0:
                                 print("Balance is 0 you've lost")
-                                exitBoolean = True
+                                #exitBoolean = True
                         elif jsonDict["move"] == "WIN":
                             balance += currentBet
                             currentBet = 0
