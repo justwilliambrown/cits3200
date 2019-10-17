@@ -149,7 +149,7 @@ def controlJsonHandler(jsonDict,sock):
                                 "player_id" : clientID,
                                 "game_id": gameID
                                 }
-                        tempDump.json.dumps(temp).encode()
+                        tempDump = json.dumps(temp).encode()
                         sendJson(sock,tempDump)
                     elif jsonDict["item"] == "queueType":
                         joinQueue(sock)
