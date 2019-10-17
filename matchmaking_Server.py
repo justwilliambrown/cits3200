@@ -196,7 +196,7 @@ def testQueueHandler():
                     testQueueTime.pop(playerIndex)
                     testQueue.remove(player)
                 tempPlayerList.append(gameCounter)
-                gamePlayerList.append(tempList)
+                gamePlayerList.append(tempPlayerList)
 
 #tournamentHandler
 #Thread that handles each individual tournament
