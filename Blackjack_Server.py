@@ -189,7 +189,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 						except:
 							continue
 						break
-					if message = -1:
+					if message == -1:
 						move = "STAND"
 				# Query player for input
 				#move = input()
