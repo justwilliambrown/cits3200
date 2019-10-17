@@ -27,6 +27,8 @@ def receive(gameID, playerID):
 			break
 		time.sleep(1)
 		message = ConnMan.get_game_message(gameID)
+	if message == None:
+		return -1
 	loglist.append(str(message))
 
 	try:
