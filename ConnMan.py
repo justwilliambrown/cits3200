@@ -155,6 +155,7 @@ class ClientHandle(threading.Thread):
 		
 		loginReq = '{"packet_type" : "CONTROL", "subtype" : "loginRequest"}'
 		self.sock.sendall(loginReq.encode())
+		print(loginReq)
 		message = ''
 		try:
 			message = recv_all(self.sock)
