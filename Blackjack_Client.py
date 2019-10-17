@@ -218,7 +218,7 @@ def packetQueueHandler(sock):
             tempPacket = packetQueue.pop(0)
             print("PACKET RECEIVED: ",tempPacket)
             readJson(tempPacket,sock)
-        if exit:
+        if exit == true:
             print("Exiting packet Queue Thread\n")
             break
 
@@ -258,7 +258,7 @@ try:
                 packetJson = json.loads(packet)
                 print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
-        if exit:
+        if exit == true:
             print("EXITING PROGRAM\n")
             print("Closing socket")
             sock.close()
