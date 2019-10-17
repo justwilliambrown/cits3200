@@ -106,6 +106,7 @@ def gameJsonHandler(jsonDict,sock):
 #Function:Handles the control packets
 #AGENT CODE HERE
 def controlJsonHandler(jsonDict,sock):
+    global exit
     global clientID
     global cardTotal
     if clientID == '-1':
@@ -210,7 +211,8 @@ def readJson(jsonDict,sock):
 
 #Packet Queue Handler
 #Function: Thread to process the packets in the queue
-def packetQueueHandler():
+def packetQueueHandler(sock):
+    global exit
     while True:
         if len(packetQueue) != 0:
             tempPacket = packetQueue.pop(0)
@@ -228,9 +230,10 @@ sock.connect(server_address)
 first = True
 try:
     while True:
+        global exit
         if first == True:
             first = False
-            pQHandler = threading.Thread(target=packetQueueHandler)
+            pQHandler = threading.Thread(target=packetQueueHandler(sock))
             pQHandler.start()
         message = sock.recv(4096)
         amount_received = 0
@@ -258,7 +261,9 @@ try:
                 packetQueue.append(packetJson)
         if exit:
             print("EXITING PROGRAM\n")
-            break
+            print("Closing socket")
+            sock.close()
+            exit()
 finally:
     print("Closing socket")
     sock.close()
