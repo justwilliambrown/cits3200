@@ -282,7 +282,7 @@ def tournamentHandler(tPlayerList):
                 if tempDelete in tournamentFinished:
                     tournamentFinished.remove(tempDelete)
                 elif tempDelete in tournamentRematch:
-                    tournamentReset.remove(tempDelete)
+                    tournamentRematch.remove(tempDelete)
                 tournamentGameID.remove(tempDelete[0])
                 currentGameID.remove(tempDelete[0]) 
             tempList = tournamentDisconnect.copy()
