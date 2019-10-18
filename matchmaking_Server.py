@@ -296,7 +296,7 @@ def tournamentHandler(tPlayerList):
                     currentPlayerCount -= 2
                 if disconnectedPlayer in currentPlayerList:
                     currentPlayerList.remove(disconnectedPlayer)
-                    currentPlayerCount -= 1
+                    #currentPlayerCount -= 1
                 if disconnectedPlayer in tournamentDisconnect:
                     tournamentDisconnect.remove(disconnectedPlayer)
         currentPlayerCount = len(currentLobbyList)
