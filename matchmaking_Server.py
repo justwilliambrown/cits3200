@@ -300,7 +300,7 @@ def tournamentHandler(tPlayerList):
         currentPlayerCount = len(currentLobbyList)
     for winner in currentPlayerList:
         ConnMan.send_message(winner,{"packet_type": "CONTROL", "type" : "TOURNAMENT_WIN","player_id" : winner})
-        disconnect_client(winner)
+        ConnMan.disconnect_client(winner)
 
 #tournamentQueueHandler
 #Handles the tournament queue and creates tournaments when 8 players are found
