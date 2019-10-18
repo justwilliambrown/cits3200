@@ -123,6 +123,9 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 	cardsHeld[0].append(dealCard1)
 	totals = calculateTotals(cardsHeld)
 
+	# Initialise the bets array
+	for i in range(1, len(players)):
+		bets.append(0)
 	for i in range(1, len(players)):
 		# query the player for a bet amount
 		if players[i] in playersEliminated:
@@ -145,7 +148,8 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 			betAmount = account[players[i]]
 		if betAmount < 0:
 			betAmount = account[players[i]] / 2
-		bets.append(betAmount)
+		bets[i] = betAmount
+		
 	print(players[i]," bet ",betAmount)
 	for i in range(1, len(players)): #Query each player for a move
 		if players[i] in playersEliminated:
