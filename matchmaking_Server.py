@@ -279,14 +279,14 @@ def tournamentHandler(tPlayerList):
             
             if tempDelete != (None,None):
                 print("DEBUG: TEMPDELETE = GAME_",tempDelete[0])
-            if tempDelete in tournamentFinished:
-                tournamentFinished.remove(tempDelete)
-            elif tempDelete in tournamentRematch:
-                tournamentReset.remove(tempDelete)
-            tournamentGameID.remove(tempDelete[0])
-            currentGameID.remove(tempDelete[0])
-            
+                if tempDelete in tournamentFinished:
+                    tournamentFinished.remove(tempDelete)
+                elif tempDelete in tournamentRematch:
+                    tournamentReset.remove(tempDelete)
+                tournamentGameID.remove(tempDelete[0])
+                currentGameID.remove(tempDelete[0]) 
             tempList = tournamentDisconnect.copy()
+            
             for disconnectedPlayer in tempList:
                 if disconnectedPlayer in currentLobbyList:
                     currentLobbyList.remove(disconnectedPlayer)
