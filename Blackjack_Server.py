@@ -2,6 +2,7 @@ import random
 import ConnMan
 import time
 import matchmaking_Server
+import os
 
 
 
@@ -271,7 +272,9 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	# END OF GAME STUFF
 
 	# Write to a file called (game_id).log
-	filename = str(game_id) + ".log"
+	curcwd = os.getcwd()
+	curcwd += "/gamelogs/"
+	filename = curcwd + str(game_id) + ".log"
 	logfile = open(filename, "w+")
 	for message in loglist:
 		logfile.write(message)
