@@ -20,7 +20,8 @@ playersEliminated = [] # This is a hack, but it works.
 def disconnectHandle(playerid):
 	global playersEliminated
 	print("PLAYER", playerid, "DISCONNECTED MID GAME, ADDING TO ELIMINATED")
-	playersEliminated.append(playerid)
+	if playerid not in playersEliminated:
+		playersEliminated.append(playerid)
 
 def receive(gameID, playerID):
 	message = ConnMan.get_game_message(gameID)
@@ -262,7 +263,7 @@ def gameStart(game_id, clientIDs, tournamentMode):
 
 		print("\n", account, "\n")
 		for i in account:
-			if account[i] <= 0:
+			if account[i] <= 0 AND players[i] not in playerEliminated:
 				playersEliminated.append(i)
 		for i in playersEliminated:
 			players.remove(i)
