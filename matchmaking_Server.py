@@ -227,7 +227,7 @@ def tournamentHandler(tPlayerList):
             tournamentGameID.append(gameCounter)
             currentGameID.append(gameCounter)
             gamePlayerList.append(tempGPL)
-        while(len(currentLobbyList) != currentPlayerCounter/2):
+        while(len(currentLobbyList) != currentPlayerCount/2):
             tempDelete = (None,None)
             for currentGame in currentGameID:
                 resetList = False
@@ -281,11 +281,11 @@ def tournamentHandler(tPlayerList):
             for disconnectedPlayer in tempList:
                 if disconnectedPlayer in currentLobbyList:
                     currentLobbyList.remove(disconnectedPlayer)
-                    currentPlayerCounter -= 2
+                    currentPlayerCount -= 2
                     tournamentDisconnect.remove(disconnectedPlayer)
                 if disconnectedPlayer in currentPlayerList:
                     currentPlayerList.remove(player)
-        currentPlayerCounter = len(currentLobbyList)
+        currentPlayerCount = len(currentLobbyList)
     for winner in currentPlayerList:
         ConnMan.send_message(winner,{"packet_type": "CONTROL", "type" : "TOURNAMENT_WIN","player_id" : winner})
         disconnect_client(winner)
