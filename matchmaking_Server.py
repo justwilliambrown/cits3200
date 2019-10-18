@@ -236,7 +236,7 @@ def tournamentHandler(tPlayerList):
                 resetList = False
                 for rematch in tournamentRematch:
                     if rematch[0] == currentGame:
-                        playerList = getPlayerList(rematch)
+                        playerList = getPlayerList(rematch[0])
                         newGame = playerList[:-1].copy()
                         gameCounter = time.time()
                         time.sleep(1)
