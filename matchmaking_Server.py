@@ -104,7 +104,7 @@ def mmrUpdate(winner,playerList):
 #Removes the playerList from the gamePlayerList
 def terminateGameList(gameID):
     playerList = getPlayerList(gameID)
-    if playerList not in gamePlayerList:
+    if playerList in gamePlayerList:
         gamePlayerList.remove(playerList)
 
 #playerDisconnect
