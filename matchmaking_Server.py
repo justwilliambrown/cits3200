@@ -129,6 +129,7 @@ def notifyFinish(gameID,winner):
     if winner != -1:
         mmrUpdate(winner,playerList)
     if gameID in tournamentGameID:
+        print("TOURNAMENT GAME FINISHED, GameID = ",gameID)
         if winner == -1:
             tournamentRematch.append((gameID,-1))
         else:
