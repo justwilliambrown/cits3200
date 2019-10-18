@@ -254,13 +254,15 @@ def tournamentHandler(tPlayerList):
                         terminateGameList(playerList)
                         resetList = True
                         tempDelete = rematch
+                        break
                 if resetList:
                     break
                 for finishedGame in tournamentFinished:
                     if finishedGame[0] == currentGame:
                         tempDelete = finishedGame
                         print("DEBUG: GAME_",tempDelete[0]," has finished")
-                        currentLobbyList.append(finishedGame[1])
+                        if finishedGame[1] not in currentLobbyList:
+                            currentLobbyList.append(finishedGame[1])
                         playerList = getPlayerList(finishedGame[0])
                         for player in playerList:
                             if player == finishedGame[1]:
@@ -298,6 +300,9 @@ def tournamentHandler(tPlayerList):
                     currentPlayerCount -= 1
                     tournamentDisconnect.remove(disconnectedPlayer)
         currentPlayerCount = len(currentLobbyList)
+    print("CURRENT PLAYER COUNT BEFORE WINNER")
+    print(len(currentPlayerList))
+    print(currentPlayerCount)
     for winner in currentPlayerList:
         ConnMan.send_message(winner,{"packet_type": "CONTROL", "type" : "TOURNAMENT_WIN","player_id" : winner})
         ConnMan.disconnect_client(winner)
