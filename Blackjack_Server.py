@@ -19,6 +19,7 @@ playersEliminated = [] # This is a hack, but it works.
 
 def disconnectHandle(playerid):
 	global playersEliminated
+	print("PLAYER", playerid, "DISCONNECTED MID GAME, ADDING TO ELIMINATED")
 	playersEliminated.append(playerid)
 
 def receive(gameID, playerID):
@@ -243,6 +244,7 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	cards = []
 	players = clientIDs.copy()
 	players.insert(0, 0) # First item in players will be the dealer
+	global playerEliminated
 
 	cards = populateDeck()
 
@@ -251,8 +253,6 @@ def gameStart(game_id, clientIDs, tournamentMode):
 		send({"packet_type": "CONTROL", "game_id" : game_id, "type" : "OPENING_BALANCE", "player_id" : clientIDs[i], "BALANCE" : account[clientIDs[i]]})
 
 	while len(players) > 2:
-		playersEliminated = []
-
 		resultOfRound = playRound(game_id, roundId, players, account, cards)
 		players = resultOfRound[0]
 		account = resultOfRound[1]
