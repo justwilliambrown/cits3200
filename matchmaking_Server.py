@@ -176,15 +176,15 @@ def testQueueHandler():
             tempPlayerList = []
             for index_1 in range (0,maxLength-1):
                 player1 = tempQueue[index_1]
-                print("Player 1: ",player1)
+                #print("Player 1: ",player1)
                 tempPlayerList.append(player1)
                 for index_2 in range(index_1 + 1,maxLength):
                     if mmrEvaluation(index_1,index_2,testQueue,testQueueTime):
-                        for x in tempQueue:
-                            print ("TEMPQUEUE: ",x)
-                        print("INDEX2: ",index_2)
+                        #for x in tempQueue:
+                            #print ("TEMPQUEUE: ",x)
+                        #print("INDEX2: ",index_2)
                         player2 = tempQueue[index_2]
-                        print("Player 2 :",player2)
+                        #print("Player 2 :",player2)
                         tempPlayerList.append(player2)
                     #Maximum amount of players is 8 (7 + Dealer)
                     if len(tempPlayerList) == 4:
