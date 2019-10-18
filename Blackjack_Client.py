@@ -234,7 +234,6 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_address = ('localhost',3001)
 print('Connecting to %s port %s' %server_address)
 sock.connect(server_address)
-sock.setblocking(0)
 first = True
 try:
     while True:
@@ -262,10 +261,20 @@ try:
                     packetJson = json.loads(load)
                     print("POST JSON LOADS(PACKET): ",load)
                     packetQueue.append(packetJson)
+                    if playerID in packetJson:
+                        if subtype in packetJson:
+                            if packetJson["playerID"] == clientID:
+                                if packetJson["subtype"] == "DC":
+                                    exitBoolean = True
             else:
                 packetJson = json.loads(packet)
                 print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
+                if playerID in packetJson:
+                    if subtype in packetJson:
+                        if packetJson["playerID"] == clientID:
+                            if packetJson["subtype"] == "DC":
+                                exitBoolean = True
         if exitBoolean == True:
             print("EXITING PROGRAM\n")
             exit()
