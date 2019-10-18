@@ -10,14 +10,16 @@ api = Api(app)
 db = None
 
 games_fields = {
-	'Game_id' : fields.Integer,
+	'Game_id' : fields.Float,
 	'URI' : fields.Url("game")
 }
 
 class GameListAPI(Resource):
 	def get(self):
+		gamelogdir = os.getcwd()
+		gamelogdir += "/gamelogs/"
 		#make a dictionary of the list of file names, minus the '.log' and converted into an integer, labeled with 'Game_id'
-		games = [{"Game_id" : int(game[0:game.find('.log')])} for game in os.listdir()]
+		games = [{"Game_id" : float(game[0:game.find('.log')])} for game in os.listdir(gamelogdir)]
 		return {'Games' : [marshal(game, games_fields) for game in games]}
 
 class GameAPI(Resource):
