@@ -1,31 +1,6 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
-
-{% block title %}
-Login
-{% endblock %}
-
-{% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
-{% endblock %}
-
-<!-- {% block body %}
-<div class="container">
-
-        <form action="" class="form-signin" method="POST" novalidate>
-          <h2 class="form-signin-heading">Please sign in</h2>
-          {{ form.hidden_tag() }}
-          {{ wtf.form_field(form.username) }}
-          {{ wtf.form_field(form.password) }}
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>
-  
-</div>
-{% endblock %} -->
-
-<!-- {% block content %}
+{% block content %}
 <h1>Sign In</h1>
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
@@ -47,4 +22,4 @@ Login
     <p>{{ form.submit() }}</p>
     <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
 </form>
-{% endblock %} -->
+{% endblock %}

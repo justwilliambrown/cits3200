@@ -55,7 +55,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, ranking=1000)
+        user = User(username=form.username.data, email=form.email.data,ranking=1000)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -73,9 +73,9 @@ def register():
 def user(username):
     # first() when there are results, but in the case that there are no results automatically sends a 404 error back to the client.
     user = User.query.filter_by(username=username).first_or_404()
-    games1 =list( User.query.order_by(User.ranking).all())
+    games1 = list(User.query.order_by(User.ranking.desc()).all())
     #games = map(lambda x: json.loads(str(x)),games)
-    return render_template('user.html', user=user,games=games1)
+    return render_template('user.html',user=user,games=games1)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
