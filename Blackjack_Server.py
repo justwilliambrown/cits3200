@@ -291,3 +291,5 @@ def gameStart(game_id, clientIDs, tournamentMode):
 				if clientIDs[i] == players[1]:
 					send({"packet_type": "CONTROL", "game_id" : game_id, "type" : "VICTORY", "player_id" : clientIDs[i]})
 				ConnMan.disconnect_client(clientIDs[i])
+	else:
+		matchmaking_Server.notifyFinish(game_id, -1)
