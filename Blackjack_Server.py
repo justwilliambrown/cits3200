@@ -263,7 +263,7 @@ def gameStart(game_id, clientIDs, tournamentMode):
 
 		print("\n", account, "\n")
 		for i in account:
-			if account[i] <= 0 AND players[i] not in playerEliminated:
+			if account[i] <= 0 and players[i] not in playerEliminated:
 				playersEliminated.append(i)
 		for i in playersEliminated:
 			players.remove(i)
