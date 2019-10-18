@@ -114,9 +114,7 @@ def playerDisconnect(clientID):
         testQueue.pop(cIndex)
         testQueueTime.pop(cIndex)
     elif clientID in tournamentQueue:
-        cIndex = tournamentQueue.index(clientID)
-        testQueue.pop(cIndex)
-        testQueueTime.pop(cIndex)
+        tournamentQueue.remove(clientID)
     elif clientID in tournamentPlayers:
         tournamentDisconnect.append(clientID)
         tournamentPlayers.remove(clientID)
@@ -190,18 +188,23 @@ def testQueueHandler():
                 if(len(tempPlayerList)) > 1:
                     break
             if len(tempPlayerList) > 1:
+                stopGame = False
                 gameCounter = time.time()
                 time.sleep(1)
-                ConnMan.start_game(gameCounter,tempPlayerList)
-                gameThread = threading.Thread(target=Blackjack_Server.gameStart,args = (gameCounter,tempPlayerList,False))
-                gameThread.start()
                 for player in tempPlayerList:
-                    print("tempPlayerList: ",player)
-                    playerIndex = testQueue.index(player)
-                    testQueueTime.pop(playerIndex)
-                    testQueue.remove(player)
-                tempPlayerList.append(gameCounter)
-                gamePlayerList.append(tempPlayerList)
+                    if player not in testQueue:
+                        stopGame = True
+                if stopGame == False:
+                    ConnMan.start_game(gameCounter,tempPlayerList)
+                    gameThread = threading.Thread(target=Blackjack_Server.gameStart,args = (gameCounter,tempPlayerList,False))
+                    gameThread.start()
+                    for player in tempPlayerList:
+                        print("tempPlayerList: ",player)
+                        playerIndex = testQueue.index(player)
+                        testQueueTime.pop(playerIndex)
+                        testQueue.remove(player)
+                    tempPlayerList.append(gameCounter)
+                    gamePlayerList.append(tempPlayerList)
 
 #tournamentHandler
 #Thread that handles each individual tournament
