@@ -263,7 +263,7 @@ try:
                     packetQueue.append(packetJson)
                     if "player_id" in packetJson:
                         if "subtype" in packetJson:
-                            if packetJson["playerID"] == clientID:
+                            if packetJson["player_id"] == clientID:
                                 if packetJson["subtype"] == "DC":
                                     exitBoolean = True
             else:
@@ -272,7 +272,7 @@ try:
                 packetQueue.append(packetJson)
                 if "player_id" in packetJson:
                     if "subtype" in packetJson:
-                        if packetJson["playerID"] == clientID:
+                        if packetJson["player_id"] == clientID:
                             if packetJson["subtype"] == "DC":
                                 exitBoolean = True
         if exitBoolean == True:
