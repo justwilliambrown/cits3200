@@ -274,7 +274,10 @@ def gameStart(game_id, clientIDs, tournamentMode):
 				players.remove(i)
 			if i in account:
 				account.pop(i)
-			ConnMan.disconnect_client(i)
+		#If it isn't a tournament game that ended in a draw disconnect clients
+		if not (tournamentMode == True and len(players) == 1):
+			for i in playersEliminated:
+				ConnMan.disconnect_client(i)
 		playersEliminated.clear()
 
 	# END OF GAME STUFF
