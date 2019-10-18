@@ -241,7 +241,7 @@ try:
             first = False
             pQHandler = threading.Thread(target=packetQueueHandler,args=(sock,))
             pQHandler.start()
-        message = sock.recv(4096)
+        message = sock.recv(8192)
         amount_received = 0
         amount_expected = len(message)
         #print("MESSAGE RECEIVED")
