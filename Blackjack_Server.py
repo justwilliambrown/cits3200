@@ -270,8 +270,10 @@ def gameStart(game_id, clientIDs, tournamentMode):
 			if account[i] <= 0 and i not in playersEliminated:
 				playersEliminated.append(i)
 		for i in playersEliminated:
-			players.remove(i)
-			account.pop(i)
+			if i in players:
+				players.remove(i)
+			if i in account:
+				account.pop(i)
 			ConnMan.disconnect_client(i)
 		playersEliminated.clear()
 
