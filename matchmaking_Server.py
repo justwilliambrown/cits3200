@@ -91,11 +91,11 @@ def mmrUpdate(winner,playerList):
                 continue
             averageLoserMMR += loserMMR
             numberOfLosers += 1
-            expectedResultLoser = float(1/(1 + 10 ^ ((winnerMMR - loserMMR) / 400)))
+            expectedResultLoser = float(1/(1 + float(10) ^ ((winnerMMR - loserMMR) / 400)))
             loserNewMMR = int(loserMMR - ((1 - expectedResultLoser) * 24))
             database.updateMMR(loser,loserNewMMR)
     averageLoserMMR = averageLoserMMR / numberOfLosers
-    expectedResultWinner = float(1/ (1 + 10 ^ ((averageLoserMMR - winnerMMR) /400)))
+    expectedResultWinner = float(1/ (1 + float(10) ^ ((averageLoserMMR - winnerMMR) /400)))
     winnerNewMMR = int(winnerMMR + ((1 - expectedResultWinner) * 24))
     database.updateMMR(winner,winnerNewMMR)
 
