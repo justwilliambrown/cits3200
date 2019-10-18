@@ -295,6 +295,8 @@ def tournamentHandler(tPlayerList):
                     tournamentDisconnect.remove(disconnectedPlayer)
                 if disconnectedPlayer in currentPlayerList:
                     currentPlayerList.remove(disconnectedPlayer)
+                    currentPlayerCount -= 1
+                    tournamentDisconnect.remove(disconnectedPlayer)
         currentPlayerCount = len(currentLobbyList)
     for winner in currentPlayerList:
         ConnMan.send_message(winner,{"packet_type": "CONTROL", "type" : "TOURNAMENT_WIN","player_id" : winner})
