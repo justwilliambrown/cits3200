@@ -166,8 +166,6 @@ def packetQueueHandler():
 def testQueueHandler():
     while True:
         tempQueue = testQueue.copy()
-        for x in tempQueue:
-            print("Tempqueue: ",x)
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
         if len(tempQueue) < 1:
