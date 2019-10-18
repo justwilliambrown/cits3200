@@ -237,6 +237,7 @@ def tournamentHandler(tPlayerList):
                 resetList = False
                 for rematch in tournamentRematch:
                     if rematch[0] == currentGame:
+                        print("DEBUG: GAME_",tempDelete[0]," rematch")
                         playerList = getPlayerList(rematch[0])
                         newGame = playerList[:-1].copy()
                         gameCounter = time.time()
@@ -255,9 +256,10 @@ def tournamentHandler(tPlayerList):
                     break
                 for finishedGame in tournamentFinished:
                     if finishedGame[0] == currentGame:
-                        tempDelete == finishedGame
+                        tempDelete = finishedGame
+                        print("DEBUG: GAME_",tempDelete[0]," has finished")
                         currentLobbyList.append(finishedGame[1])
-                        playerList = getPlayerList(currentGame)
+                        playerList = getPlayerList(finishedGame[0])
                         for player in playerList:
                             if player == finishedGame[1]:
                                 continue
@@ -273,13 +275,15 @@ def tournamentHandler(tPlayerList):
                         break
                 if resetList:
                     break
+            
+            if tempDelete != (None,None):
+                print("DEBUG: TEMPDELETE = GAME_",tempDelete[0])
             if tempDelete in tournamentFinished:
-                if tempDelete in tournamentFinished:
-                    tournamentFinished.remove(tempDelete)
-                elif tempDelete in tournamentReset:
-                    tournamentReset.remove(tempDelete)
-                tournamentGameID.remove(tempDelete[0])
-                currentGameID.remove(tempDelete[0])
+                tournamentFinished.remove(tempDelete)
+            elif tempDelete in tournamentRematch:
+                tournamentReset.remove(tempDelete)
+            tournamentGameID.remove(tempDelete[0])
+            currentGameID.remove(tempDelete[0])
             
             tempList = tournamentDisconnect.copy()
             for disconnectedPlayer in tempList:
