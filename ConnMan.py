@@ -116,7 +116,7 @@ class ClientHandle(threading.Thread):
 					client_is_connected = False
 					break
 
-				print("message \"" + message + "\" from client ", self.client_id)
+				#print("message \"" + message + "\" from client ", self.client_id)
 				jdict = json.loads(message)
 				#if jdict.get("packet_type") == "CONTROL":
 				#	client_disconnected(self.client_id)
@@ -199,7 +199,7 @@ def client_disconnected(addr):
 
 #sends a message down to the client over the connection
 def send_message(addr, message):
-	print("sending message \"{0}\" to client {1}".format(message, addr))
+	#print("sending message \"{0}\" to client {1}".format(message, addr))
 	fm_msg = json.dumps(message).encode()
 
 	try:
