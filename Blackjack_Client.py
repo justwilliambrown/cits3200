@@ -261,7 +261,7 @@ try:
                     packetJson = json.loads(load)
                     print("POST JSON LOADS(PACKET): ",load)
                     packetQueue.append(packetJson)
-                    if "playerID" in packetJson:
+                    if "player_id" in packetJson:
                         if "subtype" in packetJson:
                             if packetJson["playerID"] == clientID:
                                 if packetJson["subtype"] == "DC":
@@ -270,7 +270,7 @@ try:
                 packetJson = json.loads(packet)
                 print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
-                if "playerID" in packetJson:
+                if "player_id" in packetJson:
                     if "subtype" in packetJson:
                         if packetJson["playerID"] == clientID:
                             if packetJson["subtype"] == "DC":
