@@ -34,7 +34,7 @@ def receive(gameID, playerID):
 	loglist.append(str(message))
 
 	try:
-		if message["type"] == "CONTROL" and message["subtype"] == "DC":
+		if message["packet_type"] == "CONTROL" and message["subtype"] == "DC":
 			disconnectHandle(message["player_id"])
 			return -1
 	except:
