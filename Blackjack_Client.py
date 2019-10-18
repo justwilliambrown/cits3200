@@ -129,6 +129,8 @@ def controlJsonHandler(jsonDict,sock):
         if "subtype" in jsonDict:
             if["subtype"] == "DC":
                 exitBoolean = True
+            if["subtype"] == "TOURNAMENT_WIN":
+                exitBoolean = True
         if "type" in jsonDict:
             if jsonDict["type"] == "OPENING_BALANCE":
                 global gameID
@@ -200,9 +202,6 @@ def controlJsonHandler(jsonDict,sock):
                 elif jsonDict["type"] == "VICTORY":
                     print("Congratulations you've won")
                     exitBoolean = True
-                elif jsonDict["type"] == "TOURNAMENT_WIN":
-                    print("Congratulations you've won the entire tournament")
-                    exitBoolean = True
 
 #Read Json
 #Function:Determins what type of json packet it calls the appropriate function
@@ -266,6 +265,8 @@ try:
                             if packetJson["player_id"] == clientID:
                                 if packetJson["subtype"] == "DC":
                                     exitBoolean = True
+                                if packetJson["subtype"] == "VICTORY_WIN":
+                                    exitBoolean = True
             else:
                 packetJson = json.loads(packet)
                 print("POST JSON LOADS(PACKET): ",packetJson)
@@ -274,6 +275,8 @@ try:
                     if "subtype" in packetJson:
                         if packetJson["player_id"] == clientID:
                             if packetJson["subtype"] == "DC":
+                                exitBoolean = True
+                            if packetJson["subtype"] == "VICTORY_WIN":
                                 exitBoolean = True
         if exitBoolean == True:
             print("EXITING PROGRAM\n")
