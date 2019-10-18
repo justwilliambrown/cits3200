@@ -16,6 +16,7 @@ testQueueTime = [] #Contains the time a client joined the queue
 gamePlayerList = [] #gamePlayerList[][0 - numPlayers + 1] = clientID -> FinalValue = uniqueGameID
 tournamentGameID = [] #Contains all gameIDS that are tournament games
 tournamentFinished = []
+tournamentRematch = []
 tournamentPlayers = []
 tournamentDisconnect = []
 
@@ -125,10 +126,14 @@ def playerDisconnect(clientID):
 #If the game is a tournament game it's added to tournamentFinish
 def notifyFinish(gameID,winner):
     playerList = getPlayerList(gameID)
-    mmrUpdate(winner,playerList)
+    if winner != -1:
+        mmrUpdate(winner,playerList)
     if gameID in tournamentGameID:
-        tempTuple = (gameID,winner)
-        tournamentFinished.append(tempTuple)
+        if winner == -1:
+            tournamentRematch.append((gameID,-1))
+        else:
+            tempTuple = (gameID,winner)
+            tournamentFinished.append(tempTuple)        
     else:
         terminateGameList(gameID)
 
@@ -215,7 +220,7 @@ def tournamentHandler(tPlayerList):
             tempGPL.append(player2)
             gameCounter = time.time()
             time.sleep(1)
-            ConnMan.start_game(tempCounter,tempList)
+            ConnMan.start_game(gameCounter,tempList)
             gameThread = threading.Thread(target = Blackjack_Server.gameStart,args = (tempCounter,tempList,True))
             gameThread.start()
             tempList.append(gameCounter)
@@ -228,6 +233,24 @@ def tournamentHandler(tPlayerList):
             tempDelete = (None,None)
             for currentGame in currentGameID:
                 resetList = False
+                for rematch in tournamentRematch:
+                    if rematch[0] == currentGame:
+                        playerList = getPlayerList(rematch)
+                        newGame = playerList[-1].copy()
+                        gameCounter = time.time()
+                        time.sleep(1)
+                        ConnMan.start_game(gameCounter,newGame)
+                        gameThread = threading.Thread(target = Blackjack_Server.gameStart,args = (tempCounter,tempList,True))
+                        gameThread.start()
+                        newGame.append(gameCounter)
+                        tournamentGameID.append(gameCounter)
+                        currentGameID.append(gameCounter)
+                        gamePlayerList.append(newGame)
+                        terminateGameList(playerList)
+                        resetList = True
+                        tempDelete = rematch
+                if resetList:
+                    break
                 for finishedGame in tournamentFinished:
                     if finishedGame[0] == currentGame:
                         tempDelete == finishedGame
@@ -249,7 +272,10 @@ def tournamentHandler(tPlayerList):
                 if resetList:
                     break
             if tempDelete in tournamentFinished:
-                tournamentFinished.remove(tempDelete)
+                if tempDelete in tournamentFinished:
+                    tournamentFinished.remove(tempDelete)
+                elif tempDelete in tournamentReset:
+                    tournamentReset.remove(tempDelete)
                 tournamentGameID.remove(tempDelete[0])
                 currentGameID.remove(tempDelete[0])
             
