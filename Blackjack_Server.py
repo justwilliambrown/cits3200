@@ -282,12 +282,12 @@ def gameStart(game_id, clientIDs, tournamentMode):
 		matchmaking_Server.notifyFinish(game_id , players[1])
 		if tournamentMode == True:
 			send({"packet_type": "CONTROL", "type" : "LOBBY", "player_id" : players[1]})
-			for i in range(len(clientsIDs)):
+			for i in range(len(clientIDs)):
 				if clientIDs[i] != players[1]:
 					send({"packet_type" : "CONTROL", "game_id" : game_id, "type" : "GAME_LOSS", "player_id" : clientIDs[i]})
 					ConnMan.disconnect_client(clientIDs[i])
 		else:
-			for i in range(len(clientsIDs)):
-				if clientsIDs[i] == players[1]:
+			for i in range(len(clientIDs)):
+				if clientIDs[i] == players[1]:
 					send({"packet_type": "CONTROL", "game_id" : game_id, "type" : "VICTORY", "player_id" : clientIDs[i]})
 				ConnMan.disconnect_client(clientIDs[i])
