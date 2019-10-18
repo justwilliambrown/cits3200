@@ -169,7 +169,7 @@ def testQueueHandler():
             print("Tempqueue: ",x)
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
-        if len(tempQueue) < 5:
+        if len(tempQueue) < 4:
             time.sleep(1)
             #Do nothing
         else:
@@ -185,7 +185,7 @@ def testQueueHandler():
                         print("Player 2 :",player2)
                         tempPlayerList.append(player2)
                     #Maximum amount of players is 8 (7 + Dealer)
-                    if len(tempPlayerList) == 7:
+                    if len(tempPlayerList) == 4:
                         break
                 if(len(tempPlayerList)) > 1:
                     break
