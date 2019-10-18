@@ -268,6 +268,7 @@ def gameStart(game_id, clientIDs, tournamentMode):
 			players.remove(i)
 			account.pop(i)
 			ConnMan.disconnect_client(i)
+		playersEliminated.clear()
 
 	# END OF GAME STUFF
 
