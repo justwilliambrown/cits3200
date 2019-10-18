@@ -260,7 +260,7 @@ def tournamentHandler(tPlayerList):
                             else:
                                 if player in tournamentPlayers:
                                     tournamentPlayers.remove(player)
-                                else:
+                                elif player in tournamentDisconnect:
                                     tournamentDisconnect.remove(player)
                                 if player in currentPlayerList:
                                     currentPlayerList.remove(player)
