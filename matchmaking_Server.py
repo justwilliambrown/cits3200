@@ -288,16 +288,16 @@ def tournamentHandler(tPlayerList):
                     tournamentRematch.remove(tempDelete)
                 tournamentGameID.remove(tempDelete[0])
                 currentGameID.remove(tempDelete[0]) 
+                
             tempList = tournamentDisconnect.copy()
-            
             for disconnectedPlayer in tempList:
                 if disconnectedPlayer in currentLobbyList:
                     currentLobbyList.remove(disconnectedPlayer)
                     currentPlayerCount -= 2
-                    tournamentDisconnect.remove(disconnectedPlayer)
                 if disconnectedPlayer in currentPlayerList:
                     currentPlayerList.remove(disconnectedPlayer)
                     currentPlayerCount -= 1
+                if disconnectedPlayer in tournamentDisconnect:
                     tournamentDisconnect.remove(disconnectedPlayer)
         currentPlayerCount = len(currentLobbyList)
     print("CURRENT PLAYER COUNT BEFORE WINNER")
