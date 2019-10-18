@@ -198,7 +198,8 @@ def client_disconnected(addr):
 	
 	dcNotify = { "packet_type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
 	
-	gameMsgQueues.get(clientGameIdentifier.get(addr)).put(dcNotify)
+	if addr in clientGameIdentifier:
+		gameMsgQueues.get(clientGameIdentifier.get(addr)).put(dcNotify)
 	#connectMsgQueue.put(dcNotify)
 	matchmaking_Server.playerDisconnect(addr)
 
