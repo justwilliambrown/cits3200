@@ -41,6 +41,8 @@ def receive(gameID, playerID):
 	while message["player_id"] != playerID:
 		time.sleep(1)
 		message = ConnMan.get_game_message(gameID)
+		if message == None:
+			return -1
 		loglist.append(str(message))
 	return message
 
@@ -125,7 +127,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		#send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id,"player_id":players[i]})
 		print("Request bet from player_",players[i])
 		betAmount = 0
-		for j in range(5):
+		for j in range(2):
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "BETAMT", "player_id" : players[i]})
 			message = receive(game_id, players[i])
 			if message == -1:
@@ -150,7 +152,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		#move = "" #TODO
 		print("Player", players[i])
 		move = ""
-		for j in range(5):
+		for j in range(2):
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "move", "player_id" : players[i]})
 			message = receive(game_id, players[i])
 			
@@ -185,7 +187,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 					break
 
 				else :
-					for j in range(5):
+					for j in range(2):
 						send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "move", "player_id" : players[i]})
 						message = receive(game_id, players[i])
 						try:
