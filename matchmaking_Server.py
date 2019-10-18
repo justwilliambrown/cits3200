@@ -169,7 +169,7 @@ def testQueueHandler():
             print("Tempqueue: ",x)
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
-        if len(tempQueue) < 2:
+        if len(tempQueue) < 5:
             time.sleep(1)
             #Do nothing
         else:
