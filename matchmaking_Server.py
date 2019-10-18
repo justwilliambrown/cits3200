@@ -304,7 +304,7 @@ def tournamentHandler(tPlayerList):
     print(len(currentPlayerList))
     print(currentPlayerCount)
     for winner in currentPlayerList:
-        ConnMan.send_message(winner,{"packet_type": "CONTROL", "type" : "TOURNAMENT_WIN","player_id" : winner})
+        ConnMan.send_message(winner,{"packet_type": "CONTROL", "subtype" : "TOURNAMENT_WIN","player_id" : winner})
         ConnMan.disconnect_client(winner)
 
 #tournamentQueueHandler
