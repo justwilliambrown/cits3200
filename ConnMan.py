@@ -178,18 +178,24 @@ class ClientHandle(threading.Thread):
 
 #used for disconnecting a client from the game
 def disconnect_client(addr):
+	if addr not in clientDict:
+		return None
 	print("disconneting client {0} from server".format(addr))
 	notify = {"packet_type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
 	send_message(addr, notify) #kind of a hack, requires client to dc first
 	matchmaking_Server.playerDisconnect(addr)
+	tempsock = clientDict.get(addr)
 	clientDict.pop(addr)
+	tempsock.close()
 
 
 #used by ConnMan to tell the game server a client disconnected from the server
 #SHOULD NEVER BE CALLED BY THE GAME SERVER
 def client_disconnected(addr):
 	print("client {0} has disconnected from server".format(addr))
-	clientDict.pop(addr)
+	if addr in clientDict:
+		clientDict.pop(addr)
+	
 	dcNotify = { "packet_type" : "CONTROL", "subtype" : "DC", "player_id" : addr}
 	
 	gameMsgQueues.get(clientGameIdentifier.get(addr)).put(dcNotify)
