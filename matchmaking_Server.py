@@ -168,7 +168,7 @@ def testQueueHandler():
         tempQueue = testQueue.copy()
         tempQueueTime = testQueueTime.copy()
         resetQueue = False
-        if len(tempQueue) < 1:
+        if len(tempQueue) < 2:
             time.sleep(1)
             #Do nothing
         else:
@@ -180,6 +180,9 @@ def testQueueHandler():
                 tempPlayerList.append(player1)
                 for index_2 in range(index_1 + 1,maxLength):
                     if mmrEvaluation(index_1,index_2,testQueue,testQueueTime):
+                        for x in tempQueue:
+                            print ("TEMPQUEUE: ",x)
+                        print("INDEX2: ",index_2)
                         player2 = tempQueue[index_2]
                         print("Player 2 :",player2)
                         tempPlayerList.append(player2)
