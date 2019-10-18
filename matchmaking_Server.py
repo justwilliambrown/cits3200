@@ -234,7 +234,7 @@ def tournamentHandler(tPlayerList):
                 for rematch in tournamentRematch:
                     if rematch[0] == currentGame:
                         playerList = getPlayerList(rematch)
-                        newGame = playerList[-1].copy()
+                        newGame = playerList[:-1].copy()
                         gameCounter = time.time()
                         time.sleep(1)
                         ConnMan.start_game(gameCounter,newGame)
