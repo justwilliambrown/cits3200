@@ -223,7 +223,7 @@ def tournamentHandler(tPlayerList):
             ConnMan.start_game(gameCounter,tempGPL)
             gameThread = threading.Thread(target = Blackjack_Server.gameStart,args = (gameCounter,tempGPL,True))
             gameThread.start()
-            tempList.append(gameCounter)
+            tempGPL.append(gameCounter)
             tournamentGameID.append(gameCounter)
             currentGameID.append(gameCounter)
             gamePlayerList.append(tempGPL)
