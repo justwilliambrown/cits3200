@@ -14,12 +14,8 @@ from werkzeug.utils import secure_filename
 @app.route('/index')
 @login_required
 def index():
-    rank={'rank':1}
-    games = [
-        {'author': user, 'Game_ID': 'Test game #1'},
-        {'author': user, 'Game_ID': 'Test game #2'}
-    ]
-    return render_template('index.html', title='Home Page' ,rank=rank,games=games)
+    user = current_user
+    return render_template('index.html', title='Home Page' ,user=user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -153,3 +149,13 @@ def downloading(filename):
     return send_from_directory(directory=dirpath, filename=filename, as_attachment=True)
 
 
+@app.route('/logfile')
+def logfile():
+    files_list = os.listdir(app.config['LOG_FILES_DEST'])
+    return render_template('logfile.html', files_list=files_list)
+
+@app.route("/download_logfiles/<filename>")
+def download_logfiles(filename):
+    dirpath = os.path.join(
+        app.root_path, app.config['LOG_FILES_DEST'])
+    return send_from_directory(directory=dirpath, filename=filename, as_attachment=True)

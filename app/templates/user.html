@@ -17,8 +17,4 @@
 <div>No.{{loop.index}}</div>
 {% include 'game.html' %}
 {% endfor %}
-{% if user == current_user %}
-<p><a href="{{ url_for('Upload2') }}">Upload your games</a></p>
-<p><a href="{{ url_for('manage_file') }}">Edit your game files</a></p>
-{% endif %}
 {% endblock %}
