@@ -30,8 +30,8 @@ def updateMMR(clientID,newMMR):
 	global db
 	dbCursor = db.cursor(prepared = True)
 	statement = "UPDATE user SET ranking = %s Where id = %s"
-	data = (newMMR,clientID)
-	dbCursor.execute(statement,(data,))
+	#data = (newMMR,clientID)
+	dbCursor.execute(statement,(newMMR,clientID))
 	dbCursor.close()
 
 def getDB():
