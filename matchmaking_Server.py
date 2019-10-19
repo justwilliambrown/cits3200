@@ -234,6 +234,8 @@ def tournamentHandler(tPlayerList):
             tournamentGameID.append(gameCounter)
             currentGameID.append(gameCounter)
             gamePlayerList.append(tempGPL)
+        if currentPlayerCount % 2 == 1:
+            currentPlayerCount += 1
         while(len(currentLobbyList) != currentPlayerCount/2):
             tempDelete = (None,None)
             for currentGame in currentGameID:
