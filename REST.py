@@ -46,7 +46,7 @@ class GameAPI(Resource):
 			print(line)
 			try:
 				temp = json.loads(line)
-			except as err:
+			except Exception as err:
 				print("ERROR :",err)
 				
 			print("Succesfully loads")
