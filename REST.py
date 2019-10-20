@@ -42,14 +42,10 @@ class GameAPI(Resource):
 
 		retlist = []
 		for line in lines:
+			if line == "":
+				break
 			line = line.replace("\'", "\"")
-			print(line)
-			try:
-				temp = json.loads(line)
-			except Exception as err:
-				print("ERROR :",err)
-				
-			print("Succesfully loads")
+			temp = json.loads(line)
 			retlist.append(temp)
 
 		print("it's a json error")
