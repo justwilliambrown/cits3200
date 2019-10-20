@@ -9,15 +9,4 @@ cat > sqluser.txt <<- END
 }
 END
 #echo "SQL_USER=$1:$2@%" | sudo cat >> /etc/environment
-c=`cat <<EOF
-import os
-filepath = os.getcwd() + "/config.py"
-file = open(filepath, "r")
-f = file.read()
-file.close()
-f = f.replace("REPLACEME", "$1:$2@localhost")
-file = open(filepath, "w+")
-file.write(f)
-file.close()
-EOF`
-python -c "$c"
+python3 replacedetails.py $1 $2 
