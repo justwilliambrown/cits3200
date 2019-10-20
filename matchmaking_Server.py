@@ -331,7 +331,7 @@ def tournamentQueueHandler():
                 player = tournamentQueue.pop(0)
                 tourneyTemp.append(player)
                 tournamentPlayers.append(player)
-            tournamentThread = threading.Thread(target=tournamentHandler(tourneyTemp))
+            tournamentThread = threading.Thread(target=tournamentHandler, args=(tourneyTemp,))
             tournamentThread.start()
             print("New tournament created")
 
