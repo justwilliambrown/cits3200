@@ -1,4 +1,4 @@
-for i in 1 2
+for i in 1 2 3 4 5 6 7 8 9 10
 do
-	python3 Blackjack_Client.py &
+	python3 b${i}.py
 done
