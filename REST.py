@@ -44,7 +44,11 @@ class GameAPI(Resource):
 		for line in lines:
 			line = line.replace("\'", "\"")
 			print(line)
-			temp = json.loads(line)
+			try:
+				temp = json.loads(line)
+			except(JSONDecodeError e):
+				print("ERROR :",e)
+				
 			print("Succesfully loads")
 			retlist.append(temp)
 
