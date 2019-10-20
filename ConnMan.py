@@ -118,9 +118,9 @@ class ClientHandle(threading.Thread):
 
 				#print("message \"" + message + "\" from client ", self.client_id)
 				jdict = json.loads(message)
-				#if jdict.get("packet_type") == "CONTROL":
-				#	client_disconnected(self.client_id)
-				#	self.sock.close()
+				if "subtype" in jdict.keys():
+					client_disconnected(self.client_id)
+					self.sock.close()
 
 				#if jdict.get("player_id") != self.client_id and jdict.get("game_id") != clientGameIdentifier.get(self.client_id):
 					#client_disconnected(self.client_id)
