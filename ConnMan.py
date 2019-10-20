@@ -29,7 +29,7 @@ def recv_all(sock):
 	depth = packet.count('{') - packet.count('}')
 	while depth > 0:
 		packet = sock.recv(1024).decode()
-		if packet.length() == 0:
+		if len(packet) == 0:
 			raise SocketClosedException()
 
 		depth += packet.count("{")
