@@ -166,8 +166,7 @@ def controlJsonHandler(jsonDict,sock):
                                     "packet_type" : "GAME",
                                     "MOVE": "HIT",
                                     "player_id" : clientID,
-                                    "game_id" : gameID,
-                                    "CONTROL": True
+                                    "game_id" : gameID
                                     }
                             tempDump = json.dumps(temp).encode()
                             sendJson(sock,tempDump)
