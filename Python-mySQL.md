@@ -18,8 +18,8 @@
 
 py
 >>py -m pip install mysql-python
-#this package is really hard to install, I have spent about three hour on it, and it still not work.
-highly recommended that use the alternative packages like pymsql and mysqlclient. Another way is find it .whl file and use the wheel to install it by hand.
+#This package is really difficuly to install. I have spent about three hours on it, and it still does not work.
+Highly recommended that use the alternative packages like pymsql and mysqlclient. Another way is find a .whl file and use that to install it by hand.
 >>py -m pip install flask-sqlalchemy
 
 
@@ -210,13 +210,13 @@ db.close()
 
 ## Some Common problems in mySQL
 
-### In window10, mySQL cannot be connected
+### In windows 10, mySQL cannot be connected to
 
-The way I used is that open "Control panel", find "admintools", find "services "(%windir%\system32\services.msc), find MySQL services, click Start/Restart. Then you can connect it.(Not always work, but it indeed is the easiest way compare others)
+The way I solved this was to open "Control panel", find "admintools", find "services "(%windir%\system32\services.msc), find MySQL services, click Start/Restart. Then you can connect it.(This does not always work, but it is the simplest solution compared to others)
 
-### cryptography error
+### Cryptography error
 
-It might happen when we connect the mysql's database that "RuntimeError: cryptography is required for sha256_password or caching_sha2_passwordthe system", which is because that after version 8.0 of MySQL, caching_sha2_password was used as the default authentication plug-in. I've tried a lot of way to deal with it, most of them are too complict. There is a easy way may can help(but not always work), which is importing the package "cryptography".
+Sometimes, when connecting to the mysql database, the following error will occur: "RuntimeError: cryptography is required for sha256_password or caching_sha2_passwordthe system". This is because from version 8.0 of MySQL and onwards, caching_sha2_password was used as the default authentication plug-in. I've tried several ways to deal with it, but most of them are too complicated. A simple solution which may help (but will not always work), is importing the package "cryptography".
 
 ```cmd
 py
@@ -227,8 +227,8 @@ or <a href="https://dev.mysql.com/doc/refman/5.7/en/sha256-pluggable-authenticat
 
 ### Visual C++ 14.0 is required
 
-When we use pip to install some packages in python might meet this kind of problem, which is quite difficult to deal with, because Visual C++ is huge and difficult to install. As long as we press the cancel during the process of installation, there no way to make it work again.(At lease I did not find a Executable way.) So if you want install Visual C++ 14.0, Do not pause it!!!!! )
+When using pip to install some packages in python, this error may occur. It can be quite difficult to deal with, because Visual C++ is huge and difficult to install. If cancel is pressed during the process of installation, there no way to make it work again (or at least I did not find a Executable way). So if you want install Visual C++ 14.0, do not pause it!!
 
-there is a alternative way:
+There is a alternative way:
 <a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">Unofficial Windows Binaries for Python Extension Packages</a>
 We can use wheel to install the packages we want.
