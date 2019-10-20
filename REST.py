@@ -46,8 +46,8 @@ class GameAPI(Resource):
 			print(line)
 			try:
 				temp = json.loads(line)
-			except(JSONDecodeError as e):
-				print("ERROR :",e)
+			except JSONDecodeError as err:
+				print("ERROR :",err)
 				
 			print("Succesfully loads")
 			retlist.append(temp)
