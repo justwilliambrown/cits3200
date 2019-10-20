@@ -54,3 +54,7 @@ This class is in charge of accepting connections from new clients, and nothing e
 ClientHandle
 ====
 This class is responsible for authenticating a client, as well as receiving the messages and storing it in the various message queues.
+
+Known Bugs
+===
+If there are simultaneous requests to the database, the MySQL database will close any further connections. This was an error that was discovered approximately 26 hours before submission was due, and the decision was made that an attempt to implement a queue in order to fix it ran a higher risk of causing even more issues. The issue was discovered by attempting to connect multiple clients via a bash script without a sleep, when a ```sleep 2``` was put into the bash script it ran without issue.
