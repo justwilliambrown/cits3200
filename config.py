@@ -7,6 +7,4 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOADED_FILES_DEST = os.getcwd()
     UPLOADED_FILES_ALLOW = ('py', 'java','js','c','cpp')
-    LOG_FILES_DEST = os.getcwd()+"/gamelogs/"
-
-
+    LOG_FILES_DEST = os.getcwd()+"/gamelogs"
