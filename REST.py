@@ -44,7 +44,9 @@ class GameAPI(Resource):
 		for line in lines:
 			line = line.replace("\'", "\"")
 			print(line)
-			retlist.append(json.loads(line))
+			temp = json.loads(line)
+			print(Succesfully loads)
+			retlist.append(temp)
 
 		print("it's a json error")
 		return {Game_id : retlist}
