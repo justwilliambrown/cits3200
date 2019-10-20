@@ -137,7 +137,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "BETAMT", "player_id" : players[i]})
 			message = receive(game_id, players[i])
 			if message == -1:
-				betAmount = 0
+				betAmount = account[i]
 			try:
 				betAmount = message["BETAMT"]
 			except:
