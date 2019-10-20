@@ -123,7 +123,7 @@ def Upload2():
         file = File(File_name=filename, author=current_user)
         db.session.add(file)
         db.session.commit()
-        flash('Your uploading have been saved.')
+        flash('Your upload has been saved.')
     else:
         file_url = None
     return render_template('upload2.html', form=form, file_url=file_url)
