@@ -10,3 +10,4 @@ flask_uploads
 flask_restful
 flask_admin
 mysql-connector-python
+flask-env
