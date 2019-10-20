@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, abort
 from flask_restful import Api, Resource, fields, marshal
-from os import listdir
+import os
 import json
 import mysql.connector
 
@@ -16,6 +16,7 @@ games_fields = {
 
 class GameListAPI(Resource):
 	def get(self):
+		print("got here")
 		gamelogdir = os.getcwd()
 		gamelogdir += "/gamelogs/"
 		#make a dictionary of the list of file names, minus the '.log' and converted into an integer, labeled with 'Game_id'
@@ -24,16 +25,29 @@ class GameListAPI(Resource):
 
 class GameAPI(Resource):
 	def get(self, Game_id):
-		game = [game for game in listdir("gamelogs") if game == "{0}.log".format(Game_id)]
+		print("not a URI problem")
+		gamelogdir = os.getcwd()
+		gamelogdir += "/gamelogs"
+		game = [game for game in os.listdir(gamelogdir) if game == "{0}.log".format(Game_id)]
+
+		print(game)
 
 		if len(game) == 0:
 			abort(404)
 
-		jstring = ""
-		with open(game[0]) as file:
-			jstring = file.read()
+		file = open(gamelogdir + "/" + game[0], "r")
+		print("file is open")
+		jstring = file.read()
+		lines = jstring.split(";")
 
-		return json.loads(jstring)
+		retlist = []
+		for line in lines:
+			line = line.replace("\'", "\"")
+			print(line)
+			retlist.append(json.loads(line))
+
+		print("it's a json error")
+		return {Game_id : retlist}
 
 
 class leaderboardAPI(Resource):
@@ -50,7 +64,7 @@ class leaderboardAPI(Resource):
             return leaderboard
 
 api.add_resource(GameListAPI, '/api/1.0/games', endpoint='gamelist')
-api.add_resource(GameAPI, '/api/1.0/games/<int:Game_id>', endpoint='game')
+api.add_resource(GameAPI, '/api/1.0/games/<float:Game_id>', endpoint='game')
 api.add_resource(leaderboardAPI, '/api/1.0/leaderboard', endpoint='leaderboard')
 
 def getDB():
