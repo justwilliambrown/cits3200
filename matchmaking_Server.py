@@ -105,7 +105,7 @@ def mmrUpdate(winner,playerList):
     expectedResultWinner = float(1/ (1 + 10 ** ((averageLoserMMR - winnerMMR) /400)))
     winnerNewMMR = int(winnerMMR + ((1 - expectedResultWinner) * 24))
     database.updateMMR(winner,winnerNewMMR)
-    print("UPDATED PLAYER_",winner TO: ",winnerNewMMR)
+    print("UPDATED PLAYER_",winner,"TO: ",winnerNewMMR)
 
 #terminateGameList
 #Removes the playerList from the gamePlayerList
