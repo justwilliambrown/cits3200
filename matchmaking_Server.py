@@ -323,7 +323,9 @@ def tournamentHandler(tPlayerList):
 #Handles the tournament queue and creates tournaments when 8 players are found
 def tournamentQueueHandler():
     while True:
-        if len(tournamentQueue) >= 8:
+        if len(tournamentQueue < 8):
+            time.sleep(1)
+        else:
             tourneyTemp = []
             for i in range(8):
                 player = tournamentQueue.pop(0)
