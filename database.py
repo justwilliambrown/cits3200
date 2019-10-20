@@ -14,14 +14,13 @@ def setup_db():
 def getMMR(clientID):
 	global db
 	dbCursor = db.cursor(prepared=True)
-	#TODO: Check that these are the column names in the database
 	statement = "SELECT ranking,id FROM user Where id = %s"
 	dbCursor.execute(statement,(clientID,))
 	#TODO: Check values in dbCursor
 	rank = -1
-	print("DBCURSOR: ",dbCursor)
+	#print("DBCURSOR: ",dbCursor)
 	for (ranking,ID) in dbCursor:
-		print("RANKING: ",ranking)
+		#print("RANKING: ",ranking)
 		rank = ranking
 	dbCursor.close()
 	return rank
