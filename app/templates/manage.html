@@ -7,7 +7,7 @@
 
 {% for file in files_list %}
 - {{ file }}
-<a href="{{ url_for('delete_file', filename=file) }}">del</a>
-<a href="{{ url_for('downloading',filename= file) }}">download</a><br>
+<a href="{{ url_for('delete_file', filename=file) }}">Delete</a>
+<a href="{{ url_for('downloading',filename= file) }}">Download</a><br>
 {% endfor %}
 {% endblock %}
