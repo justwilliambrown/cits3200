@@ -44,7 +44,7 @@ def getPlayerList(gameID):
     for game in gamePlayerList:
         if game[-1] == gameID:
             return game
-    print("DEBUG: Couldn't find game_",gameID)
+    #print("DEBUG: Couldn't find game_",gameID)
     return None
 
 #mmrEvaluation
