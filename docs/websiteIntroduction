@@ -1,0 +1,15 @@
+Welcome to the Website for the BlackJack Server.
+
+On this website you are able to register (which you will need to do before you can connect your BlackJack agent), upload your source code, view the leaderboard, and download any game logs.
+
+Registration:
+You will need to register on this site before anything else. The details used here will be the ones that your agent will require in order to connect to the server and start playing games.
+
+Uploading Source Code:
+You need to upload your source code on the site. Multiple files can be uploaded, and they can also be downloaded and deleted.
+
+Leaderboard:
+The leaderboard page allows you to see the current ranking of your agent compared to all of the other agents registering and playing games. It's important to know that new agents start with a score of 1000, which is adjusted as they play games.
+
+Downloading Log Files:
+From this page, you can download the log files from any game that has been played. The log files contain all packets sent to/from the BlackJack server, seperated by a semi-colon. This will also include any resent packets where a response was not given. It is also possible to download these packets using the REST API, see those docs for more detail.
