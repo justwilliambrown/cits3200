@@ -148,31 +148,25 @@ class ClientHandle(threading.Thread):
 
 	#authenticates the user, making sure they are allowed to join
 	def authenticate(self):
-		dbCursor = database.getDB().cursor(prepared=True)
-		stmt = "SELECT id, username, password_hash, ranking FROM user WHERE username = %s"
-		
 		loginReq = '{"packet_type" : "CONTROL", "subtype" : "loginRequest"}'
 		self.sock.sendall(loginReq.encode())
 		message = ''
 		try:
 			message = recv_all(self.sock)
 		except SocketClosedException:
-			dbCursor.close()
 			return False
 
 		jdict = json.loads(message)
 		
-		dbCursor.execute(stmt, (jdict["user"],))
+		userlist = database.getUsers(jdict["user"])
 
-		for (ID, username, pHash, rank) in dbCursor:
+		for (ID, username, pHash, rank) in userlist:
 			if werkzeug.security.check_password_hash(pHash, jdict["pass"]):
 				self.client_id = ID;
 				if ID in clientDict.keys():
 					return False
 				self.rank = rank
-				dbCursor.close()
 				return True
-		dbCursor.close()
 		return False
 #----------------------------------------------------------------------------
 
