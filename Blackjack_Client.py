@@ -5,15 +5,15 @@ import json
 import math
 
 #Global variables
-clientID = '-1' #The client's ID
-balance = 0     #The current balance of the client
-cardTotal = {}  #The total value of cards player x holds(x is the key)
-gameID = -1     #The current game ID
-exitBoolean = False #Boolean for disconnection purposes
-cardSeen = []   #All the cards a client has seen in a round(includes client's own cards)
-cardHold = []   #Cards held by the client
-packetQueue = []  #List that stores all the packets client has to read
-currentBet = 0  #The amount that is currently bet in the round by client
+clientID = '-1'
+balance = 0
+cardTotal = {}
+gameID = -1
+exitBoolean = False
+cardSeen = []
+cardHold = []
+packetQueue = []
+currentBet = 0
 
 #sendJson
 #Input:Socket,Dictionary
@@ -206,7 +206,7 @@ def controlJsonHandler(jsonDict,sock):
 #Read Json
 #Function:Determins what type of json packet it calls the appropriate function
 def readJson(jsonDict,sock):
-    #print("NEW JSON: ",jsonDict)
+    print("NEW JSON: ",jsonDict)
     if jsonDict["packet_type"] == "CONTROL":
         controlJsonHandler(jsonDict,sock)
     elif jsonDict["packet_type"] == "GAME":
@@ -247,7 +247,7 @@ try:
         while amount_received < amount_expected:
             amount_received += len(message)
             packet = message.decode()
-            #print("PRE JSON LOADS(PACKET): ",packet)
+            print("PRE JSON LOADS(PACKET): ",packet)
             packetCount = packet.count("{")
             if(packetCount > 1):
                 packetSplit = packet.split("}",packetCount -1)
@@ -258,7 +258,7 @@ try:
                         load = temp
                     #print("LOAD: ",load)
                     packetJson = json.loads(load)
-                    #print("POST JSON LOADS(PACKET): ",load)
+                    print("POST JSON LOADS(PACKET): ",load)
                     packetQueue.append(packetJson)
                     if "player_id" in packetJson:
                         if "subtype" in packetJson:
@@ -269,7 +269,7 @@ try:
                                     exitBoolean = True
             else:
                 packetJson = json.loads(packet)
-                #print("POST JSON LOADS(PACKET): ",packetJson)
+                print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
                 if "player_id" in packetJson:
                     if "subtype" in packetJson:

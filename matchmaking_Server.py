@@ -54,8 +54,8 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDList,timeList):
     elapsedTime_2 = time.time() - timeList[queueIndex_2]
     clientMMR_1 = findClientMMR(clientIDList[queueIndex_1])
     clientMMR_2 = findClientMMR(clientIDList[queueIndex_2])
-    #print("CLIENTID_1:",clientIDList[queueIndex_1])
-    #print("CLIENTID_2:",clientIDList[queueIndex_2])
+    print("CLIENTID_1:",clientIDList[queueIndex_1])
+    print("CLIENTID_2:",clientIDList[queueIndex_2])
     if clientMMR_1 == -1:
         print("ERROR: Couldn't find mmr of client",clientIDList[queueIndex_1])
         return False
@@ -77,12 +77,10 @@ def mmrEvaluation(queueIndex_1,queueIndex_2,clientIDList,timeList):
 #mmrUpdate
 #Updates their mmr using Arpad's Elo System
 def mmrUpdate(winner,playerList):
-    checkWinner = False
     winnerMMR = findClientMMR(winner)
     if winnerMMR == -1:
-        print("ERROR: Couldn't find winner's MMR using default value 1000")
-        winnerNewMMR=1000
-        checkWinner = True
+        print("ERROR: Couldn't find winner's MMR")
+        #winnerMMR = 1000
     averageLoserMMR = 0
     numberOfLosers = 0
     for loser in playerList[:-1]:
@@ -98,14 +96,10 @@ def mmrUpdate(winner,playerList):
             expectedResultLoser = float(1/(1 + 10 ** ((winnerMMR - loserMMR) / 400)))
             loserNewMMR = int(loserMMR - ((1 - expectedResultLoser) * 24))
             database.updateMMR(loser,loserNewMMR)
-            print("UPDATED PLAYER_",loser," MMR TO: ",loserNewMMR)
-    if checkWinner == True:
-              return None
     averageLoserMMR = averageLoserMMR / numberOfLosers
     expectedResultWinner = float(1/ (1 + 10 ** ((averageLoserMMR - winnerMMR) /400)))
     winnerNewMMR = int(winnerMMR + ((1 - expectedResultWinner) * 24))
     database.updateMMR(winner,winnerNewMMR)
-    print("UPDATED PLAYER_",winner,"TO: ",winnerNewMMR)
 
 #terminateGameList
 #Removes the playerList from the gamePlayerList
@@ -142,7 +136,6 @@ def notifyFinish(gameID,winner):
             tempTuple = (gameID,winner)
             tournamentFinished.append(tempTuple)        
     else:
-        print("TEST GAME FINISHED, GameID = ",gameID)
         terminateGameList(gameID)
 
 #packetQueueHandler
@@ -210,7 +203,7 @@ def testQueueHandler():
                     gameThread = threading.Thread(target=Blackjack_Server.gameStart,args = (gameCounter,tempPlayerList,False))
                     gameThread.start()
                     for player in tempPlayerList:
-                        #print("tempPlayerList: ",player)
+                        print("tempPlayerList: ",player)
                         playerIndex = testQueue.index(player)
                         testQueueTime.pop(playerIndex)
                         testQueue.remove(player)
@@ -249,7 +242,7 @@ def tournamentHandler(tPlayerList):
                 resetList = False
                 for rematch in tournamentRematch:
                     if rematch[0] == currentGame:
-                        #print("DEBUG: GAME_",tempDelete[0]," rematch")
+                        print("DEBUG: GAME_",tempDelete[0]," rematch")
                         playerList = getPlayerList(rematch[0])
                         newGame = playerList[:-1].copy()
                         gameCounter = time.time()
@@ -270,7 +263,7 @@ def tournamentHandler(tPlayerList):
                 for finishedGame in tournamentFinished:
                     if finishedGame[0] == currentGame:
                         tempDelete = finishedGame
-                        #print("DEBUG: GAME_",tempDelete[0]," has finished")
+                        print("DEBUG: GAME_",tempDelete[0]," has finished")
                         if finishedGame[1] not in currentLobbyList:
                             currentLobbyList.append(finishedGame[1])
                         playerList = getPlayerList(finishedGame[0])
@@ -284,7 +277,6 @@ def tournamentHandler(tPlayerList):
                                     tournamentDisconnect.remove(player)
                                 if player in currentPlayerList:
                                     currentPlayerList.remove(player)
-                                    print("PLAYER_",player,"has lost in the tournament")
                         terminateGameList(currentGame)
                         resetList = True
                         break
@@ -292,7 +284,7 @@ def tournamentHandler(tPlayerList):
                     break
             
             if tempDelete != (None,None):
-                #print("DEBUG: TEMPDELETE = GAME_",tempDelete[0])
+                print("DEBUG: TEMPDELETE = GAME_",tempDelete[0])
                 if tempDelete in tournamentFinished:
                     tournamentFinished.remove(tempDelete)
                 elif tempDelete in tournamentRematch:
@@ -309,16 +301,15 @@ def tournamentHandler(tPlayerList):
                     currentPlayerList.remove(disconnectedPlayer)
                     #currentPlayerCount -= 1
                 if disconnectedPlayer in tournamentDisconnect:
-                    print("PLAYER_",disconnectedPlayer," has disconnected from the tournament")
                     tournamentDisconnect.remove(disconnectedPlayer)
         currentPlayerCount = len(currentLobbyList)
-    #print("CURRENT PLAYER COUNT BEFORE WINNER")
-    #print(len(currentPlayerList))
-    #print(currentPlayerCount)
+    print("CURRENT PLAYER COUNT BEFORE WINNER")
+    print(len(currentPlayerList))
+    print(currentPlayerCount)
     for winner in currentPlayerList:
         ConnMan.send_message(winner,{"packet_type": "CONTROL", "subtype" : "TOURNAMENT_WIN","player_id" : winner})
         ConnMan.disconnect_client(winner)
-        print("TOURNAMENT_WINNER: ",winner)
+
 #tournamentQueueHandler
 #Handles the tournament queue and creates tournaments when 8 players are found
 def tournamentQueueHandler():
@@ -331,7 +322,6 @@ def tournamentQueueHandler():
                 tournamentPlayers.append(player)
             tournamentThread = threading.Thread(target=tournamentHandler(tourneyTemp))
             tournamentThread.start()
-            print("New tournament created")
 
 #Start function to start matchmaking server
 def start():

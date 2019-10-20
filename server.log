@@ -1,0 +1,331 @@
+Database Initialised
+ListenServer initialised
+Conn Man initialised
+Matchmaking Initialised
+connection accepted from  ('127.0.0.1', 35440)
+TOURNAMENT QUEUE ADDED PLAYER:  1
+connection accepted from  ('127.0.0.1', 35442)
+TOURNAMENT QUEUE ADDED PLAYER:  2
+connection accepted from  ('127.0.0.1', 35444)
+TOURNAMENT QUEUE ADDED PLAYER:  3
+connection accepted from  ('127.0.0.1', 35446)
+TOURNAMENT QUEUE ADDED PLAYER:  4
+connection accepted from  ('127.0.0.1', 35448)
+TOURNAMENT QUEUE ADDED PLAYER:  5
+connection accepted from  ('127.0.0.1', 35450)
+TOURNAMENT QUEUE ADDED PLAYER:  6
+connection accepted from  ('127.0.0.1', 35452)
+TOURNAMENT QUEUE ADDED PLAYER:  7
+connection accepted from  ('127.0.0.1', 35454)
+TOURNAMENT QUEUE ADDED PLAYER:  8
+{'packet_type': 'CONTROL', 'game_id': 1571410558.9897323, 'type': 'OPENING_BALANCE', 'player_id': 8, 'BALANCE': 20}
+{'packet_type': 'CONTROL', 'game_id': 1571410558.9897323, 'type': 'OPENING_BALANCE', 'player_id': 7, 'BALANCE': 20}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410558.9897323, 'player_id': 8}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410558.9897323, 'player_id': 7}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 0, 'turn_id': 0, 'player_id': 8, 'card': 'JH'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 0, 'turn_id': 0, 'player_id': 7, 'card': '2C'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 0, 'turn_id': 0, 'player_id': 0, 'card': '10H'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 0, 'turn_id': 0, 'player_id': 8, 'card': 'QC'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 0, 'turn_id': 0, 'player_id': 7, 'card': '2S'}
+Request bet from player_ 8
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'BETAMT', 'player_id': 8}
+Request bet from player_ 7
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'BETAMT', 'player_id': 7}
+{'packet_type': 'CONTROL', 'game_id': 1571410560.000445, 'type': 'OPENING_BALANCE', 'player_id': 6, 'BALANCE': 20}
+{'packet_type': 'CONTROL', 'game_id': 1571410560.000445, 'type': 'OPENING_BALANCE', 'player_id': 5, 'BALANCE': 20}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410560.000445, 'player_id': 6}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410560.000445, 'player_id': 5}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 0, 'turn_id': 0, 'player_id': 6, 'card': 'KS'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 0, 'turn_id': 0, 'player_id': 5, 'card': '9H'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 0, 'turn_id': 0, 'player_id': 0, 'card': '2D'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 0, 'turn_id': 0, 'player_id': 6, 'card': 'AS'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 0, 'turn_id': 0, 'player_id': 5, 'card': 'KD'}
+Request bet from player_ 6
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'BETAMT', 'player_id': 6}
+Request bet from player_ 5
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'BETAMT', 'player_id': 5}
+{'packet_type': 'CONTROL', 'game_id': 1571410561.0052512, 'type': 'OPENING_BALANCE', 'player_id': 4, 'BALANCE': 20}
+{'packet_type': 'CONTROL', 'game_id': 1571410561.0052512, 'type': 'OPENING_BALANCE', 'player_id': 3, 'BALANCE': 20}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410561.0052512, 'player_id': 4}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410561.0052512, 'player_id': 3}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 0, 'turn_id': 0, 'player_id': 4, 'card': '7C'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 0, 'turn_id': 0, 'player_id': 3, 'card': '7S'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 0, 'turn_id': 0, 'player_id': 0, 'card': '6S'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 0, 'turn_id': 0, 'player_id': 4, 'card': 'JD'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 0, 'turn_id': 0, 'player_id': 3, 'card': '8H'}
+Request bet from player_ 4
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'BETAMT', 'player_id': 4}
+7  bet  10
+Player 8
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 8}
+Request bet from player_ 3
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'BETAMT', 'player_id': 3}
+5  bet  10
+Player 6
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'move', 'player_id': 6}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 8}
+{'packet_type': 'CONTROL', 'game_id': 1571410562.0163953, 'type': 'OPENING_BALANCE', 'player_id': 2, 'BALANCE': 20}
+{'packet_type': 'CONTROL', 'game_id': 1571410562.0163953, 'type': 'OPENING_BALANCE', 'player_id': 1, 'BALANCE': 20}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410562.0163953, 'player_id': 2}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410562.0163953, 'player_id': 1}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 0, 'player_id': 2, 'card': '6S'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 0, 'player_id': 1, 'card': '5D'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 0, 'player_id': 0, 'card': '10H'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 0, 'player_id': 2, 'card': 'KS'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 0, 'player_id': 1, 'card': '3D'}
+Request bet from player_ 2
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'BETAMT', 'player_id': 2}
+Request bet from player_ 1
+Player 7
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 7}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'move', 'player_id': 6}
+3  bet  10
+Player 4
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'move', 'player_id': 4}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'BETAMT', 'player_id': 1}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'move', 'player_id': 4}
+REPEAT
+Player 6 ['KS', 'AS']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 0, 'turn_id': 1, 'player_id': 6, 'card': 'QD', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410560.000445, 'player_id': 6, 'bet_amount': 10}
+6 BUSTED!
+{6: 10, 5: 20}
+Player 5
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'move', 'player_id': 5}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 7}
+1  bet  10
+Player 2
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 2}
+Player 3
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'move', 'player_id': 3}
+REPEAT
+Player 7 ['2C', '2S']
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 2}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'move', 'player_id': 5}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 0, 'turn_id': 1, 'player_id': 7, 'card': '7H', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 7}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 0, 'turn_id': 1, 'player_id': 0, 'card': '9D'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 0, 'turn_id': 1, 'player_id': 0, 'card': '10D'}
+{'packet_type': 'CONTROL', 'game_id': 1571410560.000445, 'move': 'LOSS', 'player_id': 5}
+5 LOST AT SHOWDOWN
+{6: 10, 5: 10}
+
+ {6: 10, 5: 10} 
+
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410560.000445, 'player_id': 6}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410560.000445, 'player_id': 5}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 1, 'turn_id': 0, 'player_id': 6, 'card': '8S'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 1, 'turn_id': 0, 'player_id': 5, 'card': 'QC'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 1, 'turn_id': 0, 'player_id': 0, 'card': '4H'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 1, 'turn_id': 0, 'player_id': 6, 'card': 'KC'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 1, 'turn_id': 0, 'player_id': 5, 'card': 'AH'}
+Request bet from player_ 6
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'BETAMT', 'player_id': 6}
+REPEAT
+Player 2 ['6S', 'KS']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 1, 'player_id': 2, 'card': 'QC', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410562.0163953, 'player_id': 2, 'bet_amount': 10}
+2 BUSTED!
+{2: 10, 1: 20}
+Player 1
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 1}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 7}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'move', 'player_id': 3}
+REPEAT
+Player 7 ['2C', '2S', '7H']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 0, 'turn_id': 2, 'player_id': 7, 'card': '9S', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 7}
+REPEAT
+Player 3 ['7S', '8H']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 0, 'turn_id': 1, 'player_id': 3, 'card': 'KS', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410561.0052512, 'player_id': 3, 'bet_amount': 10}
+3 BUSTED!
+{4: 20, 3: 10}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 0, 'turn_id': 1, 'player_id': 0, 'card': 'QH'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 0, 'turn_id': 1, 'player_id': 0, 'card': '5S'}
+{'packet_type': 'CONTROL', 'game_id': 1571410561.0052512, 'move': 'LOSS', 'player_id': 4}
+4 LOST AT SHOWDOWN
+{4: 10, 3: 10}
+
+ {4: 10, 3: 10} 
+
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410561.0052512, 'player_id': 4}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410561.0052512, 'player_id': 3}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 1, 'turn_id': 0, 'player_id': 4, 'card': '6H'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 1, 'turn_id': 0, 'player_id': 3, 'card': '9H'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 1, 'turn_id': 0, 'player_id': 0, 'card': '10C'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 1, 'turn_id': 0, 'player_id': 4, 'card': '6D'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 1, 'turn_id': 0, 'player_id': 3, 'card': 'JS'}
+Request bet from player_ 4
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'BETAMT', 'player_id': 4}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 1}
+Request bet from player_ 5
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'BETAMT', 'player_id': 5}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 7}
+REPEAT
+Player 1 ['5D', '3D']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 1, 'player_id': 1, 'card': '4C', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 1}
+5  bet  10
+Player 6
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'move', 'player_id': 6}
+Request bet from player_ 3
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'BETAMT', 'player_id': 3}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 0, 'turn_id': 3, 'player_id': 0, 'card': 'JD'}
+{'packet_type': 'CONTROL', 'game_id': 1571410558.9897323, 'move': 'LOSS', 'player_id': 8}
+8 LOST AT SHOWDOWN
+{8: 10, 7: 20}
+{'packet_type': 'CONTROL', 'game_id': 1571410558.9897323, 'move': 'LOSS', 'player_id': 7}
+7 LOST AT SHOWDOWN
+{8: 10, 7: 10}
+
+ {8: 10, 7: 10} 
+
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410558.9897323, 'player_id': 8}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410558.9897323, 'player_id': 7}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 0, 'player_id': 8, 'card': '9C'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 0, 'player_id': 7, 'card': 'JS'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 0, 'player_id': 0, 'card': '4C'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 0, 'player_id': 8, 'card': 'AC'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 0, 'player_id': 7, 'card': '2H'}
+Request bet from player_ 8
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'BETAMT', 'player_id': 8}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'move', 'player_id': 6}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 1}
+3  bet  10
+Player 4
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'move', 'player_id': 4}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'move', 'player_id': 4}
+Player 5
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'move', 'player_id': 5}
+REPEAT
+Player 1 ['5D', '3D', '4C']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 2, 'player_id': 1, 'card': 'KH', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410562.0163953, 'player_id': 1, 'bet_amount': 10}
+1 BUSTED!
+{2: 10, 1: 10}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 0, 'turn_id': 2, 'player_id': 0, 'card': '8H'}
+
+ {2: 10, 1: 10} 
+
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410562.0163953, 'player_id': 2}
+{'packet_type': 'GAME', 'type': 'RESET', 'game_id': 1571410562.0163953, 'player_id': 1}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 0, 'player_id': 2, 'card': '3S'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 0, 'player_id': 1, 'card': 'JC'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 0, 'player_id': 0, 'card': '2S'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 0, 'player_id': 2, 'card': '2H'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 0, 'player_id': 1, 'card': 'QS'}
+Request bet from player_ 2
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'BETAMT', 'player_id': 2}
+Request bet from player_ 7
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'BETAMT', 'player_id': 7}
+REPEAT
+Player 4 ['6H', '6D']
+Request bet from player_ 1
+7  bet  10
+Player 8
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 8}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'BETAMT', 'player_id': 1}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410560.000445, 'item': 'move', 'player_id': 5}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 1, 'turn_id': 1, 'player_id': 4, 'card': 'AD', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410561.0052512, 'player_id': 4, 'bet_amount': 10}
+4 BUSTED!
+{4: 0, 3: 10}
+Player 3
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'move', 'player_id': 3}
+REPEAT
+Player 5 ['QC', 'AH']
+1  bet  10
+Player 2
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 8}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410561.0052512, 'item': 'move', 'player_id': 3}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 2}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 1, 'turn_id': 1, 'player_id': 5, 'card': '3S', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410560.000445, 'player_id': 5, 'bet_amount': 10}
+5 BUSTED!
+{6: 10, 5: 0}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 1, 'turn_id': 1, 'player_id': 0, 'card': '5H'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410560.000445, 'round_id': 1, 'turn_id': 1, 'player_id': 0, 'card': '8C'}
+{'packet_type': 'CONTROL', 'game_id': 1571410560.000445, 'move': 'WIN', 'player_id': 6}
+
+ {6: 20, 5: 0} 
+
+disconneting client 5 from server
+REPEAT
+Player 8 ['9C', 'AC']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 1, 'player_id': 8, 'card': '5H', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410558.9897323, 'player_id': 8, 'bet_amount': 10}
+8 BUSTED!
+{8: 0, 7: 10}
+Player 7
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 7}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 1, 'turn_id': 1, 'player_id': 0, 'card': '3D'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410561.0052512, 'round_id': 1, 'turn_id': 1, 'player_id': 0, 'card': '8C'}
+{'packet_type': 'CONTROL', 'game_id': 1571410561.0052512, 'move': 'LOSS', 'player_id': 3}
+3 LOST AT SHOWDOWN
+{4: 0, 3: 0}
+
+ {4: 0, 3: 0} 
+
+disconneting client 4 from server
+disconneting client 3 from server
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 2}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410558.9897323, 'item': 'move', 'player_id': 7}
+REPEAT
+Player 2 ['3S', '2H']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 1, 'player_id': 2, 'card': '5C', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 2}
+REPEAT
+Player 7 ['JS', '2H']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 1, 'player_id': 7, 'card': '10C', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410558.9897323, 'player_id': 7, 'bet_amount': 10}
+7 BUSTED!
+{8: 0, 7: 0}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 1, 'player_id': 0, 'card': '10D'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410558.9897323, 'round_id': 1, 'turn_id': 1, 'player_id': 0, 'card': '3H'}
+
+ {8: 0, 7: 0} 
+
+disconneting client 8 from server
+disconneting client 7 from server
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 2}
+REPEAT
+Player 2 ['3S', '2H', '5C']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 2, 'player_id': 2, 'card': '4S', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 2}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 2}
+REPEAT
+Player 2 ['3S', '2H', '5C', '4S']
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 3, 'player_id': 2, 'card': '10C', 'bet_amount': 10}
+{'packet_type': 'CONTROL', 'type': 'BROADCAST', 'move': 'ELIMINATED', 'game_id': 1571410562.0163953, 'player_id': 2, 'bet_amount': 10}
+2 BUSTED!
+{2: 0, 1: 10}
+Player 1
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 1}
+{'packet_type': 'CONTROL', 'type': 'REQUEST', 'game_id': 1571410562.0163953, 'item': 'move', 'player_id': 1}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 1, 'player_id': 0, 'card': 'JD'}
+{'packet_type': 'GAME', 'type': 'BROADCAST', 'game_id': 1571410562.0163953, 'round_id': 1, 'turn_id': 1, 'player_id': 0, 'card': '9H'}
+{'packet_type': 'CONTROL', 'game_id': 1571410562.0163953, 'move': 'LOSS', 'player_id': 1}
+1 LOST AT SHOWDOWN
+{2: 0, 1: 0}
+
+ {2: 0, 1: 0} 
+
+disconneting client 2 from server
+disconneting client 1 from server
+socket connection was closed
+client 8 has disconnected from server
+socket connection was closed
+client 7 has disconnected from server
+socket connection was closed
+client 6 has disconnected from server
+socket connection was closed
+client 5 has disconnected from server
+socket connection was closed
+client 4 has disconnected from server
+socket connection was closed
+client 3 has disconnected from server
+socket connection was closed
+client 2 has disconnected from server
+socket connection was closed
+client 1 has disconnected from server

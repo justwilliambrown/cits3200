@@ -1,6 +1,6 @@
 # CITS3200: Online Competitions for AI bots
 
-**Team Members:** *Shu Zhou, William Chesnutt, Aidan Haile, Xiaojing Chen, ~~Jianwei Li~~, Benjamin Nguyen*
+**Team Members:** *Shu Zhou, William Chesnutt, Aidan Haile, Xiaojing Chen, Jianwei Li, Benjamin Nguyen*
 
 
 ## Requirements
