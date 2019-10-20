@@ -171,7 +171,11 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 				continue
 			break
 		if message == -1:
-			move = "STAND"
+			rad = random.random()
+			if rad < 0.5:
+				move = "STAND"
+			else:
+				move = "HIT"
 		turnId += 1
 		while move != "STAND":
 			#print("REPEAT")
@@ -205,7 +209,11 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 							continue
 						break
 					if message == -1:
-						move = "STAND"
+						rad = random.random()
+						if rad < 0.5:
+							move = "STAND"
+						else:
+							move = "HIT"
 				# Query player for input
 				#move = input()
 				turnId += 1
