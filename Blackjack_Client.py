@@ -15,6 +15,41 @@ cardHold = []   #Cards held by the client
 packetQueue = []  #List that stores all the packets client has to read
 currentBet = 0  #The amount that is currently bet in the round by client
 
+class SocketClosedException(Exception):
+	pass
+
+class IncorrectPacketFormatException(Exception):
+	pass
+
+#recv_all Function to handles message receives
+def recv_all(sock):
+	mess = ''
+	packet = sock.recv(1024).decode()
+	if len(packet) == 0:
+		raise SocketClosedException()
+
+	if packet[0] != '{':
+		raise IncorrectPacketFormatException()
+
+	mess += packet
+
+	depth = packet.count('{') - packet.count('}')
+	while depth > 0:
+		packet = sock.recv(1024).decode()
+		if packet.length() == 0:
+			raise SocketClosedException()
+
+		depth += packet.count("{")
+		depth -= packet.count("}")
+
+		mess += packet
+
+	if depth < 0:
+		raise IncorrectPacketFormatException()
+
+	return mess
+
+
 #sendJson
 #Input:Socket,Dictionary
 #Outcome: Encodes and sends JSON
@@ -239,7 +274,7 @@ try:
             first = False
             pQHandler = threading.Thread(target=packetQueueHandler,args=(sock,))
             pQHandler.start()
-        message = sock.recv(8192)
+        message = recv_all(sock)
         amount_received = 0
         amount_expected = len(message)
         #print("MESSAGE RECEIVED")
