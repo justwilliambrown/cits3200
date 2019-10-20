@@ -206,7 +206,7 @@ def controlJsonHandler(jsonDict,sock):
 #Read Json
 #Function:Determins what type of json packet it calls the appropriate function
 def readJson(jsonDict,sock):
-    print("NEW JSON: ",jsonDict)
+    #print("NEW JSON: ",jsonDict)
     if jsonDict["packet_type"] == "CONTROL":
         controlJsonHandler(jsonDict,sock)
     elif jsonDict["packet_type"] == "GAME":
@@ -247,7 +247,7 @@ try:
         while amount_received < amount_expected:
             amount_received += len(message)
             packet = message.decode()
-            print("PRE JSON LOADS(PACKET): ",packet)
+            #print("PRE JSON LOADS(PACKET): ",packet)
             packetCount = packet.count("{")
             if(packetCount > 1):
                 packetSplit = packet.split("}",packetCount -1)
@@ -258,7 +258,7 @@ try:
                         load = temp
                     #print("LOAD: ",load)
                     packetJson = json.loads(load)
-                    print("POST JSON LOADS(PACKET): ",load)
+                    #print("POST JSON LOADS(PACKET): ",load)
                     packetQueue.append(packetJson)
                     if "player_id" in packetJson:
                         if "subtype" in packetJson:
@@ -269,7 +269,7 @@ try:
                                     exitBoolean = True
             else:
                 packetJson = json.loads(packet)
-                print("POST JSON LOADS(PACKET): ",packetJson)
+                #print("POST JSON LOADS(PACKET): ",packetJson)
                 packetQueue.append(packetJson)
                 if "player_id" in packetJson:
                     if "subtype" in packetJson:
