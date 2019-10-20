@@ -32,7 +32,7 @@ def receive(gameID, playerID):
 		message = ConnMan.get_game_message(gameID)
 	if message == None:
 		return -1
-	loglist.append(str(message))
+	loglist.append(str(message) + ";")
 
 	try:
 		if message["packet_type"] == "CONTROL" and message["subtype"] == "DC":
@@ -46,7 +46,7 @@ def receive(gameID, playerID):
 		message = ConnMan.get_game_message(gameID)
 		if message == None:
 			return -1
-		loglist.append(str(message))
+		loglist.append(str(message) + ";")
 	return message
 
 def send(data):
@@ -54,7 +54,7 @@ def send(data):
 	if data["player_id"] in playersEliminated:
 		return -1
 	ConnMan.send_message(data["player_id"], data)
-	loglist.append(str(data))
+	loglist.append(str(data) + ";")
 	print(data)
 	return 0
 
