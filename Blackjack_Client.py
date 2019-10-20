@@ -280,7 +280,7 @@ try:
         #print("MESSAGE RECEIVED")
         while amount_received < amount_expected:
             amount_received += len(message)
-            packet = message.decode()
+            packet = message
             #print("PRE JSON LOADS(PACKET): ",packet)
             packetCount = packet.count("{")
             if(packetCount > 1):
