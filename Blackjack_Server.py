@@ -55,7 +55,7 @@ def send(data):
 		return -1
 	ConnMan.send_message(data["player_id"], data)
 	loglist.append(str(data) + ";")
-	print(data)
+	#print(data)
 	return 0
 
 def populateDeck(): #returns a shuffled deck of cards
@@ -131,7 +131,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 		if players[i] in playersEliminated:
 			continue
 		#send({"packet_type": "GAME", "type" : "RESET", "game_id" : game_id,"player_id":players[i]})
-		print("Request bet from player_",players[i])
+		#print("Request bet from player_",players[i])
 		betAmount = 0
 		for j in range(2):
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "BETAMT", "player_id" : players[i]})
@@ -150,14 +150,14 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 			betAmount = account[players[i]] / 2
 		bets[i] = betAmount
 		
-	print(players[i]," bet ",betAmount)
+	#print(players[i]," bet ",betAmount)
 	for i in range(1, len(players)): #Query each player for a move
 		if players[i] in playersEliminated:
 			continue
 		turnId = 0
 		# query the player
 		#move = "" #TODO
-		print("Player", players[i])
+		#print("Player", players[i])
 		move = ""
 		for j in range(2):
 			send({"packet_type" : "CONTROL", "type" : "REQUEST", "game_id": game_id, "item" : "move", "player_id" : players[i]})
@@ -174,9 +174,9 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 			move = "STAND"
 		turnId += 1
 		while move != "STAND":
-			print("REPEAT")
+			#print("REPEAT")
 
-			print("Player", players[i], cardsHeld[i])
+			#print("Player", players[i], cardsHeld[i])
 			if move == "HIT":
 				#print(cards)
 				curCard = cards.pop(0)
@@ -189,7 +189,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 					send({"packet_type": "CONTROL", "type" : "BROADCAST", "move":"ELIMINATED", "game_id": game_id, "player_id": players[i], "bet_amount":bets[i]}) # TODO
 					account[players[i]] -= bets[i]
 					print(players[i], "BUSTED!")
-					print(account)
+					#print(account)
 
 					break
 
@@ -239,7 +239,7 @@ def playRound(game_id, roundId, players, account, cards): # Game ID, ID of the r
 				send ({"packet_type": "CONTROL", "game_id": game_id, "move":"LOSS", "player_id":players[i]})
 				account[players[i]] -= bets[i]
 				print(players[i], "LOST AT SHOWDOWN")
-				print(account)
+				#print(account)
 
 	return(players, account, cards)
 
@@ -290,9 +290,9 @@ def gameStart(game_id, clientIDs, tournamentMode):
 	for message in loglist:
 		logfile.write(message)
 	logfile.close()
-	print("Number of players inc dealer: ", len(players))
+	#print("Number of players inc dealer: ", len(players))
 	if len(players) == 2: # One player wins
-		print("ONE PLAYER WON")
+		#print("ONE PLAYER WON")
 		matchmaking_Server.notifyFinish(game_id , players[1])
 		if tournamentMode == True:
 			send({"packet_type": "CONTROL", "type" : "LOBBY", "player_id" : players[1]})
