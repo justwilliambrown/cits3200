@@ -48,3 +48,16 @@
 
 **Send your move:**
 {"packet_type" : "GAME", "MOVE": *move you wish to play*, "player_id" : client_id, "game_id" : game_id}
+
+## ConnMan packets
+**Initiate the login process, and request credentials**
+{"packet_type" : "CONTROL", "subtype" : "loginRequest"}
+
+**Lets the client know it's login was successful, and has joined the service, and informs client of their ID**
+{"packet_type" : "CONTROL", "subtype" : "loginAccept", "id" : <id>}
+  
+**Informs the clien that their login has been denied, and will be disconnected**
+{"packet_type" : "CONTROL", "subtype" : "loginDeny"}
+
+**Informs the client that they are about to be disconnected from the service**
+{"packet_type" : "CONTROL", "subtype" : "DC", "player_id" : <id>}
