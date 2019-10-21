@@ -44,14 +44,15 @@ Establishes a socket connection with the server that is set in server_address, i
 ## Overview
 
 **INITIALISATION**
+
 Client first establishes connection with server and receives a login request packet.
 Client calls loginRequest function which requests user details and sends said details to the server.
 Client receives loginAccept/loginDeny packet, client then calls joinQueue function, the client then requests a "Test" / "Tournament" input from user and sends queue type to the server.
 The test queue is the designated queue for players wanting to test their agent.
-
 Client is then placed into a queue server side, and hangs until it receives another packet from the server.
 
 **Playing a game**
+
 Server first sends opening balance packet to the client. The client stores the opening balance and game id logcally for logic purposes. 
 Server calls the playround function.Client receives a reset packet, and a card is drawn (and then put back on the other side of the deck) for each player. Client receives this card. A card is similarly dealt for the dealer,client then receives this card. A second card is dealt to each player, and client receives all these cards. The second card for the dealer is dealt, client doesn't receive this card.
 
