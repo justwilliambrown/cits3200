@@ -43,7 +43,7 @@ Establishes a socket connection with the server that is set in server_address, i
 
 ## Overview
 
-**INITIALISATION**
+**Initialisation**
 
 Client first establishes connection with server and receives a login request packet.
 Client calls loginRequest function which requests user details and sends said details to the server.
