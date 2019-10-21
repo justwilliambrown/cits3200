@@ -155,6 +155,8 @@ class ClientHandle(threading.Thread):
 			message = recv_all(self.sock)
 		except SocketClosedException:
 			return False
+		except IncorrectPacketFormatException:
+			return False
 
 		jdict = json.loads(message)
 		
