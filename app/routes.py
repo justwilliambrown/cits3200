@@ -11,6 +11,10 @@ from werkzeug.utils import secure_filename
 
 #test page
 @app.route('/')
+@app.route('/intro')
+def intro():
+    return render_template('intro.html')
+
 @app.route('/index')
 @login_required
 def index():
