@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>File Manager</title>
+<h1>Log files download</h1>
+<hr>
+
+{% for file in files_list %}
+- {{ file }}
+<a href="{{ url_for('download_logfiles',filename= file) }}">download</a><br>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,13 @@
+Flask
+python-dotenv
+flask-wtf
+flask-sqlalchemy
+cryptography
+pymysql
+flask-migrate
+flask-login
+flask_uploads
+flask_restful
+flask_admin
+mysql-connector-python
+flask-env

@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    {% if title %}
+    <title>{{ title }} - Blackjack-Web-Interface</title>
+    {% else %}
+    <title>Welcome to Blackjack-Web-Interface</title>
+    {% endif %}
+</head>
+
+<body>
+    <img src="http://static.weboffice.uwa.edu.au/visualid/graphics/uwacrest.png">
+    <div>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('intro') }}">Introduction</a>
+        {% if current_user.is_anonymous %}
+        <a href="{{ url_for('login') }}">Login</a>
+        {% else %}
+        <a href="{{ url_for('user', username=current_user.username) }}">Leaderboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+    </div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+    <!-- the block control statement to define 
+        the place where the derived templates 
+        can insert themselves. Blocks are given a unique name, 
+        which derived templates can reference 
+        when they provide their content. -->
+</body>
+
+</html>
