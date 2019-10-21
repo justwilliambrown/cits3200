@@ -7,7 +7,7 @@ Installation Instructions:
 5. run "sudo apt-get -y update" once more
 6. install mysql by running "sudo apt-get install mysql-server", remember your root password
 7. setup a mysql login path by running "mysql_config_editor set --login-path=local --host=localhost --user=root --password", inputting your root password as earlier
-8. run the setupsql.sh script, giving it the arguments of the user and password of the user the programs will use
+8. run the setupsql.sh script, giving it the arguments of the user and password of the MySQL user to be created for the service to use. Ignore the 'field list' error.
 9. run these three commands in order: "python3 -m flask db init", "python3 -m flask db migrate -m "users table"", "python3 -m flask db updgrade"
 
 ***IMPORTANT NOTE***
