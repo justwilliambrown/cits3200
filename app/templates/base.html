@@ -11,14 +11,15 @@
 <body>
     <img src="http://static.weboffice.uwa.edu.au/visualid/graphics/uwacrest.png">
     <div>
+        games:
         <a href="{{ url_for('index') }}">Home</a>
         {% if current_user.is_anonymous %}
         <a href="{{ url_for('login') }}">Login</a>
         {% else %}
-        <a href="{{ url_for('user', username=current_user.username) }}">Leaderboard</a>
-        <!-- 此处多了一个username作为argument传输到routes中 -->
+        <a href="{{ url_for('user', username=current_user.username) }}">Game</a>
         <a href="{{ url_for('logout') }}">Logout</a>
         {% endif %}
+        <a href="{{ url_for('intro') }}">Introduction</a>
     </div>
     <hr>
     {% with messages = get_flashed_messages() %}
